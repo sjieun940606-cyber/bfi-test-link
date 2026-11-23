@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>BFI 성격5요인검사 · 개인 검사 바로가기</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{--ink:#14171a;--g:#1d4a2c;--sub:#5d646b;--line:#d5d9dc;--bg:#f3f4f2;--err:#b3261e}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:Pretendard,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;color:var(--ink);background:var(--bg);word-break:keep-all;min-height:100dvh;display:flex;justify-content:center}
+.wrap{width:100%;max-width:440px;padding:28px 20px 40px;display:flex;flex-direction:column;gap:22px}
+.brand{display:flex;justify-content:space-between;font-size:13px;font-weight:700;color:var(--sub);border-bottom:2px solid var(--ink);padding-bottom:10px}
+.brand b{color:var(--g)}
+h1{font-size:34px;line-height:1.18;font-weight:900;letter-spacing:-.035em}
+h1 small{display:block;font-size:19px;font-weight:700;letter-spacing:-.02em;margin-top:8px}
+.spec{display:grid;grid-template-columns:repeat(3,1fr);border:1.5px solid var(--ink);background:#fff}
+.spec div{padding:12px 8px;text-align:center;border-right:1px solid var(--line)}
+.spec div:last-child{border-right:0}
+.spec dt{font-size:12px;color:var(--sub);font-weight:600}
+.spec dd{font-size:18px;font-weight:800;margin-top:2px;font-variant-numeric:tabular-nums}
+form{background:#fff;border:1.5px solid var(--ink);padding:20px 18px 18px;display:flex;flex-direction:column;gap:16px}
+label{display:flex;flex-direction:column;gap:7px;font-size:15px;font-weight:800}
+label span{font-size:13px;font-weight:500;color:var(--sub)}
+input{font:inherit;font-size:20px;font-weight:700;padding:13px 14px;border:1.5px solid var(--line);border-radius:0;background:#fff;color:var(--ink);outline:none;width:100%}
+input:focus{border-color:var(--g);box-shadow:0 0 0 3px rgba(29,74,44,.14)}
+input.pin{letter-spacing:.45em;font-variant-numeric:tabular-nums}
+button{font:inherit;font-size:18px;font-weight:800;padding:16px;border:0;background:var(--ink);color:#fff;cursor:pointer}
+button:disabled{opacity:.55;cursor:wait}
+.msg{font-size:14px;font-weight:600;line-height:1.5;min-height:21px}
+.msg.err{color:var(--err)}
+.msg.ok{color:var(--g)}
+.go{display:none;text-align:center;font-weight:800;font-size:17px;color:#fff;background:var(--g);padding:15px;text-decoration:none}
+ol{list-style:none;counter-reset:n;display:flex;flex-direction:column;gap:9px;font-size:15px;line-height:1.55}
+ol li{counter-increment:n;display:grid;grid-template-columns:26px 1fr}
+ol li::before{content:counter(n);font-weight:900;color:var(--g)}
+h2{font-size:15px;font-weight:800;margin-bottom:10px}
+footer{font-size:13px;color:var(--sub);line-height:1.6;border-top:1px solid var(--line);padding-top:14px}
+footer b{color:var(--ink)}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="brand"><span><b>한국가이던스</b> 심리검사 안내</span><span>성인용</span></div>
+
+  <h1>BFI 성격5요인검사<small>개인 검사 바로가기</small></h1>
+
+  <dl class="spec">
+    <div><dt>문항</dt><dd>135</dd></div>
+    <div><dt>소요</dt><dd>약 40분</dd></div>
+    <div><dt>방식</dt><dd>온라인</dd></div>
+  </dl>
+
+  <form id="f" autocomplete="off" novalidate>
+    <label>이름<input id="nm" name="nm" type="text" inputmode="text" placeholder="홍길동" required></label>
+    <label>휴대폰 번호 뒷자리 4자리<span>문자를 받은 번호의 마지막 4자리</span>
+      <input id="pn" class="pin" name="pn" type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="0000" required></label>
+    <button id="btn" type="submit">내 검사 열기</button>
+    <p id="msg" class="msg" role="status" aria-live="polite"></p>
+    <a id="go" class="go" href="#" rel="noreferrer">검사 창으로 이동</a>
+  </form>
+
+  <section>
+    <h2>검사 전에</h2>
+    <ol>
+      <li><b>11월 27일(금)까지</b> 응답해 주세요.</li>
+      <li>조용한 곳에서 한 번에 끝까지 응답해 주세요.</li>
+      <li>정답이 없는 검사입니다. 평소의 나와 가까운 쪽을 고르면 됩니다.</li>
+      <li>결과는 11월 30일(월) 강의에서 개별로 나눠 드립니다.</li>
+    </ol>
+  </section>
+
+  <footer>이름이나 번호가 맞지 않으면 아래로 연락 주세요.<br><b>한국가이던스(대구)</b> 053-249-0474</footer>
+</main>
+
+<script>
+const DATA = {"s":"FqDDrA0jK/NuAwFTXHMA5g==","k":250000,"e":[{"i":"KY4MmA8Mq0TWPTJB","c":"5J3iJ9sKQUirA+o8+WzitQFg+kc4qi2KGBWe49W1rUj+53VF3aK/03YxBb6LBFDjlhq5N3Tsm16P9JQXy19Zm4vBssglGo8MkReMjpoPURx80s5SKidRvdruxlV888FZUc3Bym8rR0RwG0Y6s+FNdxSUgEh4fjETex+Reu7qucGfJbpSFdIgDgKXtSFKi6C0JA=="},{"i":"PH/ItqTyn7ZJTAnq","c":"8s05JJldJZDS4BSWrnjnxohGb5mU22ZSd9e1hl2I+QgaOEF7V4kGILOeswKsjIkC2LFfAWCVMsJvljHhQ1WrZiBeqzGkWb+uevAaqHZrXR5NR1CzjOcjkN0Jq3YxHF0shnWesVX7UXdTd0JzU8IwbNn4/5CJi6bc3DXjiQ6cxJ9vdoMStzUkW3RGKzypZBJEMQ=="},{"i":"rtNJnRDtqmVmKImO","c":"JAE3TlQyg3SEzacs8OEI2jjS25z56qLqSjZwI34GeZp9daUa8LgGAcAYaCu9TceXrmdZThM7lGEXCg/0sZGWqY5W9h9m3pEObq+lPIAHHz1GfNGkm2UN0SorTyNpl2x9ppIoUUcP4Ui8J2D+/eswZopyWUiziiCBiOEgHMFdNf1Mdq7IvjujEEP5og2utrMQrw=="},{"i":"kql35thuOyjxgRff","c":"Dio/Dt755VFwbVV9XiWPJ8DAeATmZCu2N1zC5cZzd7EpGxQRKbSk5rGVdz0jAg0YTVYDzDTLRbSM3LKOnliHPV7xDRt+o8pIaFCwazML1EBKqZTDK5rxvWRNs4kXvthXUkpD/gQtioZyBcpzRE36uZf9ddrlCHULNPOPAdEWwzLd+YCzN17Zun0ly81SEWpPkA=="},{"i":"l+bpA4slwvDQzQcm","c":"npUBm7om0JybxiqVeekmhbwPqLwmDe0eSMKvu/V8RR7nDBbLb1OBaVQD4ehoriQfa56Ae/94HRofV8tvPYcM2PQEmkx2mbxMYuoW9sG5dlIfnNAGifakBlOY/d37b0k18j+a131gncLUYvYf6eva/HSCHjvkZKauiD/RqrGysZ+Re4d7US2iZbqe+8UkaM7RRA=="},{"i":"1qp8LCxxJ733NbqW","c":"U2C7AwDJ4LN4W6Gl69HJDTxwxm9uuJvMn/Ll8WknLDSqI6B7eyNFhrFX6kZAnXMo740UQ628IXCN3i8R6M+5okdo9x3rT60GREDwpDt64dxKLj5xlSOyaKxAuLEuVqsDhz4RLZ2HrIIbBA02UMCAVziGQBUdp8rHCWNuTzP4ULUHdtUfj4R6+CqC5N/iNH83sA=="},{"i":"Gz8L89U8hViJGUGN","c":"nJLHB8jj0lH1rlX/w2p2rF5tfsJ4Vuui3j8hAvES4MfIAUsnbsCh62jA0GSQ89tShcXEnl8EoYoN4oGopiOAvkFbhkBMYqsD1zYuHXXTk+9PcITBcIhxquuMBlcTf9+X/XT6KuVyRMHKv6yHgSkWhH1pBSjFnh3OHbGFd+eOdt6vJp6dT3GRP8KSclrOOsLSZQ=="},{"i":"ImG445CoEswGBQ1e","c":"UBRrtJDyBgxvHbyZSsiC837jtgo8X/kr8usfHdUGR+ZElHAawzHW9EgMJXqxD7L78dT7P2LXE16SdPIoMBmWOWSIIwdjfoasvuSHF0+qIfDV6LjEWNtEzXfgqky/Y826p4YJfl+BkjocxpQkl+ckf2g3jCPXRsh1GbtSVJGlQfukh/jIk7hiGNA+mA/p9zEa4Q=="},{"i":"weKmh487EggQ8lFG","c":"WgkjnJViDGI1rUdcV2igcOuS3N39HIMdqBrItoJiZgDPeracUhxXtCA5XDmRvjlamso/ZvW/MRkHkcbvGAsVPzLEiIT4NA3SwxIhCs3dC/SnaYoT08q+Vp/OqPEfp0R3nKHb9tyUdQsZI9E2nYXvygB8kJHOL0UsWZiT0Zer8pgsBrUI1PLLDBG9UXiPqRMv7w=="},{"i":"Ghu54RjM/1jQLRBJ","c":"sYo8zmdGjPnofaRh/mpg4VdRR7D+EcP7LiVX5MBVcaBJE3+pq/pQI47DIORWgOmkHLXypDEiESf0DC6Tw6IseequX9vUmnYQNMP0vB9bLnSvZK2wId7JSsYx5tzBO63h1bh8IQgzNhObSLCfZrJS5YFNsI2b4/KVTwy+slyXd5B8GYEqX7LTJOw0cdBEakHL4g=="},{"i":"psfwru3LoTo3uN50","c":"QF9DxuxKdjaTzr26qzLXB0SpXkKFMkoVwDvdMz71Dw/NjsTHE0zcz6onpaAPUDthjChqePIu2nuir19f6QylTFM5Fd2VY0OwM1iaw78gyClgqAosXn4CFpctBfUCmWikNlam08/DA8/e6ds7pu0E8wal2AhLFwzYHIAHeslLQqGeSFoSQYkcHEEZenzKFqCpQw=="},{"i":"M3r+m2+wJEvnqWE6","c":"VtB2sjL+s9GFl2JE4VJ0/hUQUWs3b7j3hzCIB7ef9K5rQpLdtySXiQ5d71imdGDDa1XdIiTeVatOsF8WGqy30iiZUgBIgg+MJvYn7Vh/2BwMa9bHWXaFqcqufaF5F7vbM5sX7OjTY1rgfFVnERs1IE8Gt4/iS2xAQJn8rjEs2pixGuugsa34hyYzqqsocrVmCw=="},{"i":"PAo0MykBTZpKJ3XK","c":"VW+k/5nDcMzWiuGJr/KerZv2uhHGM+Hgl/Iia+v5as4VIqyf65y++rHJ/ziiL/hBke6t8sROmLYTaR7LC5+6vMavTo0dlwMRGGZRiAldV399sN50QAOHmQ1Mm3OtxsXJ82uQMQabThJFtd1sfMjR6JHpbw0w7jMlMgwEpBLimW9LwQvDXBjSV/LIKr+k2q1k5g=="},{"i":"P3G8xaFqL1+mEczR","c":"LrTJNpWyxu2Nsen6JLDfjzFNWupjOruh0nQ2nNwVXW/ox4emQhnFi0LdRVu4zBa2kf//z4XApxVHwNN8Aryj8yt57ozGStpxJ1hcRMGwIDdBUn7wXWSvQnJuU5vlmELIU1vmFC/J0XWkyKF4FWdogrOY/iLJvLB81BRdOn2QCTKuqHvpWYxh7IAiLkdW569FNQ=="},{"i":"caNcnTts9jDEUy40","c":"LzJDiu/JGqeZsYpvWvXo5YdSJCqqyhjCUxzRnK4viW6qhA+odDFyElv0ZDTAPc7CMSXagNdVkimR6i0h0kHnIhV80wHz/vd2kY598yTaDmlZ5g382YjA2FW/BZLVf6ok6xtY6VfamM6PDbKQzuWkkVWm2pTfgAzD8w/tRMhE6VSlkl1J/QfNhQaEpLneN007vQ=="},{"i":"734GKOx8SIQBBcXv","c":"FZnn9K79Pl3TdxsqZdv8WraVhiMgVh9MBYFb2AOlDXOGuC5VxhPAt631lVCzZQRAy4T9AxmI6aowlDknG37kG5xsQ0OVv3t2GFwWAjiUZy6zMh1EceGV8fqlUr8r74iyKKpAYZNl6GcOgB5Hf9xdEz3rPhqNAJBjeBEY9iKU1CXRMxupa8EnE/wPiAYoLKg4SA=="},{"i":"4GORjGtrGnFuZVTI","c":"qmwX0lS6K1EWIf1GTNeT7LpDMvDBTPQChhx3Seus+SgGcKCSF7kLIEJ4HA+ovqZ6S/kpZ6OiEPubh8rnEcbgbwyTy2l7Hfj16wYFCnZbExVm0zNlO6J3qtkIxn3XtWqVGO4an/W7ebdPFIC4Gb8trdPmXaRX7RiEW+DneZF1BQHOnhxJ0/t2gwXauwqpW8iq4Q=="},{"i":"3I9pQUgzwGOcAVLv","c":"MXJeXrXLd/sujptwfdXPMzvzojprf81+o9Aycb/5zP2dBp3pJ924SyRZbIibWIYwNziFkfWKVczf2XAfdEdG65+p9e7ysrXHZs+Q+hqqrHufZC7rQwJWVbZjsd/MTFLaPcMYO02BkkicsYemV/VtKSVjMsYSW3nhz4oepusNn1Ftj6a9goDpHh9HNsZ32duJqg=="},{"i":"70LutS/QWw+ppYV1","c":"OXa4nEzl6kxIGZy9ZMq/wSKngQ8hXUKO5n/bwSRXOKJq+vLTq5gPN2U35wGqrkF/Q78nRoh5NNHhNbW60G7B+K0FTao0a2iUOUiuglg6lPSjn/q67mOWa3YT2zzD8SDLZuOmxJg5MryjN38XIqrR5xtCFJhiMqS53Pk7exW3Dqtigt3KCQJ/yM+Sc4tddsbp/A=="}]};
+const $ = (id) => document.getElementById(id);
+const dec = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
+const norm = (s) => s.normalize("NFC").replace(/\s+/g, "");
+
+async function open(name, pin) {
+  const base = await crypto.subtle.importKey("raw", new TextEncoder().encode(name + pin), "PBKDF2", false, ["deriveKey"]);
+  const key = await crypto.subtle.deriveKey(
+    { name: "PBKDF2", salt: dec(DATA.s), iterations: DATA.k, hash: "SHA-256" },
+    base, { name: "AES-GCM", length: 256 }, false, ["decrypt"]);
+  for (const e of DATA.e) {
+    try {
+      const pt = await crypto.subtle.decrypt({ name: "AES-GCM", iv: dec(e.i) }, key, dec(e.c));
+      return JSON.parse(new TextDecoder().decode(pt));
+    } catch (_) { /* 다른 사람 항목 */ }
+  }
+  return null;
+}
+
+$("pn").addEventListener("input", (e) => { e.target.value = e.target.value.replace(/\D/g, "").slice(0, 4); });
+
+$("f").addEventListener("submit", async (ev) => {
+  ev.preventDefault();
+  const name = norm($("nm").value), pin = $("pn").value;
+  const msg = $("msg");
+  msg.className = "msg"; $("go").style.display = "none";
+  if (!name) { msg.className = "msg err"; msg.textContent = "이름을 입력해 주세요."; return; }
+  if (!/^\d{4}$/.test(pin)) { msg.className = "msg err"; msg.textContent = "휴대폰 번호 뒷자리 4자리를 입력해 주세요."; return; }
+  $("btn").disabled = true; msg.textContent = "확인 중…";
+  let r = null;
+  try { r = await open(name, pin); } catch (_) {}
+  $("btn").disabled = false;
+  if (!r) {
+    msg.className = "msg err";
+    msg.textContent = "명단에서 찾지 못했어요. 이름(띄어쓰기 없이)과 번호 뒷자리를 다시 확인해 주세요.";
+    return;
+  }
+  msg.className = "msg ok";
+  msg.textContent = r.n + "님의 검사 창으로 이동합니다.";
+  const go = $("go"); go.href = r.u; go.style.display = "block";
+  setTimeout(() => { location.href = r.u; }, 900);
+});
+</script>
+</body>
+</html>
