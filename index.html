@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <meta name="referrer" content="no-referrer">
-<title>BFI 성격5요인검사 · 개인 검사 바로가기</title>
+<title>BFI 성격5요인검사 · 검사·결과지 바로가기</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <style>
 :root{--ink:#14171a;--g:#1d4a2c;--sub:#5d646b;--line:#d5d9dc;--bg:#f3f4f2;--err:#b3261e}
@@ -17,7 +17,7 @@ body{font-family:Pretendard,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",
 .brand b{color:var(--g)}
 h1{font-size:34px;line-height:1.18;font-weight:900;letter-spacing:-.035em}
 h1 small{display:block;font-size:19px;font-weight:700;letter-spacing:-.02em;margin-top:8px}
-.spec{display:grid;grid-template-columns:repeat(3,1fr);border:1.5px solid var(--ink);background:#fff}
+.spec{display:grid;grid-template-columns:repeat(2,1fr);border:1.5px solid var(--ink);background:#fff}
 .spec div{padding:12px 8px;text-align:center;border-right:1px solid var(--line)}
 .spec div:last-child{border-right:0}
 .spec dt{font-size:12px;color:var(--sub);font-weight:600}
@@ -37,7 +37,8 @@ button:disabled{opacity:.55;cursor:wait}
 ol{list-style:none;counter-reset:n;display:flex;flex-direction:column;gap:9px;font-size:15px;line-height:1.55}
 ol li{counter-increment:n;display:grid;grid-template-columns:26px 1fr}
 ol li::before{content:counter(n);font-weight:900;color:var(--g)}
-h2{font-size:15px;font-weight:800;margin-bottom:10px}
+h2{font-size:16px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+h2 .tag{font-size:12px;font-weight:800;color:#fff;background:var(--g);padding:3px 8px}
 footer{font-size:13px;color:var(--sub);line-height:1.6;border-top:1px solid var(--line);padding-top:14px}
 footer b{color:var(--ink)}
 </style>
@@ -46,30 +47,36 @@ footer b{color:var(--ink)}
 <main class="wrap">
   <div class="brand"><span><b>한국가이던스</b> 심리검사 안내</span><span>성인용</span></div>
 
-  <h1>BFI 성격5요인검사<small>개인 검사 바로가기</small></h1>
+  <h1>BFI 성격5요인검사<small>내 검사 · 결과지 바로가기</small></h1>
 
   <dl class="spec">
     <div><dt>문항</dt><dd>160</dd></div>
     <div><dt>소요</dt><dd>약 30분</dd></div>
-    <div><dt>방식</dt><dd>온라인</dd></div>
   </dl>
 
   <form id="f" autocomplete="off" novalidate>
     <label>이름<input id="nm" name="nm" type="text" inputmode="text" placeholder="홍길동" required></label>
     <label>휴대폰 번호 뒷자리 4자리<span>문자를 받은 번호의 마지막 4자리</span>
       <input id="pn" class="pin" name="pn" type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="0000" required></label>
-    <button id="btn" type="submit">내 검사 열기</button>
+    <button id="btn" type="submit">내 검사 창 열기</button>
     <p id="msg" class="msg" role="status" aria-live="polite"></p>
     <a id="go" class="go" href="#" rel="noreferrer">검사 창으로 이동</a>
   </form>
 
   <section>
-    <h2>검사 전에</h2>
+    <h2><span class="tag">검사</span>11월 27일(금)까지</h2>
     <ol>
-      <li><span><b>11월 27일(금)까지</b> 응답해 주세요.</span></li>
-      <li>조용한 곳에서 한 번에 끝까지 응답해 주세요.</li>
-      <li>정답이 없는 검사입니다. 평소의 나와 가까운 쪽을 고르면 됩니다.</li>
-      <li>결과는 11월 30일(월) 강의에서 개별로 나눠 드립니다.</li>
+      <li>조용한 곳에서 한 번에 끝까지 응답</li>
+      <li>정답 없음 · 평소의 나와 가까운 쪽 선택</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2><span class="tag">결과지</span>11월 30일(월) 강의 시간</h2>
+    <ol>
+      <li>활동지 QR로 이 페이지 접속</li>
+      <li>이름 + 휴대폰 뒷자리 4자리 입력</li>
+      <li>내 검사 창에서 결과지 PDF 다운로드 · 저장</li>
     </ol>
   </section>
 
@@ -77,7 +84,7 @@ footer b{color:var(--ink)}
 </main>
 
 <script>
-const DATA = {"s":"HL0H5KVsPObphaHq+jts4g==","k":250000,"e":[{"i":"D3q0Q5/FplcLHZCO","c":"IkLuNyhPXX8it0fFcru6/PwCbTw6AcYKB/YUq8yYzDiIL8keykBPN+1Zr0t9O5Q3a1vhnKjPRTvTkni8LBfxOtKnFB1hmv8hoxrauS7f2nNeISqLkWw/UheHVNlL0Gr19XR5dQFFTD3pqf3FFoRjVkeMQr38i/P6S2clEKl5PO9DjZGt/jNcvBtre4GD43AeVA=="},{"i":"jUf/pdScBjSCi+xV","c":"kba6v56a7Nyrcq7A5/caJ/u9UkYTd7d5/VeUZmN4tvYjFWRbN2wTSnyKhu3JFiT4tjD9r1iXoBy1xnCer/KFDjn8jyIgCBgu9W/wK33vf7wzJM/rOPlJIRbq8ONIKKBom9EufqzQGfJ8gN3cF5q1CBV/l3pPBf3yrOnukD0tp4eeEIbrx6ILUkb3EYNRc9a1rA=="},{"i":"VdU/sCcg10JLwYjQ","c":"2mICY8Vu2winSI50Q4hxeLp3zxeKmCpvY3jmJjjC4b7Mqkeb+kYMQZ9v+ED+s3K7RQomww8VxdnIjWhNzdclKulz+ccf7ynAn/wcD9GOVRTxJ/5SpRaTjLY7Kiks3+dvfMJyDx3PMCU3nQxC5NiEFI3QTy+1JE/eEAo39VOx9rOKFnkk4xZbQ71DIzp4YeEIiw=="},{"i":"JyaybYjefeXA4/jq","c":"p1dfRLpFxj3+Yx3eemWeQtn+CQY9Z5qQ0Sq2S0+Q35Ew0+I/vhKqXRYKt023gudXbGUwASzBZePKu9VmQTVyzO3gtuSf5HSbD1BREySuoRG3rGNzAd9mzg2zThkDx3Y3viwBw+qprNZrPZ6vQP2qqS6PWsF9ngamnSOA7pecuZHX0yKgfvYGI2O3jiBhWPnKZQ=="},{"i":"Ma88BMnjJ5dUeb1F","c":"H64xye8aMEckTeMWAJPJhgj/EvmtaFWtS5IxVChSOpfpEkNMfCivO546+VJdAbtoVdbJxNB1o37UCL/E0gHbDfeRn/IPjvK7qaa7F9qV6ZiyLbl5WCQ4HSlUmFHWq8vWyirTITxFYrEROBNpPyV7jyxxqlNEOqVvagxbufZ6gMHukTk96aus2q75/9CfLswt4w=="},{"i":"i9RsTawzTn5x4WtS","c":"KOHckp31gdzHVYfPWDKGrM00h74FOvUSrRCnRrlesK7ezELWdmgz58kGYuv3Ynx+PwjTFX9IHFjm814LNcizzs+r9xADJQgXNHWlf+5/FY2nOUPxY+F5i6C0a626w7sEAOVx6CdnAVrVJzdax/opx4LmOPBPeNevgJM4ZlKKksp8yjRbBqUhuXlgtMRvnth6rg=="},{"i":"bl26wIDBzRD1J8Yy","c":"qJcM/9TJ8pigVR8ElsBy/JKDiwf6ks6IcHQRTkgGhVNzCut+SwGDTA/IqqDENy+nsVciv9ZyhvMtj+VoCIN6RrmEEJ0oYvYGIUL2o8kzgweXNy+QeHIp+k/I3dbKen5rvkEr6IuCUfqc5TgJsuaVvbp7W1SPsIlubwHmQgTa7E5qu+CM9d68xEaCMQhOUxvauA=="},{"i":"D/uhYVkctAH5hBPL","c":"OCn+AG9SY8Uib+CDvo6ZltKIChY+Dm1SRYvj7iy4wLz6xSMI72hkGtMAEFrZQkkJ83zKuAx6lvntYQs40w94Ea/JpCJyU/qJIimzQTCHLFLaxHnfJK9veKLOExX0I1smahrzv4CjBf1ruBoUYPVVc8P64Zth2/RP2mPUx4IELDQtl+opxPirA0zba2rYtYgh7Q=="},{"i":"ohaouq3NbJlPlutT","c":"JNeSlI/8rzQhR+V5VNucjzRtoYCXjLKbRUCgKOJO1q5NNp9rHMN9o8wohllvsimDTeYC+C8cjBipTTVfb2uhg1Z16VqSzhbYkaOrKuB9ktftZLD9Q/5L6E1koGzWclwjiOcNGZ4D5XSdAnydVhxldjCV92CD4CoY1wIxUo/4wi6XABkWwc7EF6oQjj1/DWHNBA=="},{"i":"iA14mjAtHIrnAwr5","c":"XCLIcplqQq4CpwsMd0Y/NWix4BnGWQ1Dr1QJrSuzTyupIdN7ySyaD883wQQ4BqFnD7t0XH7FF8CVzlmL4D+rdcuUglaSHTS0Sv++1r9SpxF8B+FR1Uib4qsI9qJyBk7RPWWKKKEaGtRvh+xHZiYXU38ACyFjn4gFIvdHgrB0LsAa7Q67GJNA0nD20imRWo1raQ=="},{"i":"w3EkHSqk2Ynswua0","c":"KA1pYFXXW4ho+Ji0chIStyHtB8+k6iWfVdSOzdYu/PTbr9FrVZYjHZOZER3xhH0J6VN0Lz2o+1NRNUOSK7fR66LWqQlVp6J6qNjP1QvCFdfZACccDQoPOKZQzX4w4YEMSKDe+FNWPjhFJ0Wx7QG5tE+nKOPPRfAgljCI/xRyRyZkkncLhUe7Z9ZGeDJ3RcFNvg=="},{"i":"4R7v0huN8ufunyq7","c":"xwRqD/+C5R1a7V+5b7hTtVmIpId5bEix1ym/Uk+/lfzwDuqC+TVm9B8efqfSLZvATgkbGeehqOvJHgk8CYqJfzoefOM98xtvcV09abrWGn7Dg3D9Vg9zuruF1pwfAyeXP9X8WZ3d4ladmZJsOP5+S65SZMzMuxu4GxsbG+RtWqwqWzKonFiluormOT7rUUFaAQ=="},{"i":"ueYd6VY2KsRSwuU5","c":"QMXD/ar0j5C5N04NamXStkem6FeDULit8rdZAgliMIpxJV546hDyWdgVTZBsAXUT0Cub742BZtZfvgA1B7C4cKhbT97sqOuEe2YTaM5SCEOxTnnCcri+gktiAe+ohbCkPUOz1SJbXzho54HBK1WVmTVaOugn5Zu8D8o3HLQGkmZNRWTcvrWL6OF/MrtzUojIeA=="},{"i":"XyV8QL9FIG9lGDJj","c":"HLsNkCfbA20CoQRweaeASIWiG6VmKNjJBfdW7DWsaZwD/OwKwNuhmaDZvesUZYf6oNrl8aTJBUcAY0YQa+T2fWA0JT1eVefgvlf4sX8UnnTZ1euSRYzoIjzQ0pToYklAr9PlKsMd0aPmK+wQA2j0xni/LQjENYRX7z8U14sBKdjo9TFng8hUDqpZWYpK0IubuQ=="},{"i":"3UatpzQfevVP0kGq","c":"svMlr5+FdyHj+2iq5vjEdjWw0rXRsoAg8UN2AhiaqA9ogHGriIrmAXpvQ3E29531S6aMFkupPFfTQ8Z2/k5slLiCyyl17f8fBwmJiLhf2Nv+uAnSjd7HVWzkWP6YYp/1ZiCRGpCM0airJqFkL9DLlVUtuszsBb6KD4n+GkJphI8mtUWqXh7oKiX197f27ov1FQ=="},{"i":"v4SwWDO97TsoD1pG","c":"T1yZqxgf0d9UMok0GFuE3LwIhreGKDRzHyAj3c04vPtXSznn/ARmU2B4lU6j+TZgO6UXLDI23r4xT60N2kjsD4tVOIvqu/tQZoCkN1WAvOTLHCop8VKp7FCnjCegXiPAvGU0htX1fSZ1UNVEVyXtWD+2CEYvIENV5CEqVfqY23zNfgEVM/oxqawk03KaML1VHQ=="},{"i":"W+9ch6DjDTKHMWDq","c":"n5c2xFiC5Iod1Bwl5s7E1XGmoyBlh2vHzJv+r188hgBv4mxQ77YKQlDxAPrAVrSZcfqF7BPXBSVpBswGVyI+FefcHpRi5R5zMEEphX0QQmY83x9BVDoMcgsKQ38wEwZ7g/C+sMl70tOsL6c8+XEAz9kkCqGHl4fmVNyPuHWadVum1VJX3JVWCrjOJjpIrXPEiw=="},{"i":"zMTce3jFdsfa7Xsk","c":"8l3pkc40TddbHra6axBn0MgFy8XP6iVq1yIgjgOLDwSkKoME1IjXzQy5nD+Pbvxu+zBbqWy6LWSD51b7ZdFJqEkgI3zKxGCy8KxbCh1SWG933Hc62Z8rJcBrC58e5WpiGCqlJjbpWGgadjac07KjhS+JpGfVamr5kU3RU4LS9n2S8wVWhJKszFn0TVVr89LHEg=="},{"i":"Fk9UyzncnX/DX/V4","c":"UredbLQ5xycyMh88fDd0HOSEcY7aVY+Ik7h4TaAII6Le6GmtwyivYgxAQGvrsnfZw7RVw9f2teg2RkPM+BHs0PLOBLgkYDP8MK+2l0g4nI3i2Ty+6g/vaZlsmEOGK01vVGkc3b/MElmI5Jr3LDOBWnt8KjePh4esAaKltyrrDU4HCV9VVNN3xqLgr7/1cdTpbQ=="},{"i":"/lBi15M/AI6XsxF9","c":"DVxy1zavrgXLEUmzPIhrYD14dVjOpq6Z0V/BehUUZuZmnh3SiqEqfiDMjEDljByBzwjuMEx0l/O+gIPM9JThLOJRv2PqyzcnPBTc5CTIoDRZwVO4vRt3Cr2NQ0qGOBQC3sED7vRnf/0TBD3qw8L94b9cHc7Xx7HLCeCsXx/MJuJzHWcnDmYywp7bk5whBjkimw=="}]};
+const DATA = {"s":"8BoufIU1mLLGtsNwF0Vccw==","k":250000,"e":[{"i":"1AAhpvoSbBjyKusw","c":"67xzBBoxppKN9qfJAZuEuJqNKhreHr+JixQBrQuo75QZME9ANswm7YBiFniCL5o2OLeeE/nZF8OvlkLH8JqS6rS4DLAw7SLP5fjazDBl2W8f4Qs2dts3jQFIEIMwSDRYGpByd79OoIij0nwFSNmGZ2FohReuq6oR18EPQDC1POxa7nztwzUhM5OETeMDCeB5Vw=="},{"i":"HJ3gKnOmlJ8zztG2","c":"k0rtbZttKpHJxhlgFTO0mDMSumTKMbENqPGUe29f/mEXwPlL0orcj62oRgPK1kEQ7jthhdnwAue46QNXrkqhkLnNiq2tVvMlEC8RTmDbbcdaxX2G5aaHBnhE8Y+K/6+pFBx619dNrj3ClVFNJntrxqvVBl5J/9wN0y/IustIu1EY3aN42rEiLk7XLMkEv5Yulg=="},{"i":"VegjbSldoXuwfJa1","c":"6BdRcdL+KMU4eZfqRQF/qmbnJbuCihw88drjhT3hAZ0RUL9Zge9suYm/h0FUunsH+IiZ0gZJtnIWOCJ4m5Udwmf0/IkQfRCsunxXpnxvYS8TF747+LiF73I3tnTpB0UxChfBz+MqwJAIBAYKUIaI8J+dHSolOBfqD/5NfCiJ6e7f2qZi9KTF1l+5wKnnHjy3Ng=="},{"i":"pcutbmQrF10AJUY1","c":"oa8DxTM/126Nxi+X/hAfP2e2j+CuqXA7G3aSW9YTWpCMZV3DnJdwNHWaAkSHcRdqkhkVuYImkwxdnF1O4xQqDgMtylNxgIZ9czGj8YV+p7vgyuJ6lC4Uh8gw+QfCEzXJ+NQgdqJCZAJ4c/vovZ9PvhWlmtRiAfl5zWw/cL3DJrhEIYjigxtVNLUAJphb9hkJvg=="},{"i":"cvQ3z/AcaCW6cgwe","c":"XEDZEYuTWbUtu+5KY3CLpoAbwgct2/2SjI9x3J2d8TGBmX2wR/1org8YO6MY6XsWp+IsOYPs1U2sA7XVMLi8xH5OX91bH3HDNeBTaVzBKE8b3Mm3LQeAiZjVH2CPUAoAiQlCG7rx6b6sJyivbgozQlG4k8cEYDni4p3w8R9EQ/GyjJGqI0WciwFhs8FjxcZkpA=="},{"i":"Yk+KMjZF0JFp0hz+","c":"J3GopfKBujD/9aG8hnt1KroVWhElyEO0ZDT4c707tE2fnC+re6FEqfQJgy0wGMxK3h2SwI456ZgP5bRP/T7WsZth8HOkDPwOpyGT4nFFp6Vk4ulKFslI/tAAk82GwWIITZjT8g/eTKYom+G+u0X1cmSLjGntbCFJ2XsuGpB3m1Ad/arpYuPo101UGFmSpK4ezg=="},{"i":"cGwI1PLPJq2ZdWDu","c":"PeJytU6r70UW+JS3uD/WevP+JTttnrNoZvMcq5aLLYEgV9nBEIyVIfaf/TMpe1T6UfepTk/XEdbzVdyZOmBlVpWjKg4KNVp2TuSNO3ADJ53gs05oEagBPvYochsgn7tPV9B6O+GrpcNwVO+pdGxVCmhAFYynZVHACqznQIxgJZzBmhHlp2yX+R48DCrd0btu8g=="},{"i":"BI5bjfaWbYWx1ROn","c":"XXsy6/BypdHYXZ2a8QpQr0TmzsCt8lPBYmPc0eTPdqsZ0cdmbwdg5jRehvFpkl2y1jQdjIPhE6GQJdOth3CySyjTtYLpoyM2cSG+WBA2RhyszYnc72GFl0zRoi3u8HpmdIJALdLpINDFVeiWsz+OKBeCGR6HiTNSN2GCAZ+9ZN4K65KKZ6O1lp4VWfF0R+coEQ=="},{"i":"A4S9+9TOtspgnPxl","c":"Kp2pUwj6bfc/VG98mWdTVzyKXjjvwgrW9Mjj6qEwlfFVVZ27sqjBIdwsdtvcE2y20WENVLbisaTlKlZuCn3cULGReWS3s5hvqmaHsiYUY6jOcGpp1sVrFTzc/WDSyiMhSF508zr1MIlneeXrZpiVOH7dqtSOjxxZJnrY9sS2TmPuy4xbYJrptAbePi29a3cIhg=="},{"i":"sxMOFZzCjVRf0Ft2","c":"Zv0CKXFnJoFzf8Ag6IiOHXGgXJGByTJaefDG43OJx17zxyvBHVORmjGgbyXs0HTuQtU5Jjzg8B0Y7jTOBDe84FM3ZUUmpsgL/U8lYSFF0N1WxLasyq+yihtkRN3JulyLPgAI3CXsN+xHCPojjKDqUBs/GW2EVoua/C5R+liFG85PzweulIv9Z2225WVgdYQ6gQ=="},{"i":"JIHe/NjdPd1ea5ua","c":"e2DlU+O4ltylbQIWoPlXkF39z1t2Wla4+C0DnXw9lEJ/Na56vBHJeaZ8ZdrIrW051MQGITCIPQZWzWrCH8aIXxLqmQ7f3pFU1dA2k/AwjaImJLF7zB4zLoYcpdt6kl27Cb566ypHjQo9fNyUwwo908rsQHbsBWPjbDYZ2jDvzeCRSUA4KowptBvVtXwwVL/TKQ=="},{"i":"JbDs3nECB07JrB2u","c":"JNfXyIDKEIgbQ9IQbgClc8PsjchTblF/iLqY1MzaREv/mRq8ZRr8RY1Dn92XEpRHusYz4RvcmVeUWHyE2AGjd7WuOHG23KdVmay1nOjytLM3nkuaBuxm1Eb9ATQXFr73RocuP2hhHNvWoSEw3Z4D6LX1hhod9OE2Fk3//VVcusZBbpEL6mETH7BDlEKIlJk3/g=="},{"i":"z+eRZ/z4N/lcvhFe","c":"/afkKrFjas2/IVFoOCYy4TzW/CCaNXH4EwYdyNuLkXjsbYFuFo/ZoyrgaRWd36fCwULh/Ch9X98bT0FHY1dTb6NDIlHnOC3qgAJUqpcktQhhcma1yeR0mS0Vqz0UZI4nJgGbJ80lomMrPQnP5GyUgam6hQEMoh9+rfrX0BvOaRTb0rC6DVq2Qw8fELL8qYS67Q=="},{"i":"QJeDsMhidspsfEcH","c":"QtzpidZFibLsFR/XDyagOHFGEzRhlo/BWohIi5Srojc6ziTWdtA/kkBpSLtpo6cak7YrXieQX8wPgL2mSnFte8mlDvpvsnuQxvrIhqQvzFGbtsUrolwbxmuKx9gA3cWemNp8AFN746ORNSXu7YXu0Sw2qW3zch4XPcuSTfiKorc2N4Wswrw6ALMW3MRWYZfi4g=="},{"i":"Gzuyc6Bwk51F+cty","c":"FUHzGrNsWWRxyEsaLlFAazmNj5LmNzwVzgGIM5tf1/jSSrGNEQNi04F+E+qYA0ppgyd1r+uwF0a2zGR78a/oPnjxzwlMkB/xXEmWObvL54UDtf0qn4m22ZSzl699HhCJY4Brvo2Je+bqcMfa67LAo7d8hcT+GVWJJsEHUZLnMcVd02X2SOJ6Cg8XdB8yz5TELw=="},{"i":"PqwKBg6LCI5ToylK","c":"k3jclbY1uyGnHp6lRZgXiiNjMgHGfVCgRX3ASJuByovGuwiEuLmc2uvdhe0H9g9f2/gyQoCQMc/8ekVqmrnCXwIvBJRbGHwXwtnf0BHGJXlacwclEjbVD9fJd/oPi/EK6SeoVaxW2aZOOLN5xfqYxPLSlB8z9PH9lZC0KzFGTHrSNWkUt/oSeJRm6+eIehDJsQ=="},{"i":"i1IHny+FclvYmsrn","c":"bZ21U4sUIrRvIMIRUQgsC67JoyaUBO/Lf9i+qGAInH5IbEyKZwrhXtmCKfWUt7jpfcMUH/UWnL1g5fgtFAmSG+78JXadoe6udxRWIWKGuH/2G0fDYVCwxovrDnEtvHHcGK23kq1UkpPivq9kkKdq08eDAV2OJgHWhoExkBKu0RX/SlbSlXyGTMMNk4qQLNePIw=="},{"i":"MbHqj/A9ymiyLQat","c":"E1uMsHnlHMzYknmGpO/RiRMi2cULLPEVzjkUHanLhpKidBtEuP22B+EFT/dwZ/QpZOmxhmxjliyU1dZcy3cw/ILl9fr9VGbVZehE5u5EXSXH+3CqydknL69P2hXBhJQGDSixGPprSNgSvbTDLEqX8beZAEUP4KMIbxLjjcofp//lHhadATp0b43OYOBnF1TX0g=="},{"i":"29eM+wTRBLGA+N20","c":"Id75Wcf4NFmH3Ghi7GrXMTjcg8Almt3ttcn3p5MCddQ8p+muDJp5u6pTLbR8qOEWntOh+Li3MwQiD/8jBcljjrJRUdQpt65ggvNmDbDQk4eoXm6j9KUH4GfFEvvHM1EQcD7rTlAq/Hi/Y7DnEL/ll5Ny4xwinPSpr5VsnRcR5QZTshcYZfwa/BJftMI/+y+vaA=="},{"i":"wGMVRN7NHYHscMsD","c":"xSnBn8f0Pa8kFZtw0qTF3oCOPLWD3LtLMVvGjEQEtJduJDH18l9kpRC4PAgFs6uv1/TC5T1mOdrBliwPJn2Pz6N5J7hWbiieZZ9x6EE35w8P9Vd73Fe98HF7AgS+kQxPHAicoXUX/1Nx7IWPu3VQJ6i+PUiUmzpHfZe4bx9GPj5kKDovW/wj9Jja8A9EfqMxiQ=="}]};
 const $ = (id) => document.getElementById(id);
 const dec = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
 const norm = (s) => s.normalize("NFC").replace(/\s+/g, "");
