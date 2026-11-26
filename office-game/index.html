@@ -74,6 +74,7 @@ button{font:inherit;color:inherit;border:0;cursor:pointer;background:none}
 .popc .chip{pointer-events:auto;cursor:pointer;background:#fffdf6;border:.16em solid var(--pc);border-radius:1.2em;padding:.2em .8em;font-size:1.9em;font-weight:900;box-shadow:0 .2em 0 #3b322833}
 .popc .chip.new{animation:pop .5s cubic-bezier(.3,1.6,.5,1)}.popc .chip.bump{animation:pulse .4s}.popc .chip b{color:var(--pc)}
 .hcards{position:absolute;left:4%;right:4%;top:16.5em;display:flex;gap:2%;justify-content:center;z-index:6}.hcard{flex:1;max-width:46%;background:#fffdf6;border:.2em solid var(--ink);border-radius:1.2em;padding:.7em 1em;font-size:2.3em;font-weight:900;line-height:1.35;box-shadow:0 .3em 0 #3b322833;animation:flipin .7s both}.hcard small{display:block;font-size:.55em;color:var(--btn2)}
+.rkrow{position:relative;display:flex;align-items:center;gap:.6em;margin:.35em 0;padding:.4em .8em;border-radius:.6em;background:#3b32280d;font-size:2.1em;font-weight:900;overflow:hidden;animation:rise .6s both}.rkrow i{position:absolute;left:0;top:0;bottom:0;background:var(--btn);opacity:.25}.rkrow>*{position:relative}.rkrow .rn{font-family:var(--disp);color:var(--btn2);min-width:2.2em}.rkrow .rc{margin-left:auto}.rkrow.top{background:#fff3d6;outline:.12em solid var(--btn)}
 .bigq{font-family:var(--disp);font-size:3.6em;text-align:center;color:var(--btn2);margin:.25em 0;animation:pop .7s 1.2s both}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}.chips button{background:var(--paper);border:3px solid var(--line);border-radius:999px;padding:9px 14px;font-weight:900;font-size:17px}.chips button.on{background:var(--btn);color:#fff;border-color:var(--btn)}
 .wrrow{display:flex;gap:8px;margin:6px 0}.wrrow input{flex:1;min-width:0;border:3px solid var(--line);border-radius:14px;padding:10px 12px;font-size:17px;font-family:inherit;background:#fff}.wrrow button{border-radius:14px;background:var(--btn);color:#fff;font-weight:900;padding:0 16px;font-size:17px;border:0}
@@ -2604,6 +2605,7 @@ function colorOf(p){const a=p&&p[0],b=p&&p[1];if(!a||!b)return 4;return a==='A'?
 function tagsOf(p){const r=[];for(let i=2;i<5;i++)if(p&&p[i])r.push(TAGS[i][p[i]]);return r}
 const PICK_SEC=40, TEAM_SEC=45;
 const HINTS=[['새 프로그램 제안이 오면 일단 “재밌겠다, 해 보자”가 먼저 나와요.','그래도 여행 가기 전엔 대충이라도 계획은 세워 둬요. 가서 자주 바뀌지만요.'],['중요한 발표 전날에도 한 번 훑어보고 그냥 잘 자요.','근데 사람들이 의외로 낯을 가린다고 해요.'],['동료 표정이 안 좋으면 제가 먼저 말을 걸어요.','회의에서 제 의견이 묻히면 다시 한번 말하는 편이에요.']]; // 기질별 강사 사례 힌트 (자극추구, 위험회피, 사회적 민감성). 비어 있으면 '이야기를 들어 보세요'만 표시
+const RK={q:'행사는 내일인데 의견이 갈렸어요. 이럴 때 내가 가장 먼저 확인하고 싶은 것은?',c:[['⏰','언제까지 정해야 하나요?'],['🙋','누가 최종 결정하나요?'],['📌','확정된 건 어디까지인가요?'],['👥','누가 영향을 받나요?']]};
 const WR=['말투·목소리','표정·눈빛','몸짓·에너지','옷차림·분위기','그냥 느낌!'];
 const TW=['후보 장소 두 곳 모두, 5분 뒤에 오늘 예약 접수를 마감한대요.','내일 저녁에 비 예보가 떴어요. 루프탑은 지붕이 절반만 있대요.','인쇄소가 30분 뒤에 문을 닫는대요.','내일 진행을 맡은 분이 오늘 밤 안에 미리 보고 싶어 해요.','넘긴 15만 원은 팀원들이 나눠 내야 할 수도 있대요.'];
 const RS=[
@@ -2718,7 +2720,7 @@ function hostMain(){
  const saved=LS.get('oa3_host');
  if(saved&&saved.G){G=saved.G;P=saved.P||{};L=saved.L||{};deadline=Date.now()+(G.left||0)}
  function newGame(){const code=Array.from({length:4},()=>'ABCDEFGHJKLMNPQRSTUVWXYZ'[rnd(24)]).join('');
-  G={room:code,b:0,phase:'lobby',ch:0,seq:0,nT:4,teams:{},caps:[],counts:[0,0],ans:0,tdec:[],out:[],score:0,goal:1,contrib:[],tsp:[],zone:[],auto:[],rush:null,wq:0,wans:[],wcnt:{H:0,M:0,L:0},tele:[],gans:0,rsn:{A:[0,0,0],B:[0,0,0]},rans:0,rneed:0,h2:[],ws:0,wfirst:[],wres:[],oriDone:false,hintOn:false,hid:[],pord:[],ev:null,evUsed:[],hist:[],tdh:[],dur:0,left:0,end:null};P={};L={}}
+  G={room:code,b:0,phase:'lobby',ch:0,seq:0,nT:4,teams:{},caps:[],counts:[0,0],ans:0,tdec:[],out:[],score:0,goal:1,contrib:[],tsp:[],zone:[],auto:[],rush:null,wq:0,wans:[],wcnt:{H:0,M:0,L:0},tele:[],gans:0,rsn:{A:[0,0,0],B:[0,0,0]},rans:0,rneed:0,h2:[],ws:0,wfirst:[],wres:[],oriDone:false,rk:null,hintOn:false,hid:[],pord:[],ev:null,evUsed:[],hist:[],tdh:[],dur:0,left:0,end:null};P={};L={}}
  if(!G)newGame();
  World.start();
  const base=()=>NS+G.room+G.b+'/';
@@ -2741,12 +2743,12 @@ function hostMain(){
   const av=Array.isArray(d.av)?[clamp(d.av[0]|0,0,ANI.length-1),clamp(d.av[1]|0,0,BODY.length-1),clamp(d.av[2]|0,0,HATS.length-1)]:[0,0,0];
   const pos=Array.isArray(d.pos)?[clamp(+d.pos[0]||0,0,1),clamp(+d.pos[1]||0,0,1)]:[Math.random(),Math.random()];
   const em=Array.isArray(d.em)?d.em:null;
-  P[pid]={n:nm,av,pos,em,picks:d.picks||{},dec:d.dec||{},stop:d.stop||{},wm:d.wm||{},gs:d.gs||{},rs:d.rs||{},rg:d.rg||{},wr:d.wr||{},rt:d.rt||{},tap:Array.isArray(d.tap)?d.tap:(old&&old.tap)||null,hold:Array.isArray(d.hold)?d.hold:null,cn:Array.isArray(d.cn)?d.cn:null,rl:Array.isArray(d.rl)?d.rl:null,bot:!!d.bot,wasCap:old&&old.wasCap};
+  P[pid]={n:nm,av,pos,em,picks:d.picks||{},dec:d.dec||{},stop:d.stop||{},wm:d.wm||{},gs:d.gs||{},rs:d.rs||{},rg:d.rg||{},wr:d.wr||{},rt:d.rt||{},rk:Array.isArray(d.rk)?d.rk:null,tap:Array.isArray(d.tap)?d.tap:(old&&old.tap)||null,hold:Array.isArray(d.hold)?d.hold:null,cn:Array.isArray(d.cn)?d.cn:null,rl:Array.isArray(d.rl)?d.rl:null,bot:!!d.bot,wasCap:old&&old.wasCap};
   if(G.phase==='lobby'&&Number.isInteger(d.tb)&&d.tb>=0&&d.tb<G.nT)G.teams[pid]=d.tb;
   assign(pid);if(isNew)SFX.pop();
   layout();
   if(em&&old&&(!old.em||old.em[1]!==em[1])&&EMO[em[0]])World.say(pid,EMO[em[0]][0]+' '+EMO[em[0]][1]);
-  if(G.phase==='pick')recount();if(G.phase==='warm')wcount();
+  if(G.phase==='pick')recount();if(G.phase==='warm')wcount();if(G.phase==='rank')rkcount();
   if(G.phase==='team'){const b=G.rans;rcount();if(G.rans>b){SFX.pop();World.jump(pid,1)}}
   if(G.phase==='rush'&&G.rush&&G.rush.go&&!G.rush.done&&old){const R=G.rush,nw=(a,b)=>a&&a[0]===R.k&&(!b||b[0]!==R.k||b[1]!==a[1]);if(R.type==='count'&&nw(P[pid].cn,old.cn))countPress(pid);if(R.type==='relay'&&nw(P[pid].rl,old.rl))relayPress(pid)}
   if(G.phase==='stop'){G.caps.forEach((cp,t)=>{if(cp===pid&&!G.out[t]){const v=P[pid].stop[G.ch];if(typeof v==='number')stopAt(t,clamp(v,0,100))}})}
@@ -2764,9 +2766,13 @@ function hostMain(){
  function wAnswer(k){if(G.phase!=='warm'||!WL[k])return;wcount();{const f=G.wfirst[G.wq];let a1=0,n=0;for(const p of pids()){const v=P[p].wm&&P[p].wm[G.wq];if(v)n++;if((f?f[p]:v)===k)a1++}G.wres[G.wq]=[a1,G.wcnt[k],n]}G.wans[G.wq]=k;G.seq++;pub();render(true);layout();SFX.fanfare();for(const p of pids())if(P[p].wm&&P[p].wm[G.wq]===k)World.jump(p,2.5)}
  function pickCaps(){G.caps=Array(G.nT).fill(null)}
  function addPts(t,n){if(t>=0)G.contrib[t]=(G.contrib[t]||0)+n;G.score=Math.max(0,G.score+n)}
+ const rk4=v=>Number.isInteger(v)&&v>=0&&v<4;
+ function rkcount(){const c=[0,0,0,0];let n=0,gn=0;for(const p of pids()){const r=P[p].rk;if(!r)continue;if(rk4(r[0])){c[r[0]]++;n++}if(rk4(r[1]))gn++}G.rk=Object.assign(G.rk||{},{c,n,gn})}
+ function startRank(){for(const p of pids())P[p].rk=null;G.rk={c:[0,0,0,0],n:0,gn:0,hit:0,bonus:0,done:false};setPhase('rank',50);SFX.alarm()}
+ function rankResolve(){rkcount();const c=G.rk.c,mx=Math.max(...c);let hit=0;for(const p of pids()){const r=P[p].rk;if(r&&rk4(r[1])&&mx>0&&c[r[1]]===mx)hit++}G.rk.hit=hit;G.rk.bonus=G.rk.gn>0&&hit*2>=G.rk.gn?2:0;G.rk.done=true;if(G.rk.bonus)addPts(-1,G.rk.bonus);setPhase('rankres');SFX.steps();setTimeout(()=>SFX.fanfare(),2600)}
  function initRun(){if(!pids().length){toast('참가자가 아직 없습니다');return false}for(const p of pids())assign(p);G.score=0;G.contrib=Array(G.nT).fill(0);G.goal=Math.max(1,Math.round(liveTeams().length*5*3.2));return true}
  function startOri(){if(!initRun())return;G.wq=0;G.ws=0;G.wans=[];G.wfirst=[];G.wres=[];G.pord=[];G.hid=[];G.wcnt={H:0,M:0,L:0};setPhase('warm');SFX.card()}
- function startMain(){if(!initRun())return;G.ch=0;G.pord=[];setPhase('intro');SFX.alarm()}
+ function startMain(){if(!initRun())return;G.ch=0;G.rk=null;G.pord=[];setPhase('intro');SFX.alarm()}
  function next(){SFX.unlock();const ph=G.phase;
   if(ph==='lobby'){if(G.oriDone)startMain();else startOri()}
   else if(ph==='warm'){if(!G.wans[G.wq]){if(G.ws===0&&G.hintOn){const f={};for(const p of pids()){const v=P[p].wm&&P[p].wm[G.wq];if(v)f[p]=v}G.wfirst[G.wq]=f;G.ws=1;setPhase('warm');SFX.card();return}wAnswer(WQ[G.wq].def);return}if(G.wq<WQ.length-1){G.wq++;G.ws=0;G.pord=[];G.wcnt={H:0,M:0,L:0};setPhase('warm');SFX.card()}else{G.oriDone=true;setPhase('omean');SFX.card()}}
@@ -2775,7 +2781,9 @@ function hostMain(){
   else if(ph==='pick'){lockPick()}
   else if(ph==='reveal'){G.tdec=Array(G.nT).fill(null);G.pord=[];rcount();setPhase('team',TEAM_SEC);SFX.steps()}
   else if(ph==='team'){resolve()}
-  else if(ph==='outcome'){if(EV_AFTER.includes(G.ch))startRush();else afterCh()}
+  else if(ph==='outcome'){if(G.ch===CH.length-1)startRank();else if(EV_AFTER.includes(G.ch))startRush();else afterCh()}
+  else if(ph==='rank'){rankResolve()}
+  else if(ph==='rankres'){if(EV_AFTER.includes(G.ch))startRush();else afterCh()}
   else if(ph==='rush'){if(!G.rush.go)return;if(!G.rush.done)endRush();else afterCh()}
   else if(ph==='event'){afterCh()}
   else if(ph==='ending'){setPhase('colors');SFX.card()}
@@ -2813,6 +2821,7 @@ function hostMain(){
    if(G.phase==='pick'&&!b.picks[G.ch]&&Math.random()<.1){b.picks[G.ch]=Math.random()<.5?'A':'B';b.gs=b.gs||{};b.gs[G.ch]=Math.random()<.5?'A':'B';recount();pub();upd()}
    if(G.phase==='warm'&&!G.wans[G.wq]&&!(b.wm&&b.wm[G.wq])&&Math.random()<.1){b.wm=b.wm||{};b.wm[G.wq]=pickOne(['H','M','L']);b.wr=b.wr||{};b.wr[G.wq]=Math.random()<.75?pickOne(WR):pickOne(['웃음이 많아서','목소리가 커서','차분해 보여서']);wcount();pub();upd()}
    if(G.phase==='stop'){const t=G.teams[p];if(G.caps[t]===p&&!G.out[t]&&Math.random()<.06){stopAt(t,rnd(101));pub();upd()}}
+   if(G.phase==='rank'&&!b.rk&&Math.random()<.12){b.rk=[rnd(4),rnd(4)];rkcount();pub();upd()}
    if(G.phase==='team'&&(L[p]||{})[G.ch]&&!(b.rs&&rIdx(b.rs[G.ch]))&&Math.random()<.12){b.rs=b.rs||{};b.rg=b.rg||{};b.rs[G.ch]=Math.random()<.2?9:rnd(3);b.rt=b.rt||{};if(b.rs[G.ch]===9)b.rt[G.ch]=pickOne(['그냥 그게 편해서','해 본 적이 있어서']);{const k=L[p][G.ch];b.rg[G.ch]=Math.random()<.3?(k==='A'?'B':'A'):k}rcount();pub();upd()}}}
  function toast(m){const d=document.createElement('div');d.className='toast';d.textContent=m;document.body.appendChild(d);setTimeout(()=>d.remove(),4000)}
 
@@ -2826,7 +2835,7 @@ function hostMain(){
   else if(ph==='warm')tables(.4,.5,.4,p=>{const v=P[p].wm&&P[p].wm[G.wq],a=G.wans[G.wq];return{badge:a?(v===a?'⭕':''):(v?'✅':'')}},.18);
   else if(ph==='pick')tables(.36,.46,.4,p=>({badge:P[p].picks[G.ch]?'✅':''}),.2);
   else if(ph==='reveal')tables(.36,.46,.4,null,.2);
-  else if(ph==='gather'||ph==='debrief'||ph==='orgmap'||ph==='omean')tables(.83,.9,.2,null,.07);
+  else if(ph==='gather'||ph==='debrief'||ph==='orgmap'||ph==='omean'||ph==='rank'||ph==='rankres')tables(.83,.9,.2,null,.07);
   else tables(.58,.68,.5,(p,t)=>({crown:(ph==='team'||ph==='stop')&&G.caps[t]===p}));
   World.sync(list);World.set({rugs,board:ph==='lobby'?'':['ending','colors','gather','orgmap','debrief'].includes(ph)?'':(ph==='pick'||ph==='reveal'||ph==='intro')?'':''})}
 
@@ -2839,7 +2848,7 @@ function hostMain(){
   const c=CH[G.ch]||CH[0],live=liveTeams();let st='',nextLabel='다음 ▶';const endPh=['ending','colors','gather','orgmap','debrief'].includes(G.phase);
   if(G.phase==='lobby'){nextLabel=G.oriDone?'메인 게임 시작 ▶':'오리엔테이션 시작 ▶';
    st=`<div class="qrpanel">${cli&&cli.connected?qrSvg(joinUrl()):'<p style="padding:5em 1em">연결 중…</p>'}<p>참가 코드 <span>${G.room}${G.b}</span></p></div>
-   <div class="lobbytxt"><h1>D-1 사무실 대작전</h1><p>QR을 찍고, 안내받은 조 번호를 고른 뒤 캐릭터를 만들어 주세요. <span style="color:var(--btn2)">${pids().length}명 입장</span></p>${G.oriDone?'<p style="color:var(--btn2)">✔ 오리엔테이션 완료. 강의 뒤에 메인 게임으로 이어집니다.</p>':''}<p class="mini"><button data-a="hint">강사 힌트 카드: ${G.hintOn?'켜짐':'꺼짐'}</button> <button data-a="${G.oriDone?'ori':'main'}">${G.oriDone?'오리엔테이션 다시 하기':'오리엔테이션 없이 메인 게임 바로 시작'}</button></p>
+   <div class="lobbytxt"><h1>D-1 사무실 대작전</h1><p>${G.oriDone?'':'QR을 찍고, 안내받은 조 번호를 고른 뒤 캐릭터를 만들어 주세요. '}<span style="color:var(--btn2)">${pids().length}명 입장</span></p>${G.oriDone?'<p style="color:var(--btn2)">✔ 오리엔테이션 완료. 강의 뒤에 메인 게임으로 이어집니다.</p>':''}<p class="mini"><button data-a="hint">강사 힌트 카드: ${G.hintOn?'켜짐':'꺼짐'}</button> <button data-a="${G.oriDone?'ori':'main'}">${G.oriDone?'오리엔테이션 다시 하기':'오리엔테이션 없이 메인 게임 바로 시작'}</button></p>
    <p class="mini">조 개수 <button data-a="tm-">−</button> <b>${G.nT}</b> <button data-a="tm+">＋</button> &nbsp; 가까이 앉은 3~4명이 한 조 &nbsp; ${Array.from({length:G.nT},(_,t)=>TEAMS[t].e+teamOf(t).length).join(' ')}</p></div>`}
   else if(G.phase==='warm'){const w=WQ[G.wq],a=G.wans[G.wq];nextLabel=!a?(G.ws===0&&G.hintOn?'힌트 타임 ▶':'정답 공개 ▶'):G.wq<WQ.length-1?'다음 질문 ▶':'오늘의 질문 ▶';const wr=G.wres[G.wq]||[0,0,0];
    const sg=k=>`<div class="sign ${a===k?'win':''}" data-wa="${k}" style="--oc:${WC[k]};${a&&a!==k?'opacity:.5':''}"><div><h3>${WL[k][0]} ${WL[k][1]}</h3><p>${w[k]}</p></div>${a?`<div class="cnt"><span data-cnt="${G.wcnt[k]}">0</span><small>명</small></div>`:''}</div>`;
@@ -2863,6 +2872,10 @@ function hostMain(){
   else if(G.phase==='outcome'){nextLabel=(EV_AFTER.includes(G.ch)?'협동 미션 ▶':G.ch<4?'다음 장 ▶':'엔딩 ▶');st=`<div class="cols hi" id="tiles"></div><div id="stripbox"></div>`}
   else if(G.phase==='event'){nextLabel=G.ch<4?'다음 장 ▶':'엔딩 ▶';const e=EV[G.ev.id];
    st=`<div class="evwrap"><div class="evcard"><h2>${e.e} ${e.t}</h2><p>${e.m}</p><div class="eff"><span id="evwho">${e.all?'전체 조':'행운의 조는…'}</span> &nbsp; 🎯 준비도 ${G.ev.pt>0?'+':''}${G.ev.pt}</div></div></div>${strip()}`}
+  else if(G.phase==='rank'){nextLabel='순위 공개 ▶';st=`<div class="banner"><div class="timer" id="tm"></div><div>🕵️ 숨은 순위 찾기 <small>① 나는 무엇부터? &nbsp;② 우리 조직의 1위는? (익명)</small></div></div><div class="panel" style="left:6%;right:6%;top:15em;padding:.5em 1.4em;font-size:.8em"><p class="lead" style="color:var(--ink)">${RK.q}</p>${RK.c.map(x=>`<div class="rkrow"><span>${x[0]}</span><span>${x[1]}</span></div>`).join('')}<p class="lead" id="rkn" style="margin-top:.3em"></p></div>`}
+  else if(G.phase==='rankres'){nextLabel=EV_AFTER.includes(G.ch)?'마지막 미션 ▶':'엔딩 ▶';const r=G.rk||{c:[0,0,0,0]},tot=r.c.reduce((a,b)=>a+b,0)||1,ord=[0,1,2,3].sort((a,b)=>r.c[b]-r.c[a]),mx=r.c[ord[0]];
+   st=`<div class="panel" style="left:6%;right:6%;top:8.8em;padding:.5em 1.4em;font-size:.86em"><h2 style="font-size:2.6em">의견이 갈릴 때, 우리 조직이 먼저 찾는 것</h2>${ord.map((i,k)=>`<div class="rkrow ${r.c[i]===mx&&mx?'top':''}" style="animation-delay:${(3-k)*.7}s"><i style="width:${r.c[i]/tot*100}%"></i><span class="rn">${r.c[i]===mx&&mx?'1위':(ord.findIndex(j=>r.c[j]===r.c[i])+1)+'위'}</span><span>${RK.c[i][0]} ${RK.c[i][1]}</span><span class="rc">${r.c[i]}명</span></div>`).join('')}
+   <div class="says" style="animation:rise .6s 3.2s both"><p>🎯 우리 조직의 1위를 맞힌 사람 ${r.hit||0} / ${r.gn||0}명${r.bonus?' · 준비도 +'+r.bonus:''}</p><p>내가 먼저 찾는 것과 동료가 먼저 찾는 것이 다를 수 있습니다. 다음에 의견이 갈리면, 이 질문부터 꺼내 보세요.</p></div></div>`}
   else if(G.phase==='ending'){nextLabel='내 색깔 카드 ▶';st=`<div class="panel pop" style="text-align:center"><p class="lead">${EVT} 당일, 모두 함께 도착했습니다 🎊</p><h2 style="font-size:5em;line-height:1.1">준비도 <span data-cnt="${G.end.pct}">0</span>%</h2><h2 style="color:var(--btn2)">${G.end.tier}</h2></div>${strip()}`}
   else if(G.phase==='colors'){nextLabel='조직 지도 ▶';const tot=pids().length||1;st=`<div class="panel"><h2>오늘 우리 조직의 업무 색깔</h2><p class="lead">폰에서 내 카드를 뒤집어 보세요.</p>${COLORS.map((c,i)=>G.end.col[i]||i<4?`<div class="cb"><span>${c.e} ${c.n} <small>${c.r}</small></span><u><s data-w="${G.end.col[i]/tot*100}" style="background:${c.c}"></s></u><b>${G.end.col[i]}명</b></div>`:'').join('')}</div>`}
   else if(G.phase==='gather'){nextLabel='돌아보기 ▶';const used=[0,1,2,3,4].filter(i=>i<4||G.end.col[i]);st=`<div class="banner">조는 달라도 오늘 같은 길을 고른 사람들이에요</div><div class="zlabels">${used.map(i=>`<div style="--zc:${COLORS[i].c}">${COLORS[i].e} ${COLORS[i].n}<small>${COLORS[i].r} · ${G.end.col[i]}명</small></div>`).join('')}</div>`}
@@ -2892,6 +2905,7 @@ function hostMain(){
  function countUp(el,delay){const n=+el.dataset.cnt;setTimeout(()=>{let i=0;const t=setInterval(()=>{i++;el.textContent=Math.round(n*i/15);if(i>=15){el.textContent=n;clearInterval(t)}},50)},delay||0)}
  function tileBase(t,inner){const T=TEAMS[t];return `<div class="tile" data-t="${t}" style="--tc:${T.c}"><h3>${T.e} ${T.n}</h3>${inner}</div>`}
  function upd(){
+  if(G.phase==='rank'){const a=$('#rkn');if(a&&G.rk)a.textContent=`✉️ ${G.rk.gn} / ${pids().length}명`}
   {const pc=$('#popc');if(pc){const list=popList(),sig=JSON.stringify(list.map(x=>[x.key,x.n]));if(pc._s!==sig){const prev=pc._m||{};pc._s=sig;pc._m={};let nw=false;pc.innerHTML=list.map(x=>{const isNew=!(x.key in prev),bump=!isNew&&prev[x.key]!==x.n;if(isNew)nw=true;pc._m[x.key]=x.n;return `<span class="chip ${isNew?'new':bump?'bump':''}" data-pop="${esc(x.t)}" title="누르면 숨김" style="--pc:${x.k?OC[x.k]:'var(--btn)'};rotate:${hsh(x.key)%7-3}deg">${esc(x.t)}${x.n>1?` <b>×${x.n}</b>`:''}</span>`}).join('');if(nw)SFX.pop()}}}
   const tm=$('#tm');if(tm){const s=Math.ceil(Math.max(0,deadline-Date.now())/1000);if(tm.textContent!==String(s)){tm.textContent=s;tm.classList.toggle('hot',s<=5);if(s<=5&&s>0)SFX.tick()}}
   if(G.phase==='warm'){const a=$('#wansn');if(a)a.textContent=`✅ ${G.wcnt.H+G.wcnt.M+G.wcnt.L} / ${pids().length}명 선택 완료`}
@@ -2900,7 +2914,7 @@ function hostMain(){
   if(G.phase==='stop'){const el=$('#tiles');if(el){let h='';for(const t of liveTeams()){const cp=P[G.caps[t]],z=G.zone[t]||[0,0],op=CH[G.ch][G.tdec[t]],d=G.out[t];h+=tileBase(t,`<div class="pick" style="color:${OC[G.tdec[t]]}">${op.e} ${op.t}</div><div class="zbar"><i style="left:${z[0]}%;width:${z[1]}%"></i>${d?'':'<u class="mv"></u>'}</div><div class="cap">👑 ${cp?ANI[cp.av[0]][1]+' '+esc(cp.n):'-'}</div><div class="st ${d?'ok':''}">${d?'✋ 멈췄다! 두근두근':'🎯 재는 중…'}</div>`)}if(el._h!==h){el._h=h;el.innerHTML=h}}}
   if(G.phase==='team'){const el=$('#tiles');if(el){const c=CH[G.ch],h=`<div class="tile" style="--tc:var(--btn);grid-column:1/-1;text-align:center;padding:1em"><div class="split" style="font-size:3.2em">✉️ ${G.rans} / ${G.rneed}명</div><div class="st" style="font-size:1.5em;color:var(--dim)">🃏 조건 카드</div><div class="msg" style="font-size:2.3em">${TW[G.ch]}</div><div class="st" style="font-size:1.5em">이 소식을 들었다면, 그대로 갈까요 바꿀까요?</div></div>`;if(el._h!==h){el._h=h;el.innerHTML=h}}}}
  function outcomeAnim(){const el=$('#tiles'),c=CH[G.ch],h=G.hist[G.ch]||[0,0];el.innerHTML=['A','B'].map(k=>{const op=c[k],n=h[k==='A'?0:1];return `<div class="tile" style="--tc:${OC[k]};padding:1em 1.4em"><h3 style="color:${OC[k]}">${op.e} ${op.t} <small style="font-size:.6em;color:var(--dim)">${n}명 → 🃏 ${(G.h2[G.ch]||h)[k==='A'?0:1]}명</small></h3><div id="rs${k}"></div></div>`}).join('');
-  const seq=G.seq;const bars=k=>{const arr=(G.rsn&&G.rsn[k])||[0,0,0],mx=Math.max(...arr),tot=arr[0]+arr[1]+arr[2];if(!tot)return '<div class="msg rise" style="font-size:1.7em;color:var(--dim)">이유 응답이 아직 없어요.</div>';return RS[G.ch][k].map((t,j)=>[t,arr[j]]).sort((a,b)=>b[1]-a[1]).map(([t,n])=>`<div class="rise" style="position:relative;margin:.35em 0;padding:.45em .7em;border-radius:.5em;background:rgba(255,255,255,.07);overflow:hidden;font-size:${n===mx?1.75:1.45}em;opacity:${n?1:.45}"><i style="position:absolute;left:0;top:0;bottom:0;width:${Math.round(n/tot*100)}%;background:${OC[k]};opacity:.35"></i><span style="position:relative;display:flex;justify-content:space-between;gap:.6em"><span>${n===mx?'★ ':''}${t}</span><b>${n}명</b></span></div>`).join('')};
+  const seq=G.seq;const bars=k=>{const arr=(G.rsn&&G.rsn[k])||[0,0,0],mx=Math.max(...arr),tot=arr[0]+arr[1]+arr[2];if(!tot)return '<div class="msg rise" style="font-size:1.7em;color:var(--dim)">이유 응답이 아직 없어요.</div>';const fr=pids().filter(p=>(L[p]||{})[G.ch]===k&&P[p].rs&&P[p].rs[G.ch]===9&&P[p].rt&&typeof P[p].rt[G.ch]==='string'&&!G.hid.includes(P[p].rt[G.ch].trim().slice(0,20))).map(p=>esc(P[p].rt[G.ch].trim().slice(0,20)));const frh=fr.length?`<div class="rise" style="font-size:1.3em;margin:.3em 0;color:var(--dim);font-weight:700">✏️ ${fr.map(t=>'“'+t+'”').join(' &nbsp;')}</div>`:'';return RS[G.ch][k].map((t,j)=>[t,arr[j]]).sort((a,b)=>b[1]-a[1]).map(([t,n])=>`<div class="rise" style="position:relative;margin:.35em 0;padding:.45em .7em;border-radius:.5em;background:rgba(255,255,255,.07);overflow:hidden;font-size:${n===mx?1.75:1.45}em;opacity:${n?1:.45}"><i style="position:absolute;left:0;top:0;bottom:0;width:${Math.round(n/tot*100)}%;background:${OC[k]};opacity:.35"></i><span style="position:relative;display:flex;justify-content:space-between;gap:.6em"><span>${n===mx?'★ ':''}${t}</span><b>${n}명</b></span></div>`).join('')+frh};
   ['A','B'].forEach((k,i)=>{setTimeout(()=>{if(G.seq!==seq)return;const res=c[k].ok,rs=$('#rs'+k),n=h[i];if(rs)rs.innerHTML=n?`${bars(k)}<div class="gain rise" style="font-size:1.4em;margin-top:.5em">이 선택이 준 것: ${gainHtml(res[1])}</div>`:`<div class="msg rise" style="font-size:2.1em;color:var(--dim)">이번엔 아무도 고르지 않았어요.</div>`;SFX.ok();for(const p of pids())if((L[p]||{})[G.ch]===k)World.jump(p,1.8);if(i===1){const sb=$('#stripbox');if(sb)sb.innerHTML=`<div class="strip"><div style="--tc:var(--btn)">🃏 조건 카드를 보고 판단을 바꾼 사람 ${(G.h2[G.ch]||[0,0,0])[2]}명 &nbsp;·&nbsp; 서로 다른 선택이 모여 준비도 +${liveTeams().length*2}</div></div>`;const gb=$('#goalbox');if(gb)gb.innerHTML=goalBar()}},600+i*1800)})}
  function roulette(){const live=liveTeams(),tg=G.ev.tg,seq=G.seq;let i=0,steps=live.length*3+live.indexOf(tg);const go=()=>{if(G.seq!==seq)return;document.querySelectorAll('.strip div').forEach(e=>e.classList.remove('hit'));const t=live[i%live.length];const e=$('#tg'+t);if(e)e.classList.add('hit');SFX.tick();if(i>=steps){const w=$('#evwho');if(w)w.textContent=TEAMS[tg].e+' '+TEAMS[tg].n+' 덕분에!';SFX.ok();FX.confetti(60);teamOf(tg).forEach(p=>World.jump(p,2.5));return}i++;setTimeout(go,90+i*14)};setTimeout(go,900)}
  app.addEventListener('click',e=>{const a=e.target.closest('[data-a]');const tl=e.target.closest('.tile');const wa=e.target.closest('[data-wa]');if(wa){wAnswer(wa.dataset.wa);return}const pp=e.target.closest('[data-pop]');if(pp){G.hid.push(pp.dataset.pop);pub();upd();return}
@@ -2910,6 +2924,7 @@ function hostMain(){
   if(false&&tl&&G.phase==='team'){const t=+tl.dataset.t;if(!G.tdec[t]){const m=teamOf(t).filter(p=>p!==G.caps[t]);if(m.length){G.caps[t]=pickOne(m);pub();upd();layout();SFX.pop()}}}});
  addEventListener('keydown',e=>{if(e.key===' '||e.key==='ArrowRight'||e.key==='Enter'){e.preventDefault();next()}});
  setInterval(()=>{botTick();upd();layout();
+  if(G.phase==='rank'&&!autoT){const N=pids().length,all=N>0&&G.rk&&G.rk.n>=N&&G.rk.gn>=N;if(all||Date.now()>deadline){const s=G.seq;autoT=setTimeout(()=>{if(G.seq===s&&G.phase==='rank')rankResolve()},all?1500:300)}}
   if(G.phase==='pick'&&!autoT){const all=pids().length>0&&G.ans>=pids().length&&G.gans>=pids().length;if(all||Date.now()>deadline){const s=G.seq;autoT=setTimeout(()=>{if(G.seq===s&&G.phase==='pick')lockPick()},all?1500:300)}}
   rushTick();
   if(G.phase==='stop'&&!autoT){let all=true;for(const t of liveTeams())if(!G.out[t])all=false;if(all||Date.now()>deadline){const s=G.seq;autoT=setTimeout(()=>{if(G.seq===s&&G.phase==='stop')settle()},all?1300:300)}}
@@ -2926,14 +2941,14 @@ function playerMain(){
  const code=Q.get('r').toUpperCase(),room=code.slice(0,4),b=clamp(parseInt(code.slice(4))||0,0,BROKERS.length-1),base=NS+room+b+'/';
  let me=LS.get('oa3_me_'+code);
  if(!me){const a=rnd(ANI.length),adj=pickOne(ADJ);me={id:uid(),n:adj+' '+ANI[a][0],adj,av:[a,rnd(BODY.length),0],pos:[Math.random(),Math.random()],tb:null,em:null,picks:{},dec:{},stop:{},tap:null,flip:false,made:false};LS.set('oa3_me_'+code,me)}
- SFX.toggle();const inApp=/KAKAOTALK|NAVER|Instagram|FB_IAB|FBAN|Line\//i.test(navigator.userAgent);me.stop=me.stop||{};me.wm=me.wm||{};me.gs=me.gs||{};me.rs=me.rs||{};me.rg=me.rg||{};me.wr=me.wr||{};me.rt=me.rt||{};let pre=null,S=null,deadline=0,vkey='',online=false,tapT=0,nT0=performance.now();
+ SFX.toggle();const inApp=/KAKAOTALK|NAVER|Instagram|FB_IAB|FBAN|Line\//i.test(navigator.userAgent);me.stop=me.stop||{};me.wm=me.wm||{};me.gs=me.gs||{};me.rs=me.rs||{};me.rg=me.rg||{};me.wr=me.wr||{};me.rt=me.rt||{};me.rk=me.rk||null;let pre=null,S=null,deadline=0,vkey='',online=false,tapT=0,nT0=performance.now();
  const needle=()=>{const x=((performance.now()-nT0)/900)%2;return (x<1?x:2-x)*100};
  const cli=connect(BROKERS[b],'p_'+me.id+uid().slice(0,3));
- const send=()=>{LS.set('oa3_me_'+code,me);if(cli.connected)cli.publish(base+'p/'+me.id,JSON.stringify({n:me.n,av:me.av,pos:me.pos,tb:me.tb,em:me.em,picks:me.picks,dec:me.dec,stop:me.stop,wm:me.wm||{},gs:me.gs||{},rs:me.rs||{},rg:me.rg||{},wr:me.wr||{},rt:me.rt||{},tap:me.tap,hold:me.hold||null,cn:me.cn||null,rl:me.rl||null}),{retain:true,qos:1})};
+ const send=()=>{LS.set('oa3_me_'+code,me);if(cli.connected)cli.publish(base+'p/'+me.id,JSON.stringify({n:me.n,av:me.av,pos:me.pos,tb:me.tb,em:me.em,picks:me.picks,dec:me.dec,stop:me.stop,wm:me.wm||{},gs:me.gs||{},rs:me.rs||{},rg:me.rg||{},wr:me.wr||{},rt:me.rt||{},rk:me.rk||null,tap:me.tap,hold:me.hold||null,cn:me.cn||null,rl:me.rl||null}),{retain:true,qos:1})};
  cli.on('connect',()=>{online=true;cli.subscribe(base+'state',{qos:1});send();render(true)});
  cli.on('close',()=>{online=false});
  cli.on('message',(t,m)=>{let d;try{d=JSON.parse(m.toString())}catch(e){return}if(!d||d.room!==room)return;const changed=!S||S.seq!==d.seq||S.phase!==d.phase;
-  if(S&&d.seq<S.seq&&d.phase==='lobby'){me.picks={};me.dec={};me.stop={};me.wm={};me.gs={};me.rs={};me.rg={};me.wr={};me.rt={};me.tap=null;me.cn=null;me.rl=null;me.flip=false;send()}
+  if(S&&d.seq<S.seq&&d.phase==='lobby'){me.picks={};me.dec={};me.stop={};me.wm={};me.gs={};me.rs={};me.rg={};me.wr={};me.rt={};me.rk=null;me.tap=null;me.cn=null;me.rl=null;me.flip=false;send()}
   S=d;const nd=Date.now()+(d.left||0);if(changed||Math.abs(nd-deadline)>1500)deadline=nd;
   if(changed){pre=null;try{navigator.vibrate&&navigator.vibrate(d.phase==='pick'?[80,60,80]:40)}catch(e){}if(d.phase==='pick')SFX.alarm();if(d.phase==='ending')FX.confetti(120)}
   render(changed);upd()});
@@ -2945,7 +2960,7 @@ function playerMain(){
  function myGauge(){if(!S||!S.goal)return'';return `<div class="gbar"><s style="width:${clamp(S.score/S.goal*100,0,100)}%"></s><b>🎯 모두의 준비도 ${Math.round(S.score/S.goal*100)}%</b></div>`}
  const emoBar=()=>`<div class="emo">${EMO.map((e,i)=>`<button data-e="${i}">${e[0]}<br>${e[1]}</button>`).join('')}</div>`;
  function drawPv(){const c=$('#pv');if(!c)return;const x=c.getContext('2d');x.clearRect(0,0,c.width,c.height);drawAv(x,c.width/2,c.height*.9,c.height*.4,{a:me.av[0],c:me.av[1],h:me.av[2],ph:0},0)}
- function render(force){let key=(S?S.phase+S.seq:'x')+online+JSON.stringify(me.picks)+JSON.stringify(me.dec)+me.flip+me.n+me.made+me.av+me.tb+(S?S.nT:0)+pre+JSON.stringify(me.stop)+JSON.stringify(me.wm)+JSON.stringify(me.gs)+JSON.stringify(me.rs)+JSON.stringify(me.rg)+JSON.stringify(me.wr)+(S?''+S.wq+(S.ws||0)+(S.oriDone?1:0)+JSON.stringify(S.wans||0):'')+(S&&S.rush?''+S.rush.go+S.rush.done+(S.phase==='rush'?JSON.stringify([S.rush.cnt,S.rush.lastBy,S.rush.tok,S.rush.resets]):''):'')+(S&&S.phase==='stop'?JSON.stringify(S.out):'')+(S&&S.phase==='team'?JSON.stringify(S.caps)+JSON.stringify(S.tdec):'');
+ function render(force){let key=(S?S.phase+S.seq:'x')+online+JSON.stringify(me.picks)+JSON.stringify(me.dec)+me.flip+me.n+me.made+me.av+me.tb+(S?S.nT:0)+pre+JSON.stringify(me.stop)+JSON.stringify(me.wm)+JSON.stringify(me.gs)+JSON.stringify(me.rs)+JSON.stringify(me.rg)+JSON.stringify(me.wr)+JSON.stringify(me.rk)+(S&&S.rk?''+S.rk.done:'')+(S?''+S.wq+(S.ws||0)+(S.oriDone?1:0)+JSON.stringify(S.wans||0):'')+(S&&S.rush?''+S.rush.go+S.rush.done+(S.phase==='rush'?JSON.stringify([S.rush.cnt,S.rush.lastBy,S.rush.tok,S.rush.resets]):''):'')+(S&&S.phase==='stop'?JSON.stringify(S.out):'')+(S&&S.phase==='team'?JSON.stringify(S.caps)+JSON.stringify(S.tdec):'');
   if(!force&&key===vkey)return;vkey=key;let m='',emo=true;
   if(!S){emo=false;m=`<div class="bigem">📡</div><h2 style="text-align:center">연결 중…</h2><p class="hint">참가 코드 ${esc(code)}</p>`}
   else{const c=CH[S.ch]||CH[0],t=myTeam(),ph=S.phase;
@@ -2979,6 +2994,11 @@ function playerMain(){
     else m=`<h2 style="text-align:center">🚩 ${r.t}</h2><p class="lead" style="text-align:center">꾹 누른 채 버티세요! 떼면 느려져요</p><button class="tapb ${me.hold&&me.hold[0]===R.k&&me.hold[1]?'on':''}" id="tapb">${r.e}<br><span id="tapn">꾹!</span></button><div class="ptimer"><s id="pt"></s></div>`}
    else if(ph==='outcome'){const k=me.picks[S.ch];if(k){const op=c[k],r=op.ok;m=`<p class="hint">내가 고른 길</p><h2 style="text-align:center;color:${OC[k]}">${op.e} ${op.t}</h2><p class="lead" style="text-align:center">${r[0]}</p><p class="lead" style="text-align:center">이 선택이 준 것: ${gainHtml(r[1])}</p>${me.rg[S.ch]&&me.rg[S.ch]!==k?`<p class="lead" style="text-align:center">🃏 조건 카드 뒤에는 ${c[me.rg[S.ch]].e} 쪽으로 바꿨어요</p>`:''}<p class="hint">반대쪽이 고른 이유를 앞 화면에서 보세요.</p>${myGauge()}`}else m=`<div class="bigem">👀</div><p class="lead" style="text-align:center">앞 화면을 봐 주세요.</p>${myGauge()}`}
    else if(ph==='event'){const e=EV[S.ev.id],hit=S.ev.tg<0||S.ev.tg===t;m=`<div class="bigem">${e.e}</div><h2 style="text-align:center">${e.t}</h2><p class="lead" style="text-align:center">${e.m}</p><p class="lead" style="text-align:center">${e.all?'':hit?'🎉 우리 조 덕분에! ':TEAMS[S.ev.tg].n+' 덕분에! '}${ptHtml(S.ev.pt)}</p>${myGauge()}`}
+   else if(ph==='rank'){emo=false;const r=me.rk||[],st1=!(r[0]>=0),rb=(attr)=>RK.c.map((x,j)=>`<button class="pbtn" data-${attr}="${j}" style="padding:13px 14px"><div class="em" style="font-size:30px">${x[0]}</div><div><h3 style="font-size:20px">${x[1]}</h3></div></button>`).join('');
+    if(st1)m=`<p class="hint">🕵️ 숨은 순위 찾기 (익명)</p><h2 style="font-size:24px">${RK.q}</h2><div class="ptimer"><s id="pt"></s></div>${rb('k1')}`;
+    else if(!(r[1]>=0))m=`<p class="hint">🔮 이번엔 우리 조직 읽기</p><h2 style="font-size:24px">우리 조직 전체에서 가장 많이 고른 1위는 무엇일까요?</h2><div class="ptimer"><s id="pt"></s></div>${rb('k2')}`;
+    else m=`<div class="bigem">✉️</div><h2 style="text-align:center">익명으로 전달됐어요</h2><p class="lead" style="text-align:center">내 선택: ${RK.c[r[0]][0]} ${RK.c[r[0]][1]}<br>곧 앞 화면에서 순위가 열립니다.</p><div class="ptimer"><s id="pt"></s></div>`}
+   else if(ph==='rankres'){const r=me.rk||[],c2=(S.rk&&S.rk.c)||[0,0,0,0],mx=Math.max(...c2),top=c2.indexOf(mx);m=`<div class="bigem">${mx?RK.c[top][0]:'🕵️'}</div><h2 style="text-align:center">${mx?'우리 조직의 1위<br>'+RK.c[top][1]:'응답이 없었어요'}</h2><p class="lead" style="text-align:center">${r[0]>=0?'내가 먼저 찾는 것: '+RK.c[r[0]][0]+' '+RK.c[r[0]][1]+'<br>':''}${r[1]>=0&&mx?(c2[r[1]]===mx?'🎯 우리 조직을 맞혔어요!':'🔮 내 예상과는 달랐어요'):''}</p>${myGauge()}`}
    else if(ph==='ending'){const e=S.end||{};m=`<div class="bigem">🎊</div><h2 style="text-align:center">${e.tier||''}</h2><p class="lead" style="text-align:center"><b class="disp" style="font-size:48px;color:var(--btn2)">준비도 ${e.pct}%</b><br>우리 ${TEAMS[t].n}가 보탠 준비도 +${(S.contrib&&S.contrib[t])||0}</p>`}
    else{const col=COLORS[colorOf(me.picks)],same=S.end&&S.end.same&&S.end.same[me.id];
     m=me.flip?`<div class="card" style="background:${col.bg}"><div class="em">${col.e}</div><h4>오늘의 내 업무 색깔</h4><h2>${col.n}</h2><h4>${col.r}</h4><p>${col.m}</p><div class="tags">${tagsOf(me.picks).map(x=>`<span>${x}</span>`).join('')}</div></div><p class="lead" style="text-align:center">${same?`다섯 장면 모두 나와 같은 길: <b style="color:var(--btn2)">${same}명</b>`:'다섯 장면을 나와 똑같이 간 사람은 없어요. 나만의 길!'}</p><p class="hint">오늘 게임 속 선택으로 만든 카드예요. 검사 결과와는 무관합니다.</p>`
@@ -3004,6 +3024,7 @@ function playerMain(){
   const tbb=g('[data-tb]');if(tbb){me.tb=+tbb.dataset.tb;SFX.pop();send();render()}
   if(em){const now=Date.now();if(now-lastEm>1200){lastEm=now;me.em=[+em.dataset.e,now];SFX.pop();send()}}
   {const wrv=g('[data-wr]');const sv=t=>{t=String(t||'').trim().slice(0,20);return t};if(wrv&&S&&S.phase==='warm'){me.wr[S.wq]=wrv.dataset.wr;SFX.pop();send();render()}if(a&&a.dataset.a==='wrsend'&&S&&S.phase==='warm'){const t=sv(($('#wrt')||{}).value);if(t){me.wr[S.wq]=t;SFX.pop();send();render(true)}}if(a&&a.dataset.a==='rtsend'&&S&&S.phase==='team'){const t=sv(($('#rtt')||{}).value);if(t){me.rt[S.ch]=t;me.rs[S.ch]=9;SFX.sel();send();render()}}}
+  {const k1=g('[data-k1]'),k2=g('[data-k2]');if(S&&S.phase==='rank'){if(k1){me.rk=[+k1.dataset.k1,-1];SFX.sel();send();render()}else if(k2&&me.rk){me.rk=[me.rk[0],+k2.dataset.k2];SFX.pop();send();render()}}}
   const wv=g('[data-w]'),gv=g('[data-g]');if(wv&&S&&S.phase==='warm'&&!(S.wans&&S.wans[S.wq])){me.wm[S.wq]=wv.dataset.w;SFX.sel();send();render()}
   if(gv&&S&&S.phase==='pick'){me.gs[S.ch]=gv.dataset.g;SFX.pop();send();render()}
   if(p&&S&&S.phase==='pick'){me.picks[S.ch]=p.dataset.p;SFX.sel();try{navigator.vibrate&&navigator.vibrate(30)}catch(_){}send();render()}
