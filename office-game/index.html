@@ -44,49 +44,49 @@ button{font:inherit;color:inherit;border:0;cursor:pointer;background:none}
 .dots{display:flex;gap:.4em;margin-left:auto}
 .dots b{width:2.2em;height:.7em;border-radius:1em;background:#fff8;border:2px solid var(--line)}
 .dots b.done{background:var(--ok);border-color:var(--ok)} .dots b.now{background:var(--btn);border-color:var(--btn);animation:pulse 1s infinite}
-.roomtag{background:var(--paper);border-radius:.6em;padding:.25em .8em;font-weight:700;font-size:1.15em;box-shadow:0 .12em 0 var(--line)}
+.roomtag{background:var(--paper);border-radius:.6em;padding:.25em .8em;font-weight:700;font-size:1.35em;box-shadow:0 .12em 0 var(--line)}
 .roomtag span{font-family:var(--disp);font-size:1.4em;color:var(--btn2);letter-spacing:.08em}
 .next{white-space:nowrap;font-family:var(--disp);font-size:1.9em;background:var(--btn);color:#fff;padding:.25em .9em;border-radius:.5em;box-shadow:0 .2em 0 var(--btn2)}
 .next:active{transform:translateY(.15em);box-shadow:0 .05em 0 var(--btn2)}
-.ctrl{position:fixed;right:.8em;bottom:.5em;z-index:60;display:flex;gap:.4em;opacity:.3;transition:opacity .2s;font-size:13px;pointer-events:auto}
-.ctrl:hover{opacity:1}
+.ctrl{position:fixed;left:.6em;bottom:.4em;z-index:60;display:flex;gap:.4em;font-size:max(12px,.9em);pointer-events:auto;opacity:.45}
+.ctrl.open,.ctrl:hover{opacity:1}.ctrl button:not([data-a=gear]){display:none}.ctrl.open button{display:block}
 .ctrl button{background:var(--paper);border:1px solid var(--line);padding:.4em .7em;border-radius:.5em}
-.goal{position:absolute;left:1.4em;right:1.4em;top:4.5em;height:1.7em;background:var(--paper);border-radius:1em;border:.14em solid var(--ink);overflow:hidden}
+.goal{position:absolute;left:1.4em;right:1.4em;top:4.5em;height:2.4em;background:var(--paper);border-radius:1em;border:.14em solid var(--ink);overflow:hidden}
 .goal s{position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(90deg,#8fb47a,#e0b45c);transition:width 1.2s cubic-bezier(.2,1,.3,1)}
-.goal b{position:absolute;inset:0;display:grid;place-items:center;font-size:1.05em;font-weight:900}
-.dlg{position:absolute;left:3%;right:3%;bottom:2.5%;background:var(--paper);border:.22em solid var(--ink);border-radius:1.2em;padding:1em 1.4em 1.1em;display:grid;grid-template-columns:auto 1fr;gap:1.2em;align-items:center;box-shadow:0 .5em 0 #3b322833}
-.dlg .who{text-align:center;font-family:var(--disp);font-size:1.3em;color:var(--dim)}
+.goal b{position:absolute;inset:0;display:grid;place-items:center;font-size:1.55em;font-weight:900}
+.dlg{position:absolute;left:3%;right:3%;bottom:1.5%;background:var(--paper);border:.22em solid var(--ink);border-radius:1.2em;padding:1em 1.4em 1.1em;display:grid;grid-template-columns:auto 1fr;gap:1.2em;align-items:center;box-shadow:0 .5em 0 #3b322833}
+.dlg .who{text-align:center;font-family:var(--disp);font-size:1.5em;color:var(--dim)}
 .dlg .who i{display:block;font-style:normal;font-size:3.4em;line-height:1.1}
-.dlg .txt{font-size:2.5em;line-height:1.45;font-weight:700;min-height:2.9em}
-.dlg .txt small{display:block;font-size:.62em;color:var(--dim);font-weight:500;margin-top:.3em}
-.signs{position:absolute;left:3%;right:3%;top:7em;display:grid;grid-template-columns:1fr auto 1fr;gap:1.5em;align-items:start}
+.dlg .txt{font-size:2.6em;line-height:1.35;font-weight:700;min-height:2.7em}
+.dlg .txt small{display:block;font-size:.7em;color:var(--dim);font-weight:500;margin-top:.3em}
+.signs{position:absolute;left:3%;right:3%;top:7.7em;display:grid;grid-template-columns:1fr auto 1fr;gap:1.5em;align-items:start}
 .sign{background:var(--paper);border:.25em solid var(--oc);border-radius:1.2em;padding:.8em 1.1em;display:grid;grid-template-columns:auto 1fr auto;gap:.8em;align-items:center;box-shadow:0 .4em 0 #3b322822}
 .sign .em{font-size:3.2em}
-.sign h3{font-family:var(--disp);font-weight:400;font-size:2.4em;color:var(--oc);line-height:1.1}
-.sign p{font-size:1.25em;color:var(--dim);font-weight:700;margin-top:.15em}
+.sign h3{font-family:var(--disp);font-weight:400;font-size:2.7em;color:var(--oc);line-height:1.1}
+.sign p{font-size:1.45em;color:var(--dim);font-weight:700;margin-top:.15em}
 .sign .cnt{font-family:var(--disp);font-size:4.6em;color:var(--oc);line-height:1}
 .sign .cnt small{font-size:.4em}
 .sign.win{background:#fff3d6}
 .timer{font-family:var(--disp);font-size:4em;min-width:1.9em;height:1.9em;display:grid;place-items:center;background:var(--ink);color:#f7e7c4;border-radius:50%;margin-top:.1em}
 .timer.hot{background:var(--bad);animation:pulse .5s infinite}
-.pips{position:absolute;left:0;right:0;top:13.6em;display:flex;justify-content:center;font-size:1.5em;font-weight:900}
+.pips{position:absolute;left:0;right:0;top:7.4em;display:flex;justify-content:center;font-size:1.9em;font-weight:900}
 .pips span{background:var(--paper);border-radius:2em;padding:.15em .9em;box-shadow:0 .1em 0 var(--line)}
-.banner{position:absolute;left:0;right:0;top:2.9em;text-align:center;font-family:var(--disp);font-size:2.4em;display:flex;gap:.6em;justify-content:center;align-items:center}
+.banner{position:absolute;left:0;right:0;top:2.75em;text-align:center;font-family:var(--disp);font-size:2.8em;display:flex;gap:.6em;justify-content:center;align-items:center}
 .banner .timer{font-size:1em}
-.banner small{font-size:.6em;color:var(--dim);font-family:var(--body);font-weight:700}
-.cols{position:absolute;left:2%;right:2%;top:12em;display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:1em;align-items:start}
+.banner small{font-size:.68em;color:var(--dim);font-family:var(--body);font-weight:700}
+.cols{position:absolute;left:2%;right:2%;top:13.2em;display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:1em;align-items:start}
 .tile{background:var(--paper);border-radius:1.1em;padding:.8em 1em;border-top:.5em solid var(--tc);position:relative;box-shadow:0 .4em 0 #3b322822;min-width:0}
-.tile h3{font-family:var(--disp);font-weight:400;font-size:2.2em}
-.tile .split{font-size:1.5em;font-weight:900;margin-top:.1em}
-.tile .cap{font-size:1.25em;color:var(--dim);font-weight:700;margin-top:.2em}
+.tile h3{font-family:var(--disp);font-weight:400;font-size:2.5em}
+.tile .split{font-size:2.1em;font-weight:900;margin-top:.1em}
+.tile .cap{font-size:1.6em;color:var(--dim);font-weight:700;margin-top:.2em}
 .tile .cap b{color:var(--ink);font-size:1.25em;display:block}
-.tile .st{font-family:var(--disp);font-size:2em;margin-top:.3em;color:var(--dim)}
+.tile .st{font-family:var(--disp);font-size:2.2em;margin-top:.3em;color:var(--dim)}
 .tile .st.ok{color:var(--ok)}
-.tile .pick{font-family:var(--disp);font-size:1.55em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tile .pick{font-family:var(--disp);font-size:1.55em;line-height:1.2}
 .tile .roll{font-family:var(--disp);font-size:3.2em;color:var(--ink);line-height:1.1}
 .tile .roll small{font-size:.36em;color:var(--dim);font-family:var(--body);font-weight:700;margin-left:.4em}
-.tile .msg{font-size:1.3em;line-height:1.4;font-weight:700;margin-top:.2em}
-.tile .delta{font-weight:900;font-size:1.5em;margin-top:.3em}
+.tile .msg{font-size:1.75em;line-height:1.35;font-weight:700;margin-top:.2em}
+.tile .delta{font-weight:900;font-size:2em;margin-top:.3em}
 .tile .sc{font-family:var(--disp);font-size:3.8em;line-height:1}
 .tile .tier{font-family:var(--disp);font-size:2em;color:var(--btn2);margin:.15em 0}
 .tile .ttl{font-size:1.3em;color:var(--dim);font-weight:700}
@@ -96,19 +96,20 @@ button{font:inherit;color:inherit;border:0;cursor:pointer;background:none}
 .stampx{position:absolute;right:.4em;top:1.5em;font-family:var(--disp);font-size:2em;padding:0 .35em;border:.14em solid;border-radius:.3em;animation:stamp .5s both;background:var(--paper)}
 .stampx.ok{color:var(--ok)} .stampx.no{color:var(--bad)}
 .plus{color:var(--ok)} .minus{color:var(--bad)}
-.evwrap{position:absolute;left:0;right:0;top:7em;display:flex;justify-content:center}
+.evwrap{position:absolute;left:0;right:0;top:7.7em;display:flex;justify-content:center}
 .evcard{width:44em;background:#fff3d6;border:.22em solid var(--ink);border-radius:1.4em;padding:1em 1.6em;text-align:center;box-shadow:0 .6em 0 #3b322833;animation:flipin .7s both}
 .evcard .em{font-size:5em;line-height:1.1}
 .evcard h2{font-family:var(--disp);font-weight:400;font-size:3.6em}
 .evcard p{font-size:1.8em;font-weight:700;margin-top:.2em}
 .evcard .eff{font-size:2em;font-weight:900;margin-top:.4em;background:#3b322814;border-radius:.5em;padding:.2em}
-.strip{position:absolute;left:2%;right:2%;bottom:1.5%;display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:1em}
-.strip div{background:var(--paper);border-radius:.8em;padding:.25em .6em;font-weight:900;font-size:1.5em;text-align:center;border-bottom:.25em solid var(--tc);box-shadow:0 .15em 0 #3b322822;white-space:nowrap;transition:transform .2s}
+.strip{position:absolute;left:calc(2% + 2.4em);right:2%;bottom:1.5%;display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:1em}
+.strip div{background:var(--paper);border-radius:.8em;padding:.2em .6em;font-weight:900;font-size:1.9em;text-align:center;border-bottom:.25em solid var(--tc);box-shadow:0 .15em 0 #3b322822;white-space:nowrap;transition:transform .2s}
 .strip div.hit{transform:translateY(-.5em) scale(1.06);outline:.2em solid var(--gold)}
-.cols.hi{top:7em}
-.panel{position:absolute;left:8%;right:8%;top:7em;background:var(--paper);border:.22em solid var(--ink);border-radius:1.4em;padding:1.1em 1.6em;box-shadow:0 .6em 0 #3b322833}
+.cols.hi{top:7.7em}
+.tile .gain{font-size:1.5em;font-weight:800;color:var(--dim);margin-top:.25em}.bonus{font-size:.7em;background:var(--gold,#e0b45c);color:#fff;border-radius:.6em;padding:.05em .5em;vertical-align:middle;white-space:nowrap}
+.panel{position:absolute;left:8%;right:8%;top:7.7em;background:var(--paper);border:.22em solid var(--ink);border-radius:1.4em;padding:1.1em 1.6em;box-shadow:0 .6em 0 #3b322833}
 .panel h2{font-family:var(--disp);font-weight:400;font-size:3em;text-align:center}
-.panel .lead{font-size:1.6em;text-align:center;color:var(--dim);font-weight:700}
+.panel .lead{font-size:2em;text-align:center;color:var(--dim);font-weight:700}
 .cb{display:grid;grid-template-columns:13em 1fr 3.4em;gap:.8em;align-items:center;font-size:1.9em;font-weight:900;margin-top:.5em}
 .cb small{color:var(--dim);font-size:.7em}
 .cb u{height:1.3em;background:#3b322814;border-radius:1em;overflow:hidden;text-decoration:none}
@@ -116,44 +117,46 @@ button{font:inherit;color:inherit;border:0;cursor:pointer;background:none}
 .facts{display:grid;grid-template-columns:repeat(4,1fr);gap:.8em;margin-top:.6em}
 .fact{background:#3b32280d;border-radius:.8em;padding:.6em;text-align:center}
 .fact b{display:block;font-family:var(--disp);font-weight:400;font-size:3.2em;color:var(--btn2);line-height:1.1}
-.fact span{font-size:1.3em;font-weight:700;color:var(--dim)}
+.fact span{font-size:1.6em;font-weight:700;color:var(--dim)}
 .omap{display:grid;gap:.45em;margin-top:.5em}
-.orow{display:grid;grid-template-columns:12.5em 1fr 1.4em 11em 1.4em 1fr;align-items:center;gap:.5em;font-size:1.3em;font-weight:800}
+.orow{display:grid;grid-template-columns:9.5em 1fr 1.4em 8em 1.4em 1fr;align-items:center;gap:.45em;font-size:1.7em;font-weight:800}
 .orow .ot em{font-style:normal;font-size:.62em;background:var(--btn);color:#fff;border-radius:.6em;padding:.1em .5em;margin-left:.5em;vertical-align:middle}.orow .ot em.m{background:#6f8f7a}
 .orow .ol{text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.orow .or{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .orow b{font-family:var(--disp);font-size:1.25em}
 .ob{display:flex;height:1.25em;border-radius:.7em;overflow:hidden;background:#3b32281f}.ob s{display:block;height:100%}
-.ocol{display:flex;gap:.6em;justify-content:center;margin-top:.8em;flex-wrap:wrap}.ocol span{font-size:1.35em;font-weight:800;padding:.2em .8em;border-radius:1em;color:#fff}
+.ocol{display:flex;gap:.6em;justify-content:center;margin-top:.8em;flex-wrap:wrap}.ocol span{font-size:1.7em;font-weight:800;padding:.2em .8em;border-radius:1em;color:#fff}
 .says{margin-top:.7em;display:grid;gap:.45em}
-.says p{background:#fff3d6;border-left:.4em solid var(--btn);border-radius:.4em;padding:.3em .8em;font-size:1.55em;font-weight:700;line-height:1.4}
+.says p{background:#fff3d6;border-left:.4em solid var(--btn);border-radius:.4em;padding:.25em .8em;font-size:1.85em;font-weight:700;line-height:1.4}
 .zlabels{position:absolute;left:2%;right:2%;top:13em;display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:1em;text-align:center}
 .zlabels div{background:var(--paper);border-radius:1em;padding:.4em;font-family:var(--disp);font-size:2.4em;border-bottom:.3em solid var(--zc);box-shadow:0 .2em 0 #3b322822}
-.zlabels small{display:block;font-size:.55em;color:var(--dim)}
+.zlabels small{display:block;font-size:.66em;color:var(--dim)}
 .qrpanel{position:absolute;left:2.5%;top:5.4em;background:#fff;padding:1em;border-radius:1.4em;border:.22em solid var(--ink);box-shadow:0 .6em 0 #3b322833;text-align:center;width:25em}
 .qrpanel svg{width:100%;height:auto;display:block}
-.qrpanel p{font-weight:900;font-size:1.5em;margin-top:.3em}
+.qrpanel p{font-weight:900;font-size:1.8em;margin-top:.3em}
 .qrpanel p span{font-family:var(--disp);font-size:1.6em;color:var(--btn2);letter-spacing:.1em}
 .lobbytxt{position:absolute;left:calc(2.5% + 27em);right:3%;top:5.2em}
 .lobbytxt h1{font-family:var(--disp);font-weight:400;font-size:4.6em;line-height:1.1}
-.lobbytxt p{font-size:1.9em;font-weight:700;margin-top:.1em}
-.lobbytxt .mini{font-size:1.2em;color:var(--dim);margin-top:.4em}
+.lobbytxt p{font-size:2.3em;font-weight:700;margin-top:.1em}
+.lobbytxt .mini{font-size:1.6em;color:var(--dim);margin-top:.4em}
 .mini button{background:var(--paper);border:2px solid var(--line);border-radius:.5em;padding:.1em .7em;font-weight:900}
+.rot{display:none;position:fixed;left:0;right:0;bottom:0;z-index:80;background:var(--ink);color:#fff;text-align:center;padding:10px;font-size:16px;font-weight:800}
+@media (orientation:portrait){.rot{display:block}.host{font-size:1.75vw}}
 .toast{position:fixed;left:50%;top:1em;transform:translateX(-50%);z-index:70;background:var(--bad);color:#fff;font-weight:900;padding:.6em 1.2em;border-radius:2em;font-size:20px}
 
 /* ---------- 참가자 폰 ---------- */
-.ph{height:100%;display:flex;flex-direction:column;gap:8px;padding:12px max(16px,env(safe-area-inset-right)) calc(12px + env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left));max-width:520px;margin:0 auto;font-size:18px}
-.phtop{display:flex;align-items:center;gap:8px;font-weight:900;font-size:16px}
+.ph{height:100%;display:flex;flex-direction:column;gap:8px;padding:12px max(16px,env(safe-area-inset-right)) calc(12px + env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left));max-width:520px;margin:0 auto;font-size:20px}
+.phtop{display:flex;align-items:center;gap:8px;font-weight:900;font-size:19px}
 .me{background:var(--paper);border-radius:30px;padding:6px 14px;box-shadow:0 2px 0 var(--line)}
 .tbadge{margin-left:auto;background:var(--tc,#ccc);color:#fff;border-radius:30px;padding:6px 14px}
 .phmain{flex:1;display:flex;flex-direction:column;justify-content:center;gap:12px;min-height:0;overflow:auto;padding:6px 0}
-.ph h2{font-family:var(--disp);font-weight:400;font-size:36px;line-height:1.2}
-.ph .lead{font-size:20px;line-height:1.6;font-weight:700}
-.ph .hint{font-size:16px;color:var(--dim);text-align:center;font-weight:700}
+.ph h2{font-family:var(--disp);font-weight:400;font-size:38px;line-height:1.2}
+.ph .lead{font-size:23px;line-height:1.6;font-weight:700}
+.ph .hint{font-size:19px;color:var(--dim);text-align:center;font-weight:700}
 .pbtn{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;text-align:left;width:100%;background:var(--paper);border:4px solid var(--line);border-radius:22px;padding:18px 16px;transition:transform .12s;box-shadow:0 5px 0 #3b322822}
 .pbtn:active{transform:scale(.96)}
 .pbtn .em{font-size:48px}
-.pbtn h3{font-family:var(--disp);font-weight:400;font-size:29px;color:var(--oc);line-height:1.15}
-.pbtn p{font-size:16px;color:var(--dim);margin-top:2px;font-weight:700}
+.pbtn h3{font-family:var(--disp);font-weight:400;font-size:31px;color:var(--oc);line-height:1.15}
+.pbtn p{font-size:20px;color:var(--dim);margin-top:2px;font-weight:700}
 .pbtn.sel{border-color:var(--oc);background:#fff3d6}
 .pbtn.dimmed{opacity:.45}
 .zbar{position:relative;height:1.3em;background:#3b322822;border-radius:.7em;margin:.55em .2em}
@@ -165,27 +168,27 @@ button{font:inherit;color:inherit;border:0;cursor:pointer;background:none}
 .tapb{width:min(74vw,300px);height:min(74vw,300px);border-radius:50%;background:var(--btn);color:#fff;font-family:var(--disp);font-size:44px;box-shadow:0 12px 0 var(--btn2);margin:14px auto;display:block;touch-action:manipulation;user-select:none;-webkit-user-select:none;flex:none}
 .tapb{-webkit-touch-callout:none;touch-action:none}.tapb.on{transform:translateY(8px);box-shadow:0 4px 0 var(--btn2);background:#5d9147}
 .tapb:active{transform:translateY(8px);box-shadow:0 4px 0 var(--btn2)}.tapb:disabled{opacity:.45}
-.rush{position:absolute;left:8%;right:8%;top:7em;background:var(--paper);border:.2em solid var(--ink);border-radius:1.6em;padding:1em 1.6em 1.3em;text-align:center;box-shadow:0 .5em 0 #3b322833}
-.rush h2{font-size:3em;margin:0}.rush p{font-size:1.7em;margin:.2em 0;color:var(--dim)}
+.rush{position:absolute;left:6%;right:6%;top:7.7em;background:var(--paper);border:.2em solid var(--ink);border-radius:1.6em;padding:1em 1.6em 1.3em;text-align:center;box-shadow:0 .5em 0 #3b322833}
+.rush h2{font-size:3.4em;margin:0}.rush p{font-size:2.1em;margin:.2em 0;color:var(--dim)}
 .rush .rem{font-size:6em;line-height:1.15;display:inline-block;transition:transform .25s cubic-bezier(.2,1.6,.4,1)}
 .rush .rb{position:relative;height:2.6em;background:#3b32281f;border-radius:1.3em;overflow:hidden;margin:.5em 0 .2em}
 .rush .rb s{position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(90deg,#e0b45c,#c9763f);transition:width .25s linear}
-.rush .rb b{position:absolute;inset:0;display:grid;place-items:center;font-size:1.5em;font-weight:900}
+.rush .rb b{position:absolute;inset:0;display:grid;place-items:center;font-size:1.8em;font-weight:900}
 .rush .big{font-family:var(--disp);font-size:3.4em;color:var(--btn2)}
 .ptimer{height:10px;background:#3b32281f;border-radius:8px;overflow:hidden;flex:none}
 .ptimer s{display:block;height:100%;background:var(--btn);border-radius:8px;transition:width .25s linear}
 .bigem{font-size:84px;text-align:center;animation:floaty 3s infinite ease-in-out}
 .cta{font-family:var(--disp);font-size:26px;background:var(--btn);color:#fff;padding:14px;border-radius:18px;box-shadow:0 5px 0 var(--btn2);width:100%;flex:none}
 .cta:active{transform:translateY(3px);box-shadow:0 2px 0 var(--btn2)}
-.ghost{background:var(--paper);border:3px solid var(--line);border-radius:14px;padding:10px;font-weight:900;width:100%}
+.ghost{background:var(--paper);border:3px solid var(--line);border-radius:14px;padding:10px;font-weight:900;width:100%;font-size:18px}
 .pg{background:var(--paper);border-radius:16px;padding:12px 14px;display:flex;justify-content:space-around;font-weight:900;font-size:20px}
 .card{border-radius:24px;padding:26px 20px;text-align:center;color:#fff;box-shadow:0 10px 0 #3b322833;animation:flipin .8s both}
 .card .em{font-size:80px}
 .card h2{color:#fff;font-size:40px;margin-top:4px}
-.card h4{font-size:20px;font-weight:900}
-.card p{font-size:19px;line-height:1.6;margin-top:10px;font-weight:700}
+.card h4{font-size:22px;font-weight:900}
+.card p{font-size:22px;line-height:1.6;margin-top:10px;font-weight:700}
 .card .tags{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
-.card .tags span{background:#0003;border-radius:20px;padding:4px 12px;font-weight:900;font-size:16px}
+.card .tags span{background:#0003;border-radius:20px;padding:4px 12px;font-weight:900;font-size:19px}
 .back{border-radius:24px;padding:60px 20px;text-align:center;background:repeating-linear-gradient(45deg,#fff3d6,#fff3d6 14px,var(--paper) 14px,var(--paper) 28px);border:4px solid var(--btn);width:100%}
 .land{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:24px;text-align:center}
 .land input{font:inherit;font-size:28px;text-align:center;letter-spacing:.2em;text-transform:uppercase;width:240px;padding:12px;border-radius:14px;border:3px solid var(--line);background:var(--paper);color:var(--ink)}
@@ -195,19 +198,19 @@ button{font:inherit;color:inherit;border:0;cursor:pointer;background:none}
 .sw{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
 .sw button{width:38px;height:38px;border-radius:50%;border:4px solid #fff;box-shadow:0 0 0 2px var(--line)}
 .sw button.on{box-shadow:0 0 0 4px var(--ink)}
-.lbl{font-weight:900;font-size:15px;color:var(--dim)}
+.lbl{font-weight:900;font-size:18px;color:var(--dim)}
 .tbs{display:flex;gap:6px}
 .tbs button{flex:1;background:var(--paper);border:3px solid var(--line);border-radius:12px;padding:8px 0;font-family:var(--disp);font-size:22px}
 .tbs button.on{border-color:var(--tc);background:var(--tc);color:#fff}
-.gbar{position:relative;height:30px;background:var(--paper);border:3px solid var(--ink);border-radius:20px;overflow:hidden;flex:none}
+.gbar{position:relative;height:38px;background:var(--paper);border:3px solid var(--ink);border-radius:20px;overflow:hidden;flex:none}
 .gbar s{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,#8fb47a,#e0b45c)}
-.gbar b{position:absolute;inset:0;display:grid;place-items:center;font-size:15px;font-weight:900}
+.gbar b{position:absolute;inset:0;display:grid;place-items:center;font-size:19px;font-weight:900}
 #pv{display:block;margin:0 auto;flex:none}
 .pad{position:relative;background:linear-gradient(#e3cfab,#ecdcc0);border:4px solid var(--ink);border-radius:18px;height:200px;touch-action:none;overflow:hidden;flex:none}
 .pad i{position:absolute;font-style:normal;font-size:34px;transform:translate(-50%,-70%);transition:left .5s,top .5s;pointer-events:none}
-.pad em{position:absolute;left:8px;top:6px;font-style:normal;font-size:14px;font-weight:900;color:#3b322899;pointer-events:none}
+.pad em{position:absolute;left:8px;top:6px;font-style:normal;font-size:17px;font-weight:900;color:#3b322899;pointer-events:none}
 .emo{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;flex:none}
-.emo button{background:var(--paper);border:3px solid var(--line);border-radius:12px;padding:6px 2px;font-weight:900;font-size:14px}
+.emo button{background:var(--paper);border:3px solid var(--line);border-radius:12px;padding:7px 2px;font-weight:900;font-size:17px}
 .emo button:active{background:#fff3d6;transform:scale(.95)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
@@ -2595,6 +2598,7 @@ const rnd=n=>Math.floor(Math.random()*n), pickOne=a=>a[rnd(a.length)];
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const LS={get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
 function uid(){return Math.random().toString(36).slice(2,10)}
+const gainHtml=d=>d.map((v,i)=>v>0?GN[i]:'').filter(Boolean).join(' · ');
 function deltaHtml(d){return d.map((v,i)=>v?`<span class="${v>0?'plus':'minus'}">${GN[i]} ${v>0?'+':''}${v}</span>`:'').filter(Boolean).join(' &nbsp; ')}
 const EFONT='"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
 
@@ -2661,7 +2665,7 @@ const World=(()=>{const cv=$('#world'),x=cv.getContext('2d');let W=0,H=0,dpr=1,o
   const list=Object.values(A);for(const a of list){const dx=a.tx-a.x,dy=a.ty-a.y,d=Math.hypot(dx,dy);const sp=.42*dt;if(d>.004){a.walk=true;a.x+=dx/d*Math.min(sp,d);a.y+=dy/d*Math.min(sp,d)}else a.walk=false;if(a.jump>0)a.jump-=dt}
   list.sort((p,q)=>p.y-q.y);const U=Math.min(W*.066,H*.118);
   for(const a of list){const p=proj(a.x,a.y),u=U*p.s;const hy=drawAv(x,p.X,p.Y,u,a,t);
-   x.font=`700 ${Math.max(13,u*.27)}px "Noto Sans KR",sans-serif`;const tw=x.measureText(a.name).width+u*.3,th=Math.max(18,u*.36);x.fillStyle='rgba(255,250,240,.92)';rr(x,p.X-tw/2,p.Y+u*.14,tw,th,th/2);x.fill();if(a.tc){x.lineWidth=3;x.strokeStyle=a.tc;x.stroke()}x.fillStyle='#3b3228';x.textAlign='center';x.textBaseline='middle';x.fillText(a.name,p.X,p.Y+u*.14+th/2+1);
+   x.font=`700 ${Math.max(13,u*.3)}px "Noto Sans KR",sans-serif`;const tw=x.measureText(a.name).width+u*.3,th=Math.max(18,u*.4);x.fillStyle='rgba(255,250,240,.92)';rr(x,p.X-tw/2,p.Y+u*.14,tw,th,th/2);x.fill();if(a.tc){x.lineWidth=3;x.strokeStyle=a.tc;x.stroke()}x.fillStyle='#3b3228';x.textAlign='center';x.textBaseline='middle';x.fillText(a.name,p.X,p.Y+u*.14+th/2+1);
    if(a.badge){x.font=`${u*.42}px ${EFONT}`;x.fillText(a.badge,p.X-u*.5,hy-u*.3)}}
   for(const a of list){if(a.bub&&now<a.bubT){const p=proj(a.x,a.y),u=U*p.s;const hy=p.Y-u*1.05;x.font=`700 ${Math.max(16,u*.38)}px "Noto Sans KR",${EFONT}`;const bw=x.measureText(a.bub).width+u*.5,bh=Math.max(26,u*.62),by=hy-u*1.25;x.fillStyle='#fffdf6';rr(x,p.X-bw/2,by,bw,bh,bh*.4);x.fill();x.lineWidth=3;x.strokeStyle='#3b3228';x.stroke();x.beginPath();x.moveTo(p.X-8,by+bh-1);x.lineTo(p.X,by+bh+12);x.lineTo(p.X+8,by+bh-1);x.fillStyle='#fffdf6';x.fill();x.fillStyle='#3b3228';x.textAlign='center';x.textBaseline='middle';x.fillText(a.bub,p.X,by+bh/2+1)}}
   requestAnimationFrame(frame)}
@@ -2727,7 +2731,7 @@ function hostMain(){
  function pickCaps(){G.caps=[];for(let t=0;t<G.nT;t++){const m=teamOf(t);if(!m.length){G.caps.push(null);continue}const act=m.filter(p=>P[p].picks[G.ch]);const pool=(act.length?act:m);const fresh=pool.filter(p=>!P[p].wasCap);const c=pickOne(fresh.length?fresh:pool);P[c].wasCap=1;G.caps.push(c)}}
  function addPts(t,n){if(t>=0)G.contrib[t]=(G.contrib[t]||0)+n;G.score=Math.max(0,G.score+n)}
  function next(){SFX.unlock();const ph=G.phase;
-  if(ph==='lobby'){if(!pids().length){toast('참가자가 아직 없습니다');return}for(const p of pids())assign(p);G.score=0;G.contrib=Array(G.nT).fill(0);G.goal=Math.max(1,Math.round(liveTeams().length*5*2.8));setPhase('intro');SFX.alarm()}
+  if(ph==='lobby'){if(!pids().length){toast('참가자가 아직 없습니다');return}for(const p of pids())assign(p);G.score=0;G.contrib=Array(G.nT).fill(0);G.goal=Math.max(1,Math.round(liveTeams().length*5*3.2));setPhase('intro');SFX.alarm()}
   else if(ph==='intro'){G.ch=0;startPick()}
   else if(ph==='pick'){lockPick()}
   else if(ph==='reveal'){G.tdec=Array(G.nT).fill(null);pickCaps();setPhase('team',TEAM_SEC);SFX.steps()}
@@ -2743,9 +2747,9 @@ function hostMain(){
  }
  function startPick(){G.counts=[0,0];G.ans=0;setPhase('pick',PICK_SEC);SFX.alarm();shake()}
  function lockPick(){recount();for(const p of pids()){L[p]=L[p]||{};if(P[p].picks[G.ch])L[p][G.ch]=P[p].picks[G.ch]}G.hist[G.ch]=G.counts.slice();G.tsp=[];for(let t=0;t<G.nT;t++){const m=teamOf(t);G.tsp.push([m.filter(p=>P[p].picks[G.ch]==='A').length,m.filter(p=>P[p].picks[G.ch]==='B').length])}setPhase('reveal');SFX.steps();setTimeout(()=>SFX.ok(),1900)}
- function resolve(){const c=CH[G.ch];G.out=[];G.zone=[];G.auto=[];for(let t=0;t<G.nT;t++){G.out.push(null);if(!teamOf(t).length){G.zone.push(null);G.auto.push(false);continue}let auto=false;if(!G.tdec[t]){G.tdec[t]=Math.random()<.5?'A':'B';auto=true}G.auto.push(auto);const w=Math.round(c[G.tdec[t]].p*.45);G.zone.push([5+rnd(90-w),w])}
+ function resolve(){const c=CH[G.ch];G.out=[];G.zone=[];G.auto=[];for(let t=0;t<G.nT;t++){G.out.push(null);if(!teamOf(t).length){G.zone.push(null);G.auto.push(false);continue}let auto=false;if(!G.tdec[t]){G.tdec[t]=Math.random()<.5?'A':'B';auto=true}G.auto.push(auto);const w=32;G.zone.push([5+rnd(90-w),w])}
   G.tdh[G.ch]=G.tdec.slice();setPhase('stop',STOP_SEC);SFX.alarm()}
- function stopAt(t,v,byDice){if(G.out[t]||!G.zone[t])return;const z=G.zone[t],o=CH[G.ch][G.tdec[t]],ok=v>=z[0]&&v<=z[0]+z[1];G.out[t]={k:G.tdec[t],roll:Math.round(v),ok,auto:G.auto[t],dice:!!byDice,pt:ok?okPts(o):1};if(!byDice){SFX.sel();teamOf(t).forEach(p=>World.jump(p,1.2))}}
+ function stopAt(t,v,byDice){if(G.out[t]||!G.zone[t])return;const z=G.zone[t],o=CH[G.ch][G.tdec[t]],ok=v>=z[0]&&v<=z[0]+z[1];G.out[t]={k:G.tdec[t],roll:Math.round(v),ok,auto:G.auto[t],dice:!!byDice,pt:ok?3:2};if(!byDice){SFX.sel();teamOf(t).forEach(p=>World.jump(p,1.2))}}
  function settle(){for(const t of liveTeams()){if(!G.out[t])stopAt(t,rnd(101),true);addPts(t,G.out[t].pt)}setPhase('outcome')}
  function startRush(){const k=EV_AFTER.indexOf(G.ch);G.rush={k,hold:!!RUSH[k].hold,goal:RUSH[k].hold?100:Math.max(40,pids().length*RUSH_PER),total:0,now:0,by:Array(G.nT).fill(0),go:false,done:false,pt:0};for(const p of pids()){P[p].tap=null;P[p].hold=null}setPhase('rush',4);SFX.alarm();shake()}
  function rushTick(){const R=G.rush;if(!R||R.done)return;if(!R.go){if(Date.now()>=deadline){R.go=true;G.dur=(R.hold?HOLD_SEC:RUSH_SEC)*1000;deadline=Date.now()+G.dur;pub();render(true);SFX.ok()}return}
@@ -2774,11 +2778,11 @@ function hostMain(){
  const colX=(i,n)=>(i+.5)/n;
  function layout(){const ph=G.phase,ids=pids().sort(),list=[],rugs=[];const live=liveTeams();
   const put=(p,xy,extra)=>list.push(Object.assign({id:p,name:P[p].n,av:P[p].av,tx:xy[0],ty:xy[1],tc:TEAMS[G.teams[p]].c},extra||{}));
-  const tables=(y0,ry,rh,fx)=>live.forEach((t,k)=>{const m=teamOf(t).sort();m.forEach((p,i)=>put(p,slot(colX(k,live.length),y0,m.length,i,2,.1,.125),fx?fx(p,t):null));rugs.push({x:colX(k,live.length),y:ry,w:.9/live.length,h:rh,c:TEAMS[t].c})});
-  if(ph==='lobby'){const yMax=ph==='intro'?.5:.95,yMin=ph==='intro'?.06:.36;for(const p of ids)put(p,[(ph==='intro'?.08:.42)+P[p].pos[0]*(ph==='intro'?.84:.54),yMin+P[p].pos[1]*(yMax-yMin)])}
-  else if(ph==='intro')tables(.3,.42,.46);
-  else if(ph==='pick')tables(.3,.42,.46,p=>({badge:P[p].picks[G.ch]?'✅':''}));
-  else if(ph==='reveal')tables(.3,.42,.46,p=>{const v=(L[p]||{})[G.ch];return v?{badge:CH[G.ch][v].e,tc:OC[v]}:null});
+  const tables=(y0,ry,rh,fx,span)=>live.forEach((t,k)=>{const m=teamOf(t).sort();m.forEach((p,i)=>put(p,[colX(k,live.length)+(m.length>1?(i%2?1:-1)*Math.min(.055,.2/live.length):0),y0+i*Math.min(.075,(span||.34)/Math.max(1,m.length-1))],fx?fx(p,t):null));rugs.push({x:colX(k,live.length),y:ry,w:.9/live.length,h:rh,c:TEAMS[t].c})});
+  if(ph==='lobby'){const yMax=ph==='intro'?.5:.95,yMin=ph==='intro'?.06:.5;for(const p of ids)put(p,[(ph==='intro'?.08:.42)+P[p].pos[0]*(ph==='intro'?.84:.54),yMin+P[p].pos[1]*(yMax-yMin)])}
+  else if(ph==='intro')tables(.36,.46,.4,null,.2);
+  else if(ph==='pick')tables(.36,.46,.4,p=>({badge:P[p].picks[G.ch]?'✅':''}),.2);
+  else if(ph==='reveal')tables(.36,.46,.4,p=>{const v=(L[p]||{})[G.ch];return v?{badge:CH[G.ch][v].e,tc:OC[v]}:null},.2);
   else if(ph==='gather'||ph==='debrief'||ph==='orgmap'){const used=[0,1,2,3,4].filter(i=>i<4||G.end.col[i]);used.forEach((ci,k)=>{const m=ids.filter(p=>colorOf(L[p]||{})===ci);const y0=(ph!=='gather')?.84:.42;m.forEach((p,i)=>put(p,slot(colX(k,used.length),y0,m.length,i,(ph!=='gather')?5:2,(ph!=='gather')?.045:.1,.125),{tc:COLORS[ci].c}));rugs.push({x:colX(k,used.length),y:(ph!=='gather')?.88:.66,w:.9/used.length,h:(ph!=='gather')?.22:.62,c:COLORS[ci].c})})}
   else tables(.58,.68,.5,(p,t)=>({crown:(ph==='team'||ph==='stop')&&G.caps[t]===p}));
   World.sync(list);World.set({rugs,board:ph==='lobby'?'':['ending','colors','gather','orgmap','debrief'].includes(ph)?'':(ph==='pick'||ph==='reveal'||ph==='intro')?'':''})}
@@ -2793,14 +2797,14 @@ function hostMain(){
   if(G.phase==='lobby'){nextLabel='게임 시작 ▶';
    st=`<div class="qrpanel">${cli&&cli.connected?qrSvg(joinUrl()):'<p style="padding:5em 1em">연결 중…</p>'}<p>참가 코드 <span>${G.room}${G.b}</span></p></div>
    <div class="lobbytxt"><h1>D-1 사무실 대작전</h1><p>QR을 찍고, 안내받은 조 번호를 고른 뒤 캐릭터를 만들어 주세요. <span style="color:var(--btn2)">${pids().length}명 입장</span></p>
-   <p class="mini">조 개수 <button data-a="tm-">−</button> <b>${G.nT}</b> <button data-a="tm+">＋</button> &nbsp; 가까이 앉은 3~4명(테이블·줄)이 한 조. 번호를 알려 주세요. &nbsp; ${Array.from({length:G.nT},(_,t)=>TEAMS[t].e+teamOf(t).length).join(' ')}</p></div>`}
+   <p class="mini">조 개수 <button data-a="tm-">−</button> <b>${G.nT}</b> <button data-a="tm+">＋</button> &nbsp; 가까이 앉은 3~4명이 한 조 &nbsp; ${Array.from({length:G.nT},(_,t)=>TEAMS[t].e+teamOf(t).length).join(' ')}</p></div>`}
   else if(G.phase==='intro'){nextLabel='1장 시작 ▶';st=dlg('','장면마다 ① 각자 폰으로 선택 → ② 우리 테이블은 어떻게 갈렸나 → ③ 이유를 듣고 조의 결정 → ④ 타이밍 멈추기. 모든 조의 결과가 위 게이지에 모입니다.')}
   else if(G.phase==='pick'){nextLabel='선택 마감 ▶';st=`<div class="signs">${signHtml('A')}<div class="timer" id="tm"></div>${signHtml('B')}</div><div class="pips"><span id="ansn"></span></div>${dlg('',`${G.ch+1}장. ${c.title} · 나라면 어떻게 할까요? 폰에서 골라 주세요.`)}`}
   else if(G.phase==='reveal'){nextLabel='조 회의 ▶';const [a,b]=G.counts,tot=a+b||1,gap=Math.abs(a-b)/tot;
    const cap=gap<=.2?'거의 반반이네요! 같은 상황인데 첫 수가 갈렸어요.':gap>=.7?`한쪽으로 쏠렸네요! 그래도 ${Math.min(a,b)}명은 다른 길을 봤어요.`:'갈렸네요. 내 옆자리는 어느 쪽이었을까요?';
    st=`<div class="signs">${signHtml('A',1)}<div></div>${signHtml('B',1)}</div>${dlg(cap,'캐릭터 머리 위 표시를 보세요. 우리 조 안에서는 어떻게 갈렸나요? 정답은 없어요.')}`}
   else if(G.phase==='team'){nextLabel='결과 보기 ▶';st=`<div class="banner"><div class="timer" id="tm"></div><div>조 회의! <small>다르게 고른 이유를 서로 듣고, 조의 선택을 정하세요</small></div></div><div class="cols" id="tiles"></div>${strip()}`}
-  else if(G.phase==='stop'){nextLabel='결과 보기 ▶';st=`<div class="banner"><div class="timer" id="tm"></div><div>타이밍 멈추기! <small>결정권자는 폰에서 바늘을 초록 구간에 멈추세요. 빗나가도 준비도 +1, 조원들은 응원!</small></div></div><div class="cols" id="tiles"></div>${strip()}`}
+  else if(G.phase==='stop'){nextLabel='결과 보기 ▶';st=`<div class="banner"><div class="timer" id="tm"></div><div>타이밍 멈추기! <small>초록 구간에 멈추면 보너스 +1! 조원들은 응원</small></div></div><div class="cols" id="tiles"></div>${strip()}`}
   else if(G.phase==='rush'){const R=G.rush,r=RUSH[R.k];nextLabel=R.done?(G.ch<4?'다음 장 ▶':'엔딩 ▶'):R.go?'바로 끝내기 ▶':'';
    st=`<div class="rush pop"><h2>🚨 돌발 미션: ${r.t}</h2><p>${r.m}</p><div style="height:${R.done?5:8.5}em;display:grid;place-items:center"><span class="rem" id="rem" style="font-size:${R.done?4:4.6}em">${r.e}</span></div>${R.done?`<div class="big">${R.full?'미션 성공! ':'여기까지! '}🎯 준비도 +${R.pt}</div><p>${R.hold?(R.full?'끝까지 함께 버텼어요!':'현수막 '+Math.round(R.total)+'%까지 올렸어요!'):'모두 합쳐 '+R.total+'번! '+liveTeams().map(t=>TEAMS[t].e+' '+(R.by[t]||0)).join(' &nbsp; ')}</p>`:R.go?`<div class="rb"><s id="rbs"></s><b id="rbb"></b></div><p>남은 시간 <b id="tm" style="color:var(--btn2)"></b>초 &nbsp; ${R.hold?'떼지 말고 꾹! 다 같이 누르면 더 빨라요':'지금 폰을 마구 눌러 주세요!'}</p>`:`<div class="big">준비… <span id="tm"></span></div><p>폰을 손에 들고 기다려 주세요</p>`}</div>`}
   else if(G.phase==='outcome'){nextLabel=(EV_AFTER.includes(G.ch)?'돌발 미션 ▶':G.ch<4?'다음 장 ▶':'엔딩 ▶');st=`<div class="cols hi" id="tiles"></div><div id="stripbox"></div>`}
@@ -2810,7 +2814,7 @@ function hostMain(){
   else if(G.phase==='colors'){nextLabel='색깔별로 모이기 ▶';const tot=pids().length||1;st=`<div class="panel"><h2>오늘 우리 조직의 업무 색깔</h2><p class="lead">폰에서 내 카드를 뒤집어 보세요.</p>${COLORS.map((c,i)=>G.end.col[i]||i<4?`<div class="cb"><span>${c.e} ${c.n} <small>${c.r}</small></span><u><s data-w="${G.end.col[i]/tot*100}" style="background:${c.c}"></s></u><b>${G.end.col[i]}명</b></div>`:'').join('')}</div>`}
   else if(G.phase==='gather'){nextLabel='돌아보기 ▶';const used=[0,1,2,3,4].filter(i=>i<4||G.end.col[i]);st=`<div class="banner">조는 달라도 오늘 같은 길을 고른 사람들이에요</div><div class="zlabels">${used.map(i=>`<div style="--zc:${COLORS[i].c}">${COLORS[i].e} ${COLORS[i].n}<small>${COLORS[i].r} · ${G.end.col[i]}명</small></div>`).join('')}</div>`}
   else if(G.phase==='orgmap'){nextLabel='돌아보기 ▶';let mo=-1,le=-1,mg=-1,lg=2;G.hist.forEach((h,i)=>{if(!h||!(h[0]+h[1]))return;const g=Math.abs(h[0]-h[1])/(h[0]+h[1]);if(g>mg){mg=g;mo=i}if(g<lg){lg=g;le=i}});
-   st=`<div class="panel pop" style="left:4%;right:4%;top:5.6em"><h2>오늘의 우리 조직 지도 <small style="font-size:.5em;color:var(--dim)">같은 상황, ${pids().length}명의 첫 선택</small></h2><div class="omap">${CH.map((c,i)=>{const h=G.hist[i]||[0,0],n=(h[0]+h[1])||1;return `<div class="orow"><div class="ot">${i+1}장 ${c.title}${i===le?'<em>가장 팽팽</em>':i===mo?'<em class="m">가장 쏠림</em>':''}</div><div class="ol" style="color:${OC.A}">${c.A.e} ${c.A.t}</div><b style="color:${OC.A}">${h[0]}</b><div class="ob"><s style="width:${h[0]/n*100}%;background:${OC.A}"></s><s style="width:${h[1]/n*100}%;background:${OC.B}"></s></div><b style="color:${OC.B}">${h[1]}</b><div class="or" style="color:${OC.B}">${c.B.e} ${c.B.t}</div></div>`}).join('')}</div>
+   st=`<div class="panel pop" style="left:2%;right:2%;top:7.4em;padding:.6em 1.2em"><h2 style="font-size:2.6em">오늘의 우리 조직 지도 <small style="font-size:.5em;color:var(--dim)">같은 상황, ${pids().length}명의 첫 선택</small></h2><div class="omap">${CH.map((c,i)=>{const h=G.hist[i]||[0,0],n=(h[0]+h[1])||1;return `<div class="orow"><div class="ot">${i+1}장 ${c.title}${i===le?'<em>가장 팽팽</em>':i===mo?'<em class="m">가장 쏠림</em>':''}</div><div class="ol" style="color:${OC.A}">${c.A.e} ${c.A.t}</div><b style="color:${OC.A}">${h[0]}</b><div class="ob"><s style="width:${h[0]/n*100}%;background:${OC.A}"></s><s style="width:${h[1]/n*100}%;background:${OC.B}"></s></div><b style="color:${OC.B}">${h[1]}</b><div class="or" style="color:${OC.B}">${c.B.e} ${c.B.t}</div></div>`}).join('')}</div>
    <div class="ocol">${[0,1,2,3,4].filter(i=>G.end.col[i]).map(i=>`<span style="background:${COLORS[i].c}">${COLORS[i].e} ${COLORS[i].n} ${G.end.col[i]}명</span>`).join('')}</div>
    <div class="says"><p>우리 조직은 어떤 순간에 한쪽으로 쏠리고, 어떤 순간에 갈렸나요? 실제 업무에서도 그런가요?</p></div></div>`}
   else if(G.phase==='debrief'){nextLabel='';let most=0,least=0,mg=-1,lg=2;G.hist.forEach((h,i)=>{if(!h)return;const g=Math.abs(h[0]-h[1])/((h[0]+h[1])||1);if(g>mg){mg=g;most=i}if(g<lg){lg=g;least=i}});
@@ -2823,7 +2827,7 @@ function hostMain(){
   app.innerHTML=`<div class="host"><div class="top"><div class="logo">D-1 사무실 대작전</div>${G.phase!=='lobby'?`<div class="clock">${endPh?'D-DAY':c.time}</div>`:''}
    <div class="dots">${CH.map((_,i)=>`<b class="${G.phase==='lobby'||G.phase==='intro'?'':i<G.ch||endPh?'done':i===G.ch?'now':''}"></b>`).join('')}</div>
    <div class="roomtag">참가 코드 <span>${G.room}${G.b}</span> · ${pids().length}명</div>${nextLabel?`<button class="next" data-a="next">${nextLabel}</button>`:''}</div>${G.phase==='lobby'?'':`<div id="goalbox">${goalBar()}</div>`}${st}</div>
-   <div class="ctrl"><button data-a="snd">🔊 소리</button><button data-a="full">⛶ 전체화면</button><button data-a="bot">🤖 연습용 봇 +5</button><button data-a="reset">↺ 새 게임</button></div>`;
+   <div class="rot">강사 화면은 가로 화면용입니다. 노트북으로 열거나 폰을 가로로 돌려 주세요.</div><div class="ctrl"><button data-a="gear">⚙</button><button data-a="snd">🔊 소리</button><button data-a="full">⛶ 전체화면</button><button data-a="bot">🤖 연습용 봇 +5</button><button data-a="reset">↺ 새 게임</button></div>`;
   after();upd()}
  function after(){const c=CH[G.ch]||CH[0];
   if(G.phase==='intro')typeInto($('#tw'),'큰일 났어요! 내일이 "'+EVT+'" 행사인데 방금 전화 한 통이 왔어요. 오늘 밤 안에 다 같이 준비도 100%를 채워야 해요!');
@@ -2840,12 +2844,12 @@ function hostMain(){
   if(G.phase==='rush'&&G.rush){const R=G.rush,b=$('#rbs'),t=$('#rbb'),e=$('#rem'),q=clamp(R.total/R.goal,0,1);if(b)b.style.width=q*100+'%';if(t)t.textContent=R.hold?Math.round(R.total)+'%  ·  지금 누르는 중 '+R.now+' / '+pids().length+'명':R.total+' / '+R.goal;if(e)e.style.transform='scale('+(R.done?1:R.go?.6+q*1.1:1)+')'}
   if(G.phase==='stop'){const el=$('#tiles');if(el){let h='';for(const t of liveTeams()){const cp=P[G.caps[t]],z=G.zone[t]||[0,0],op=CH[G.ch][G.tdec[t]],d=G.out[t];h+=tileBase(t,`<div class="pick" style="color:${OC[G.tdec[t]]}">${op.e} ${op.t}</div><div class="zbar"><i style="left:${z[0]}%;width:${z[1]}%"></i>${d?'':'<u class="mv"></u>'}</div><div class="cap">👑 ${cp?ANI[cp.av[0]][1]+' '+esc(cp.n):'-'}</div><div class="st ${d?'ok':''}">${d?'✋ 멈췄다! 두근두근':'🎯 재는 중…'}</div>`)}if(el._h!==h){el._h=h;el.innerHTML=h}}}
   if(G.phase==='team'){const el=$('#tiles');if(el){let h='';for(const t of liveTeams()){const cp=P[G.caps[t]];h+=tileBase(t,`<div class="split"><span style="color:${OC.A}">${CH[G.ch].A.e} ${G.tsp[t]?G.tsp[t][0]:0}</span> &nbsp;:&nbsp; <span style="color:${OC.B}">${CH[G.ch].B.e} ${G.tsp[t]?G.tsp[t][1]:0}</span></div><div class="cap">👑 이번 결정권자<b>${cp?ANI[cp.av[0]][1]+' '+esc(cp.n):'-'}</b></div><div class="st ${G.tdec[t]?'ok':''}">${G.tdec[t]?'✔ 결정 완료':'💬 회의 중…'}</div>`)}if(el._h!==h){el._h=h;el.innerHTML=h}}}}
- function outcomeAnim(){const el=$('#tiles'),c=CH[G.ch];let h='';const live=liveTeams().filter(t=>G.out[t]);for(const t of live){const o=G.out[t],op=c[o.k];h+=`<div class="tile" data-t="${t}" style="--tc:${TEAMS[t].c}"><div class="pick"><span style="color:var(--ink)">${TEAMS[t].e}</span> <span style="color:${OC[o.k]}">${op.e} ${op.t}</span>${o.auto?' <small style="color:var(--dim);font-size:.6em">(자동)</small>':''}</div><div class="zbar" style="margin-right:7.8em"><i style="left:${G.zone[t][0]}%;width:${G.zone[t][1]}%"></i><u id="rl${t}"></u></div><div id="rs${t}"></div></div>`}el.innerHTML=h;
-  const seq=G.seq;live.forEach((t,i)=>{setTimeout(()=>{if(G.seq!==seq)return;SFX.roll();const r=$('#rl'+t);let n=0;const iv=setInterval(()=>{n++;if(r)r.style.left=rnd(100)+'%';if(n>16){clearInterval(iv);if(G.seq!==seq)return;const o=G.out[t],res=o.ok?c[o.k].ok:c[o.k].no;if(r)r.style.left=o.roll+'%';const rs=$('#rs'+t);if(rs)rs.innerHTML=`<div class="stampx ${o.ok?'ok':'no'}">${o.ok?'성공!':'삐끗!'}</div><div class="msg rise">${res[0]}</div><div class="delta rise">${ptHtml(o.pt)}</div>`;if(n>16&&live.indexOf(t)===live.length-1){const sb=$('#stripbox');if(sb)sb.innerHTML=strip();const gb=$('#goalbox');if(gb)gb.innerHTML=goalBar()}
+ function outcomeAnim(){const el=$('#tiles'),c=CH[G.ch];let h='';const live=liveTeams().filter(t=>G.out[t]);for(const t of live){const o=G.out[t],op=c[o.k];h+=`<div class="tile" data-t="${t}" style="--tc:${TEAMS[t].c}"><div class="pick"><span style="color:var(--ink)">${TEAMS[t].e}</span> <span style="color:${OC[o.k]}">${op.e} ${op.t}</span>${o.auto?' <small style="color:var(--dim);font-size:.6em">(자동)</small>':''}</div><div class="zbar"><i style="left:${G.zone[t][0]}%;width:${G.zone[t][1]}%"></i><u id="rl${t}"></u></div><div id="rs${t}"></div></div>`}el.innerHTML=h;
+  const seq=G.seq;live.forEach((t,i)=>{setTimeout(()=>{if(G.seq!==seq)return;SFX.roll();const r=$('#rl'+t);let n=0;const iv=setInterval(()=>{n++;if(r)r.style.left=rnd(100)+'%';if(n>16){clearInterval(iv);if(G.seq!==seq)return;const o=G.out[t],res=c[o.k].ok;if(r)r.style.left=o.roll+'%';const rs=$('#rs'+t);if(rs)rs.innerHTML=`<div class="msg rise">${res[0]}</div><div class="gain rise">이 선택이 준 것: ${gainHtml(res[1])}</div><div class="delta rise">${ptHtml(o.pt)}${o.ok?' <span class="bonus">타이밍 보너스!</span>':''}</div>`;if(n>16&&live.indexOf(t)===live.length-1){const sb=$('#stripbox');if(sb)sb.innerHTML=strip();const gb=$('#goalbox');if(gb)gb.innerHTML=goalBar()}
     if(o.ok){SFX.ok();teamOf(t).forEach(p=>World.jump(p,2));const tl=document.querySelector(`.tile[data-t="${t}"]`);if(tl){const b=tl.getBoundingClientRect();FX.burst(b.left+b.width/2,b.top+b.height/3)}}else{SFX.no();shake();teamOf(t).forEach(p=>World.say(p,'💦'))}}},70)},600+i*2100)})}
  function roulette(){const live=liveTeams(),tg=G.ev.tg,seq=G.seq;let i=0,steps=live.length*3+live.indexOf(tg);const go=()=>{if(G.seq!==seq)return;document.querySelectorAll('.strip div').forEach(e=>e.classList.remove('hit'));const t=live[i%live.length];const e=$('#tg'+t);if(e)e.classList.add('hit');SFX.tick();if(i>=steps){const w=$('#evwho');if(w)w.textContent=TEAMS[tg].e+' '+TEAMS[tg].n+' 덕분에!';SFX.ok();FX.confetti(60);teamOf(tg).forEach(p=>World.jump(p,2.5));return}i++;setTimeout(go,90+i*14)};setTimeout(go,900)}
  app.addEventListener('click',e=>{const a=e.target.closest('[data-a]');const tl=e.target.closest('.tile');
-  if(a){const k=a.dataset.a;if(k==='next')next();if(k==='snd')a.textContent=SFX.toggle()?'🔊 소리':'🔇 소리';if(k==='full'){try{document.documentElement.requestFullscreen()}catch(_){}}
+  if(a){const k=a.dataset.a;if(k==='next')next();if(k==='gear')a.parentNode.classList.toggle('open');if(k==='snd')a.textContent=SFX.toggle()?'🔊 소리':'🔇 소리';if(k==='full'){try{document.documentElement.requestFullscreen()}catch(_){}}
    if(k==='bot')addBots(5);if(k==='reset'){if(a.dataset.sure){LS.del('oa3_host');location.reload()}else{a.dataset.sure=1;a.textContent='한 번 더 누르면 초기화'}}
    if(k==='tm+'&&G.nT<6)setTables(G.nT+1);if(k==='tm-'&&G.nT>2)setTables(G.nT-1);return}
   if(tl&&G.phase==='team'){const t=+tl.dataset.t;if(!G.tdec[t]){const m=teamOf(t).filter(p=>p!==G.caps[t]);if(m.length){G.caps[t]=pickOne(m);pub();upd();layout();SFX.pop()}}}});
@@ -2904,12 +2908,12 @@ function playerMain(){
     if(isCap){emo=false;m=`<h2>👑 이번 결정권자는 나!</h2><p class="lead">우리 조는 ${c.A.e} ${(S.tsp&&S.tsp[t]||[0,0])[0]} : ${c.B.e} ${(S.tsp&&S.tsp[t]||[0,0])[1]}. 이유를 다 들은 뒤 <b>조의 선택</b>을 눌러 주세요.</p><div class="ptimer"><s id="pt"></s></div>${pbtn('A',done==='A'||me.dec[S.ch]==='A',done&&done!=='A','d')}${pbtn('B',done==='B'||me.dec[S.ch]==='B',done&&done!=='B','d')}<p class="hint">${me.dec[S.ch]?'조의 결정이 전달됐어요.':'한 번 누르면 확정돼요.'}</p>`}
     else{const sp=S.tsp&&S.tsp[t]||[0,0],uni=!sp[0]||!sp[1];m=`<h2 style="text-align:center">💬 조 회의 시간</h2><p class="lead" style="text-align:center">우리 조의 선택<br><b class="disp" style="font-size:34px"><span style="color:${OC.A}">${c.A.e} ${sp[0]}</span> : <span style="color:${OC.B}">${c.B.e} ${sp[1]}</span></b></p><p class="lead" style="text-align:center">${uni?'만장일치네요! 그래도 반대쪽을 고른다면 어떤 이유일지 이야기해 보세요.':'갈렸네요! 다르게 고른 사람의 이유를 한 명씩 들어 보세요.'}</p><div class="ptimer"><s id="pt"></s></div><p class="lead" style="text-align:center">결정권자: <b>${cn?esc(cn[1])+' '+esc(cn[0]):'-'}</b> ${done?'<br>✔ 조의 결정 완료':''}</p>`}}
    else if(ph==='stop'){const cap=S.caps&&S.caps[t],isCap=cap===me.id,z=(S.zone&&S.zone[t])||[0,0],d=S.out&&S.out[t],cn=cap&&S.roster&&S.roster[cap],op=c[S.tdec[t]]||c.A,mine=me.stop[S.ch];
-    if(isCap){emo=false;m=`<h2 style="text-align:center">🎯 타이밍 멈추기</h2><p class="lead" style="text-align:center">${op.e} ${op.t}<br>바늘이 <b style="color:#5d9147">초록 구간</b>에 올 때 멈추세요!<br><small style="color:var(--dim)">빗나가도 준비도는 +1 올라요</small></p><div class="zbar big"><i style="left:${z[0]}%;width:${z[1]}%"></i><u id="nd" style="left:${mine!=null?mine:d?d.roll:0}%"></u></div>${mine!=null||d?'<p class="lead" style="text-align:center">멈췄어요! 앞 화면에서 결과를 확인하세요.</p>':'<button class="tapb" id="stopb">멈춰!</button>'}`}
+    if(isCap){emo=false;m=`<h2 style="text-align:center">🎯 타이밍 멈추기</h2><p class="lead" style="text-align:center">${op.e} ${op.t}<br>바늘이 <b style="color:#5d9147">초록 구간</b>에 올 때 멈추세요!<br><small style="color:var(--dim)">어느 선택이든 준비도는 오르고, 맞추면 보너스 +1</small></p><div class="zbar big"><i style="left:${z[0]}%;width:${z[1]}%"></i><u id="nd" style="left:${mine!=null?mine:d?d.roll:0}%"></u></div>${mine!=null||d?'<p class="lead" style="text-align:center">멈췄어요! 앞 화면에서 결과를 확인하세요.</p>':'<button class="tapb" id="stopb">멈춰!</button>'}`}
     else m=`<div class="bigem">📣</div><h2 style="text-align:center">응원 타임!</h2><p class="lead" style="text-align:center">결정권자 <b>${cn?esc(cn[1])+' '+esc(cn[0]):'-'}</b>님이 타이밍을 재고 있어요.<br>${d?'✋ 멈췄어요! 앞 화면을 보세요.':'아래 말풍선으로 응원을 보내 주세요!'}</p><div class="zbar big"><i style="left:${z[0]}%;width:${z[1]}%"></i>${d?'':'<u class="mv" style="transition:none"></u>'}</div>`}
    else if(ph==='rush'){const R=S.rush,r=RUSH[R.k],n=me.tap&&me.tap[0]===R.k?me.tap[1]:0;emo=false;
     m=R.done?`<div class="bigem">${r.e}</div><h2 style="text-align:center">${R.full?'미션 성공!':'여기까지!'}</h2><p class="lead" style="text-align:center">${ptHtml(R.pt)}<br>${R.hold?'다 같이 버틴 결과예요!':`내가 보탠 연타 <b>${n}번</b>, 모두 합쳐 ${R.total}번`}</p>${myGauge()}`
      :`<h2 style="text-align:center">🚨 ${r.t}</h2><p class="lead" style="text-align:center">${R.go?(R.hold?'꾹 누른 채 버티세요! 떼면 느려져요':'지금! 마구 눌러 주세요!'):'준비… 곧 시작해요'}</p><button class="tapb ${R.hold&&me.hold&&me.hold[0]===R.k&&me.hold[1]?'on':''}" id="tapb" ${R.go?'':'disabled'}>${r.e}<br><span id="tapn">${R.go?(R.hold?'꾹!':n):'준비'}</span></button><div class="ptimer"><s id="pt"></s></div>`}
-   else if(ph==='outcome'){const o=S.out&&S.out[t];if(o){const op=c[o.k],r=o.ok?op.ok:op.no;m=`<p class="hint">우리 조의 선택: ${op.e} ${op.t}</p><div class="bigem" id="ob">🎯</div><div id="ores" hidden><h2 style="text-align:center;color:${o.ok?'var(--ok)':'var(--bad)'}">${o.ok?'성공!':'삐끗!'}</h2><p class="lead" style="text-align:center">${r[0]}</p><p class="lead" style="text-align:center">${ptHtml(o.pt)}</p></div>${myGauge()}`}else m=`<div class="bigem">👀</div><p class="lead" style="text-align:center">앞 화면을 봐 주세요.</p>`}
+   else if(ph==='outcome'){const o=S.out&&S.out[t];if(o){const op=c[o.k],r=op.ok;m=`<p class="hint">우리 조의 선택</p><div class="bigem" id="ob">🎯</div><div id="ores" hidden><h2 style="text-align:center;color:${OC[o.k]}">${op.e} ${op.t}</h2><p class="lead" style="text-align:center">${r[0]}</p><p class="lead" style="text-align:center">이 선택이 준 것: ${gainHtml(r[1])}<br>${ptHtml(o.pt)}${o.ok?' 타이밍 보너스!':''}</p></div>${myGauge()}`}else m=`<div class="bigem">👀</div><p class="lead" style="text-align:center">앞 화면을 봐 주세요.</p>`}
    else if(ph==='event'){const e=EV[S.ev.id],hit=S.ev.tg<0||S.ev.tg===t;m=`<div class="bigem">${e.e}</div><h2 style="text-align:center">${e.t}</h2><p class="lead" style="text-align:center">${e.m}</p><p class="lead" style="text-align:center">${e.all?'':hit?'🎉 우리 조 덕분에! ':TEAMS[S.ev.tg].n+' 덕분에! '}${ptHtml(S.ev.pt)}</p>${myGauge()}`}
    else if(ph==='ending'){const e=S.end||{};m=`<div class="bigem">🎊</div><h2 style="text-align:center">${e.tier||''}</h2><p class="lead" style="text-align:center"><b class="disp" style="font-size:48px;color:var(--btn2)">준비도 ${e.pct}%</b><br>우리 ${TEAMS[t].n}가 보탠 준비도 +${(S.contrib&&S.contrib[t])||0}</p>`}
    else{const col=COLORS[colorOf(me.picks)],same=S.end&&S.end.same&&S.end.same[me.id];
@@ -2918,7 +2922,7 @@ function playerMain(){
   }
   app.innerHTML=`<div class="ph">${S?head():''}<div class="phmain">${m}</div>${emo&&S?emoBar():''}${online?'':'<p class="hint">연결 중… 잠시만 기다려 주세요</p>'}${inApp&&(!online||!me.made)?'<p class="hint">연결이 자주 끊기면 크롬이나 사파리로 열어 주세요</p>':''}</div>`;
   drawPv();
-  if(S&&S.phase==='outcome'&&force){SFX.roll();setTimeout(()=>{const o=$('#ores'),b=$('#ob');if(o){o.hidden=false;if(b)b.hidden=true;const ok=S.out[myTeam()]&&S.out[myTeam()].ok;ok?SFX.ok():SFX.no();if(ok)FX.confetti(50)}},1800)}
+  if(S&&S.phase==='outcome'&&force){SFX.roll();setTimeout(()=>{const o=$('#ores'),b=$('#ob');if(o){o.hidden=false;if(b)b.hidden=true;const ok=S.out[myTeam()]&&S.out[myTeam()].ok;SFX.ok();if(ok)FX.confetti(50)}},1800)}
   else if(S&&S.phase==='outcome'){const o=$('#ores'),b=$('#ob');if(o){o.hidden=false;if(b)b.hidden=true}}
   upd()}
  function upd(){const nd=$('#nd');if(nd&&S&&S.phase==='stop'&&me.stop[S.ch]==null&&!(S.out&&S.out[myTeam()]))nd.style.left=needle()+'%';const pt=$('#pt');if(pt&&S&&S.dur)pt.style.width=clamp((deadline-Date.now())/S.dur*100,0,100)+'%'}
