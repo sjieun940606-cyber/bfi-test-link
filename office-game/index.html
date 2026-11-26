@@ -159,7 +159,7 @@ button{font:inherit;color:inherit;border:0;cursor:pointer;background:none}
 .zbar{position:relative;height:1.3em;background:#3b322822;border-radius:.7em;margin:.55em .2em}
 .zbar i{position:absolute;top:0;bottom:0;background:#7fb069;border-radius:.5em}
 .zbar u{position:absolute;top:-.4em;bottom:-.4em;width:.36em;margin-left:-.18em;background:var(--ink);border-radius:.2em;left:0;transition:left .07s linear}
-.zbar u.mv{animation:zmv .55s linear infinite alternate;transition:none}
+.zbar u.mv{animation:zmv .9s linear infinite alternate;transition:none}
 @keyframes zmv{from{left:0}to{left:100%}}
 .zbar.big{height:64px;border-radius:20px;margin:26px 0}.zbar.big i{border-radius:14px}.zbar.big u{width:12px;margin-left:-6px;transition:none}
 .tapb{width:min(74vw,300px);height:min(74vw,300px);border-radius:50%;background:var(--btn);color:#fff;font-family:var(--disp);font-size:44px;box-shadow:0 12px 0 var(--btn2);margin:14px auto;display:block;touch-action:manipulation;user-select:none;-webkit-user-select:none;flex:none}
@@ -2798,9 +2798,9 @@ function hostMain(){
   else if(G.phase==='pick'){nextLabel='선택 마감 ▶';st=`<div class="signs">${signHtml('A')}<div class="timer" id="tm"></div>${signHtml('B')}</div><div class="pips"><span id="ansn"></span></div>${dlg('',`${G.ch+1}장. ${c.title} · 나라면 어떻게 할까요? 폰에서 골라 주세요.`)}`}
   else if(G.phase==='reveal'){nextLabel='조 회의 ▶';const [a,b]=G.counts,tot=a+b||1,gap=Math.abs(a-b)/tot;
    const cap=gap<=.2?'거의 반반이네요! 같은 상황인데 첫 수가 갈렸어요.':gap>=.7?`한쪽으로 쏠렸네요! 그래도 ${Math.min(a,b)}명은 다른 길을 봤어요.`:'갈렸네요. 내 옆자리는 어느 쪽이었을까요?';
-   st=`<div class="signs">${signHtml('A',1)}<div></div>${signHtml('B',1)}</div>${dlg(cap,'캐릭터 머리 위 표시를 보세요. 우리 테이블 안에서는 어떻게 갈렸나요?')}`}
+   st=`<div class="signs">${signHtml('A',1)}<div></div>${signHtml('B',1)}</div>${dlg(cap,'캐릭터 머리 위 표시를 보세요. 우리 조 안에서는 어떻게 갈렸나요? 정답은 없어요.')}`}
   else if(G.phase==='team'){nextLabel='결과 보기 ▶';st=`<div class="banner"><div class="timer" id="tm"></div><div>조 회의! <small>다르게 고른 이유를 서로 듣고, 조의 선택을 정하세요</small></div></div><div class="cols" id="tiles"></div>${strip()}`}
-  else if(G.phase==='stop'){nextLabel='결과 보기 ▶';st=`<div class="banner"><div class="timer" id="tm"></div><div>타이밍 멈추기! <small>결정권자는 폰에서 바늘을 초록 구간에 멈추고, 조원들은 응원!</small></div></div><div class="cols" id="tiles"></div>${strip()}`}
+  else if(G.phase==='stop'){nextLabel='결과 보기 ▶';st=`<div class="banner"><div class="timer" id="tm"></div><div>타이밍 멈추기! <small>결정권자는 폰에서 바늘을 초록 구간에 멈추세요. 빗나가도 준비도 +1, 조원들은 응원!</small></div></div><div class="cols" id="tiles"></div>${strip()}`}
   else if(G.phase==='rush'){const R=G.rush,r=RUSH[R.k];nextLabel=R.done?(G.ch<4?'다음 장 ▶':'엔딩 ▶'):R.go?'바로 끝내기 ▶':'';
    st=`<div class="rush pop"><h2>🚨 돌발 미션: ${r.t}</h2><p>${r.m}</p><div style="height:${R.done?5:8.5}em;display:grid;place-items:center"><span class="rem" id="rem" style="font-size:${R.done?4:4.6}em">${r.e}</span></div>${R.done?`<div class="big">${R.full?'미션 성공! ':'여기까지! '}🎯 준비도 +${R.pt}</div><p>${R.hold?(R.full?'끝까지 함께 버텼어요!':'현수막 '+Math.round(R.total)+'%까지 올렸어요!'):'모두 합쳐 '+R.total+'번! '+liveTeams().map(t=>TEAMS[t].e+' '+(R.by[t]||0)).join(' &nbsp; ')}</p>`:R.go?`<div class="rb"><s id="rbs"></s><b id="rbb"></b></div><p>남은 시간 <b id="tm" style="color:var(--btn2)"></b>초 &nbsp; ${R.hold?'떼지 말고 꾹! 다 같이 누르면 더 빨라요':'지금 폰을 마구 눌러 주세요!'}</p>`:`<div class="big">준비… <span id="tm"></span></div><p>폰을 손에 들고 기다려 주세요</p>`}</div>`}
   else if(G.phase==='outcome'){nextLabel=(EV_AFTER.includes(G.ch)?'돌발 미션 ▶':G.ch<4?'다음 장 ▶':'엔딩 ▶');st=`<div class="cols hi" id="tiles"></div><div id="stripbox"></div>`}
@@ -2867,8 +2867,8 @@ function playerMain(){
  const code=Q.get('r').toUpperCase(),room=code.slice(0,4),b=clamp(parseInt(code.slice(4))||0,0,BROKERS.length-1),base=NS+room+b+'/';
  let me=LS.get('oa3_me_'+code);
  if(!me){const a=rnd(ANI.length),adj=pickOne(ADJ);me={id:uid(),n:adj+' '+ANI[a][0],adj,av:[a,rnd(BODY.length),0],pos:[Math.random(),Math.random()],tb:null,em:null,picks:{},dec:{},stop:{},tap:null,flip:false,made:false};LS.set('oa3_me_'+code,me)}
- me.stop=me.stop||{};let S=null,deadline=0,vkey='',online=false,tapT=0,nT0=performance.now();
- const needle=()=>{const x=((performance.now()-nT0)/550)%2;return (x<1?x:2-x)*100};
+ SFX.toggle();const inApp=/KAKAOTALK|NAVER|Instagram|FB_IAB|FBAN|Line\//i.test(navigator.userAgent);me.stop=me.stop||{};let S=null,deadline=0,vkey='',online=false,tapT=0,nT0=performance.now();
+ const needle=()=>{const x=((performance.now()-nT0)/900)%2;return (x<1?x:2-x)*100};
  const cli=connect(BROKERS[b],'p_'+me.id+uid().slice(0,3));
  const send=()=>{LS.set('oa3_me_'+code,me);if(cli.connected)cli.publish(base+'p/'+me.id,JSON.stringify({n:me.n,av:me.av,pos:me.pos,tb:me.tb,em:me.em,picks:me.picks,dec:me.dec,stop:me.stop,tap:me.tap,hold:me.hold||null}),{retain:true,qos:1})};
  cli.on('connect',()=>{online=true;cli.subscribe(base+'state',{qos:1});send();render(true)});
@@ -2904,7 +2904,7 @@ function playerMain(){
     if(isCap){emo=false;m=`<h2>👑 이번 결정권자는 나!</h2><p class="lead">우리 조는 ${c.A.e} ${(S.tsp&&S.tsp[t]||[0,0])[0]} : ${c.B.e} ${(S.tsp&&S.tsp[t]||[0,0])[1]}. 이유를 다 들은 뒤 <b>조의 선택</b>을 눌러 주세요.</p><div class="ptimer"><s id="pt"></s></div>${pbtn('A',done==='A'||me.dec[S.ch]==='A',done&&done!=='A','d')}${pbtn('B',done==='B'||me.dec[S.ch]==='B',done&&done!=='B','d')}<p class="hint">${me.dec[S.ch]?'조의 결정이 전달됐어요.':'한 번 누르면 확정돼요.'}</p>`}
     else{const sp=S.tsp&&S.tsp[t]||[0,0],uni=!sp[0]||!sp[1];m=`<h2 style="text-align:center">💬 조 회의 시간</h2><p class="lead" style="text-align:center">우리 조의 선택<br><b class="disp" style="font-size:34px"><span style="color:${OC.A}">${c.A.e} ${sp[0]}</span> : <span style="color:${OC.B}">${c.B.e} ${sp[1]}</span></b></p><p class="lead" style="text-align:center">${uni?'만장일치네요! 그래도 반대쪽을 고른다면 어떤 이유일지 이야기해 보세요.':'갈렸네요! 다르게 고른 사람의 이유를 한 명씩 들어 보세요.'}</p><div class="ptimer"><s id="pt"></s></div><p class="lead" style="text-align:center">결정권자: <b>${cn?esc(cn[1])+' '+esc(cn[0]):'-'}</b> ${done?'<br>✔ 조의 결정 완료':''}</p>`}}
    else if(ph==='stop'){const cap=S.caps&&S.caps[t],isCap=cap===me.id,z=(S.zone&&S.zone[t])||[0,0],d=S.out&&S.out[t],cn=cap&&S.roster&&S.roster[cap],op=c[S.tdec[t]]||c.A,mine=me.stop[S.ch];
-    if(isCap){emo=false;m=`<h2 style="text-align:center">🎯 타이밍 멈추기</h2><p class="lead" style="text-align:center">${op.e} ${op.t}<br>바늘이 <b style="color:#5d9147">초록 구간</b>에 올 때 멈추세요!</p><div class="zbar big"><i style="left:${z[0]}%;width:${z[1]}%"></i><u id="nd" style="left:${mine!=null?mine:d?d.roll:0}%"></u></div>${mine!=null||d?'<p class="lead" style="text-align:center">멈췄어요! 앞 화면에서 결과를 확인하세요.</p>':'<button class="tapb" id="stopb">멈춰!</button>'}`}
+    if(isCap){emo=false;m=`<h2 style="text-align:center">🎯 타이밍 멈추기</h2><p class="lead" style="text-align:center">${op.e} ${op.t}<br>바늘이 <b style="color:#5d9147">초록 구간</b>에 올 때 멈추세요!<br><small style="color:var(--dim)">빗나가도 준비도는 +1 올라요</small></p><div class="zbar big"><i style="left:${z[0]}%;width:${z[1]}%"></i><u id="nd" style="left:${mine!=null?mine:d?d.roll:0}%"></u></div>${mine!=null||d?'<p class="lead" style="text-align:center">멈췄어요! 앞 화면에서 결과를 확인하세요.</p>':'<button class="tapb" id="stopb">멈춰!</button>'}`}
     else m=`<div class="bigem">📣</div><h2 style="text-align:center">응원 타임!</h2><p class="lead" style="text-align:center">결정권자 <b>${cn?esc(cn[1])+' '+esc(cn[0]):'-'}</b>님이 타이밍을 재고 있어요.<br>${d?'✋ 멈췄어요! 앞 화면을 보세요.':'아래 말풍선으로 응원을 보내 주세요!'}</p><div class="zbar big"><i style="left:${z[0]}%;width:${z[1]}%"></i>${d?'':'<u class="mv" style="transition:none"></u>'}</div>`}
    else if(ph==='rush'){const R=S.rush,r=RUSH[R.k],n=me.tap&&me.tap[0]===R.k?me.tap[1]:0;emo=false;
     m=R.done?`<div class="bigem">${r.e}</div><h2 style="text-align:center">${R.full?'미션 성공!':'여기까지!'}</h2><p class="lead" style="text-align:center">${ptHtml(R.pt)}<br>${R.hold?'다 같이 버틴 결과예요!':`내가 보탠 연타 <b>${n}번</b>, 모두 합쳐 ${R.total}번`}</p>${myGauge()}`
@@ -2916,7 +2916,7 @@ function playerMain(){
     m=me.flip?`<div class="card" style="background:${col.bg}"><div class="em">${col.e}</div><h4>오늘의 내 업무 색깔</h4><h2>${col.n}</h2><h4>${col.r}</h4><p>${col.m}</p><div class="tags">${tagsOf(me.picks).map(x=>`<span>${x}</span>`).join('')}</div></div><p class="lead" style="text-align:center">${same?`다섯 장면 모두 나와 같은 길: <b style="color:var(--btn2)">${same}명</b>`:'다섯 장면을 나와 똑같이 간 사람은 없어요. 나만의 길!'}</p><p class="hint">오늘 게임 속 선택으로 만든 카드예요. 검사 결과와는 무관합니다.</p>`
      :`<button class="back" data-a="flip"><div style="font-size:60px">🎴</div><h2>내 색깔 카드 뒤집기</h2></button>`}
   }
-  app.innerHTML=`<div class="ph">${S?head():''}<div class="phmain">${m}</div>${emo&&S?emoBar():''}${online?'':'<p class="hint">연결 중… 잠시만 기다려 주세요</p>'}</div>`;
+  app.innerHTML=`<div class="ph">${S?head():''}<div class="phmain">${m}</div>${emo&&S?emoBar():''}${online?'':'<p class="hint">연결 중… 잠시만 기다려 주세요</p>'}${inApp&&(!online||!me.made)?'<p class="hint">연결이 자주 끊기면 크롬이나 사파리로 열어 주세요</p>':''}</div>`;
   drawPv();
   if(S&&S.phase==='outcome'&&force){SFX.roll();setTimeout(()=>{const o=$('#ores'),b=$('#ob');if(o){o.hidden=false;if(b)b.hidden=true;const ok=S.out[myTeam()]&&S.out[myTeam()].ok;ok?SFX.ok():SFX.no();if(ok)FX.confetti(50)}},1800)}
   else if(S&&S.phase==='outcome'){const o=$('#ores'),b=$('#ob');if(o){o.hidden=false;if(b)b.hidden=true}}
