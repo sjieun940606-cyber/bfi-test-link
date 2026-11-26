@@ -154,10 +154,11 @@ button{font:inherit;color:inherit;border:0;cursor:pointer;background:none}
 
 /* ---------- 참가자 폰 ---------- */
 .ph{height:100%;display:flex;flex-direction:column;gap:8px;padding:12px max(16px,env(safe-area-inset-right)) calc(12px + env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left));max-width:520px;margin:0 auto;font-size:20px}
+.sig{margin:0;border-radius:14px;padding:9px 12px;font-weight:900;font-size:18px;text-align:center}.sig.in{background:var(--btn);color:#fff}.sig.out{background:#3b3228;color:#fff;animation:pulse 1.2s 2}
 .phtop{display:flex;align-items:center;gap:8px;font-weight:900;font-size:19px}
 .me{background:var(--paper);border-radius:30px;padding:6px 14px;box-shadow:0 2px 0 var(--line)}
 .tbadge{margin-left:auto;background:var(--tc,#ccc);color:#fff;border-radius:30px;padding:6px 14px}
-.phmain{flex:1;display:flex;flex-direction:column;justify-content:center;gap:12px;min-height:0;overflow:auto;padding:6px 0}
+.phmain{flex:1;display:flex;flex-direction:column;gap:12px;min-height:0;overflow:auto;padding:6px 0}.phmain>:first-child{margin-top:auto}.phmain>:last-child{margin-bottom:auto}
 .ph h2{font-family:var(--disp);font-weight:400;font-size:38px;line-height:1.2}
 .ph .lead{font-size:23px;line-height:1.6;font-weight:700}
 .ph .hint{font-size:19px;color:var(--dim);text-align:center;font-weight:700}
@@ -2720,7 +2721,7 @@ function hostMain(){
  const saved=LS.get('oa3_host');
  if(saved&&saved.G){G=saved.G;P=saved.P||{};L=saved.L||{};deadline=Date.now()+(G.left||0)}
  function newGame(){const code=Array.from({length:4},()=>'ABCDEFGHJKLMNPQRSTUVWXYZ'[rnd(24)]).join('');
-  G={room:code,b:0,phase:'lobby',ch:0,seq:0,nT:4,teams:{},caps:[],counts:[0,0],ans:0,tdec:[],out:[],score:0,goal:1,contrib:[],tsp:[],zone:[],auto:[],rush:null,wq:0,wans:[],wcnt:{H:0,M:0,L:0},tele:[],gans:0,rsn:{A:[0,0,0],B:[0,0,0]},rans:0,rneed:0,h2:[],ws:0,wfirst:[],wres:[],oriDone:false,rk:null,hintOn:false,hid:[],pord:[],ev:null,evUsed:[],hist:[],tdh:[],dur:0,left:0,end:null};P={};L={}}
+  G={room:code,b:0,phase:'lobby',ch:0,seq:0,nT:4,teams:{},caps:[],counts:[0,0],ans:0,tdec:[],out:[],score:0,goal:1,contrib:[],tsp:[],zone:[],auto:[],rush:null,wq:0,wans:[],wcnt:{H:0,M:0,L:0},tele:[],gans:0,rsn:{A:[0,0,0],B:[0,0,0]},rans:0,rneed:0,h2:[],ws:0,wfirst:[],wres:[],oriDone:false,am:true,shuf:false,nTm:false,rk:null,hintOn:false,hid:[],pord:[],ev:null,evUsed:[],hist:[],tdh:[],dur:0,left:0,end:null};P={};L={}}
  if(!G)newGame();
  World.start();
  const base=()=>NS+G.room+G.b+'/';
@@ -2732,7 +2733,7 @@ function hostMain(){
  function pub(){G.left=Math.max(0,deadline-Date.now());if(cli&&cli.connected){const roster={};for(const p of pids())roster[p]=[P[p].n,ANI[P[p].av[0]][1]];cli.publish(base()+'state',JSON.stringify({...G,roster}),{retain:true,qos:1})}save()}
  function setPhase(ph,sec){G.phase=ph;G.seq++;G.dur=(sec||0)*1000;deadline=sec?Date.now()+sec*1000:0;clearTimeout(autoT);autoT=0;pub();render(true);layout()}
  function assign(pid){if(G.teams[pid]!=null&&G.teams[pid]<G.nT)return;let best=0,bn=1e9;for(let t=0;t<G.nT;t++){const n=teamOf(t).length;if(n<bn){bn=n;best=t}}G.teams[pid]=best}
- function setTables(n){G.nT=n;for(const p of pids()){if(G.teams[p]>=n){delete G.teams[p];assign(p)}}pub();render(true);SFX.pop()}
+ function setTables(n){G.nT=n;G.nTm=true;for(const p of pids()){if(G.teams[p]>=n){delete G.teams[p];assign(p)}}pub();render(true);SFX.pop()}
  function tryConnect(i){if(i>=BROKERS.length){toast('연결 실패. 인터넷을 확인한 뒤 새로고침해 주세요.');return}
   const c=connect(BROKERS[i],'h_'+uid());let done=false;
   const fail=setTimeout(()=>{if(!done){done=true;try{c.end(true)}catch(e){}tryConnect(i+1)}},8000);
@@ -2744,7 +2745,7 @@ function hostMain(){
   const pos=Array.isArray(d.pos)?[clamp(+d.pos[0]||0,0,1),clamp(+d.pos[1]||0,0,1)]:[Math.random(),Math.random()];
   const em=Array.isArray(d.em)?d.em:null;
   P[pid]={n:nm,av,pos,em,picks:d.picks||{},dec:d.dec||{},stop:d.stop||{},wm:d.wm||{},gs:d.gs||{},rs:d.rs||{},rg:d.rg||{},wr:d.wr||{},rt:d.rt||{},rk:Array.isArray(d.rk)?d.rk:null,tap:Array.isArray(d.tap)?d.tap:(old&&old.tap)||null,hold:Array.isArray(d.hold)?d.hold:null,cn:Array.isArray(d.cn)?d.cn:null,rl:Array.isArray(d.rl)?d.rl:null,bot:!!d.bot,wasCap:old&&old.wasCap};
-  if(G.phase==='lobby'&&Number.isInteger(d.tb)&&d.tb>=0&&d.tb<G.nT)G.teams[pid]=d.tb;
+  if(G.teams[pid]==null)assign(pid);
   assign(pid);if(isNew)SFX.pop();
   layout();
   if(em&&old&&(!old.em||old.em[1]!==em[1])&&EMO[em[0]])World.say(pid,EMO[em[0]][0]+' '+EMO[em[0]][1]);
@@ -2770,7 +2771,7 @@ function hostMain(){
  function rkcount(){const c=[0,0,0,0];let n=0,gn=0;for(const p of pids()){const r=P[p].rk;if(!r)continue;if(rk4(r[0])){c[r[0]]++;n++}if(rk4(r[1]))gn++}G.rk=Object.assign(G.rk||{},{c,n,gn})}
  function startRank(){for(const p of pids())P[p].rk=null;G.rk={c:[0,0,0,0],n:0,gn:0,hit:0,bonus:0,done:false};setPhase('rank',50);SFX.alarm()}
  function rankResolve(){rkcount();const c=G.rk.c,mx=Math.max(...c);let hit=0;for(const p of pids()){const r=P[p].rk;if(r&&rk4(r[1])&&mx>0&&c[r[1]]===mx)hit++}G.rk.hit=hit;G.rk.bonus=G.rk.gn>0&&hit*2>=G.rk.gn?2:0;G.rk.done=true;if(G.rk.bonus)addPts(-1,G.rk.bonus);setPhase('rankres');SFX.steps();setTimeout(()=>SFX.fanfare(),2600)}
- function initRun(){if(!pids().length){toast('참가자가 아직 없습니다');return false}for(const p of pids())assign(p);G.score=0;G.contrib=Array(G.nT).fill(0);G.goal=Math.max(1,Math.round(liveTeams().length*5*3.2));return true}
+ function initRun(){if(!pids().length){toast('참가자가 아직 없습니다');return false}if(!G.shuf){G.shuf=true;const ids=pids();if(!G.nTm)G.nT=clamp(Math.round(ids.length/4),2,5);for(let i=ids.length-1;i>0;i--){const j=rnd(i+1);[ids[i],ids[j]]=[ids[j],ids[i]]}ids.forEach((p,i)=>{G.teams[p]=i%G.nT})}for(const p of pids())assign(p);G.score=0;G.contrib=Array(G.nT).fill(0);G.goal=Math.max(1,Math.round(liveTeams().length*5*3.2));return true}
  function startOri(){if(!initRun())return;G.wq=0;G.ws=0;G.wans=[];G.wfirst=[];G.wres=[];G.pord=[];G.hid=[];G.wcnt={H:0,M:0,L:0};setPhase('warm');SFX.card()}
  function startMain(){if(!initRun())return;G.ch=0;G.rk=null;G.pord=[];setPhase('intro');SFX.alarm()}
  function next(){SFX.unlock();const ph=G.phase;
@@ -2848,8 +2849,7 @@ function hostMain(){
   const c=CH[G.ch]||CH[0],live=liveTeams();let st='',nextLabel='다음 ▶';const endPh=['ending','colors','gather','orgmap','debrief'].includes(G.phase);
   if(G.phase==='lobby'){nextLabel=G.oriDone?'메인 게임 시작 ▶':'오리엔테이션 시작 ▶';
    st=`<div class="qrpanel">${cli&&cli.connected?qrSvg(joinUrl()):'<p style="padding:5em 1em">연결 중…</p>'}<p>참가 코드 <span>${G.room}${G.b}</span></p></div>
-   <div class="lobbytxt"><h1>D-1 사무실 대작전</h1><p>${G.oriDone?'':'QR을 찍고, 안내받은 조 번호를 고른 뒤 캐릭터를 만들어 주세요. '}<span style="color:var(--btn2)">${pids().length}명 입장</span></p>${G.oriDone?'<p style="color:var(--btn2)">✔ 오리엔테이션 완료. 강의 뒤에 메인 게임으로 이어집니다.</p>':''}<p class="mini"><button data-a="hint">강사 힌트 카드: ${G.hintOn?'켜짐':'꺼짐'}</button> <button data-a="${G.oriDone?'ori':'main'}">${G.oriDone?'오리엔테이션 다시 하기':'오리엔테이션 없이 메인 게임 바로 시작'}</button></p>
-   <p class="mini">조 개수 <button data-a="tm-">−</button> <b>${G.nT}</b> <button data-a="tm+">＋</button> &nbsp; 가까이 앉은 3~4명이 한 조 &nbsp; ${Array.from({length:G.nT},(_,t)=>TEAMS[t].e+teamOf(t).length).join(' ')}</p></div>`}
+   <div class="lobbytxt"><h1>D-1 사무실 대작전</h1><p>${G.oriDone?'<span style="color:var(--btn2)">✔ 오리엔테이션 완료.</span> 강의 뒤에 메인 게임으로 이어집니다. ':'QR을 찍고 캐릭터를 만들어 주세요. '}<span style="color:var(--btn2)">${pids().length}명 입장</span></p></div>`}
   else if(G.phase==='warm'){const w=WQ[G.wq],a=G.wans[G.wq];nextLabel=!a?(G.ws===0&&G.hintOn?'힌트 타임 ▶':'정답 공개 ▶'):G.wq<WQ.length-1?'다음 질문 ▶':'오늘의 질문 ▶';const wr=G.wres[G.wq]||[0,0,0];
    const sg=k=>`<div class="sign ${a===k?'win':''}" data-wa="${k}" style="--oc:${WC[k]};${a&&a!==k?'opacity:.5':''}"><div><h3>${WL[k][0]} ${WL[k][1]}</h3><p>${w[k]}</p></div>${a?`<div class="cnt"><span data-cnt="${G.wcnt[k]}">0</span><small>명</small></div>`:''}</div>`;
    st=`<div class="signs w3">${sg('H')}${sg('M')}${sg('L')}</div>${a?'':'<div class="pips" style="top:15.5em"><span id="wansn"></span></div>'}${!a&&G.ws===1&&(HINTS[G.wq]||[]).length?`<div class="hcards">${HINTS[G.wq].map((t,i)=>`<div class="hcard" style="animation-delay:${.3+i*3}s"><small>💡 강사 힌트 ${i+1}</small>${t}</div>`).join('')}</div>`:'<div class="popc" id="popc" style="top:17.5em"></div>'}${dlg(a?`강사의 ${w.n}${w.j} "${WL[a][1]}"! ${G.wfirst[G.wq]?`첫인상 ${wr[0]}명 → 힌트 뒤 ${wr[1]}명이 맞혔어요.`:`${wr[2]}명 중 ${wr[1]}명이 맞혔어요.`}`:G.ws===0?`강사 맞히기 ${G.wq+1}/${WQ.length} · 첫인상으로! 강사의 ${w.n}${w.j}?`:'💡 힌트 타임! 강사가 직접 쓴 힌트 카드예요',a?(G.wfirst[G.wq]?'겉으로 본 것과 힌트를 본 뒤, 무엇이 달라졌나요?':'어떤 이유로 그렇게 봤는지 화면에 떠 있어요. 강사님, 한마디 해 주세요!'):G.ws===0?w.n+' = '+w.q+'. 폰에서 고르고, 그렇게 본 이유도 익명으로 남겨 주세요.':'듣고 나서 생각이 바뀌면 폰에서 바꿔도 좋아요.')}`}
@@ -2893,7 +2893,7 @@ function hostMain(){
   app.innerHTML=`<div class="host"><div class="top"><div class="logo">D-1 사무실 대작전</div>${!['lobby','warm','omean'].includes(G.phase)?`<div class="clock">${endPh?'D-DAY':c.time}</div>`:''}
    <div class="dots">${CH.map((_,i)=>`<b class="${G.phase==='lobby'||G.phase==='intro'?'':i<G.ch||endPh?'done':i===G.ch?'now':''}"></b>`).join('')}</div>
    <div class="roomtag">참가 코드 <span>${G.room}${G.b}</span> · ${pids().length}명</div>${nextLabel?`<button class="next" data-a="next">${nextLabel}</button>`:''}</div>${['lobby','warm','omean'].includes(G.phase)?'':`<div id="goalbox">${goalBar()}</div>`}${st}</div>
-   <div class="rot">강사 화면은 가로 화면용입니다. 노트북으로 열거나 폰을 가로로 돌려 주세요.</div><div class="ctrl"><button data-a="gear">⚙</button><button data-a="snd">🔊 소리</button><button data-a="full">⛶ 전체화면</button><button data-a="bot">🤖 연습용 봇 +5</button><button data-a="reset">↺ 새 게임</button></div>`;
+   <div class="rot">강사 화면은 가로 화면용입니다. 노트북으로 열거나 폰을 가로로 돌려 주세요.</div><div class="ctrl"><button data-a="gear">⚙</button><button data-a="snd">🔊 소리</button><button data-a="full">⛶ 전체화면</button><button data-a="am">자동 진행: ${G.am!==false?'켜짐':'꺼짐'}</button><button data-a="bot">🤖 연습용 봇 +5</button>${G.phase==='lobby'?`<button data-a="tm-">조 −</button><button data-a="tm+">조 ＋ (${G.nTm?G.nT+'개':'자동'})</button><button data-a="hint">강사 힌트 카드: ${G.hintOn?'켜짐':'꺼짐'}</button><button data-a="${G.oriDone?'ori':'main'}">${G.oriDone?'오리엔테이션 다시':'오리엔테이션 건너뛰기'}</button>`:''}<button data-a="reset">↺ 새 게임</button></div>`;
   after();upd()}
  function after(){const c=CH[G.ch]||CH[0];
   if(G.phase==='intro')typeInto($('#tw'),'큰일 났어요! 내일이 "'+EVT+'" 행사인데 방금 전화 한 통이 왔어요. 오늘 밤 안에 다 같이 준비도 100%를 채워야 해요!');
@@ -2919,7 +2919,7 @@ function hostMain(){
  function roulette(){const live=liveTeams(),tg=G.ev.tg,seq=G.seq;let i=0,steps=live.length*3+live.indexOf(tg);const go=()=>{if(G.seq!==seq)return;document.querySelectorAll('.strip div').forEach(e=>e.classList.remove('hit'));const t=live[i%live.length];const e=$('#tg'+t);if(e)e.classList.add('hit');SFX.tick();if(i>=steps){const w=$('#evwho');if(w)w.textContent=TEAMS[tg].e+' '+TEAMS[tg].n+' 덕분에!';SFX.ok();FX.confetti(60);teamOf(tg).forEach(p=>World.jump(p,2.5));return}i++;setTimeout(go,90+i*14)};setTimeout(go,900)}
  app.addEventListener('click',e=>{const a=e.target.closest('[data-a]');const tl=e.target.closest('.tile');const wa=e.target.closest('[data-wa]');if(wa){wAnswer(wa.dataset.wa);return}const pp=e.target.closest('[data-pop]');if(pp){G.hid.push(pp.dataset.pop);pub();upd();return}
   if(a){const k=a.dataset.a;if(k==='next')next();if(k==='gear')a.parentNode.classList.toggle('open');if(k==='snd')a.textContent=SFX.toggle()?'🔊 소리':'🔇 소리';if(k==='full'){try{document.documentElement.requestFullscreen()}catch(_){}}
-   if(k==='bot')addBots(5);if(k==='hint'){G.hintOn=!G.hintOn;pub();render(true)}if(k==='ori'&&G.phase==='lobby')startOri();if(k==='main'&&G.phase==='lobby')startMain();if(k==='reset'){if(a.dataset.sure){LS.del('oa3_host');location.reload()}else{a.dataset.sure=1;a.textContent='한 번 더 누르면 초기화'}}
+   if(k==='bot')addBots(5);if(k==='am'){G.am=G.am===false;clearTimeout(autoT);autoT=0;pub();render(true)}if(k==='hint'){G.hintOn=!G.hintOn;pub();render(true)}if(k==='ori'&&G.phase==='lobby')startOri();if(k==='main'&&G.phase==='lobby')startMain();if(k==='reset'){if(a.dataset.sure){LS.del('oa3_host');location.reload()}else{a.dataset.sure=1;a.textContent='한 번 더 누르면 초기화'}}
    if(k==='tm+'&&G.nT<6)setTables(G.nT+1);if(k==='tm-'&&G.nT>2)setTables(G.nT-1);return}
   if(false&&tl&&G.phase==='team'){const t=+tl.dataset.t;if(!G.tdec[t]){const m=teamOf(t).filter(p=>p!==G.caps[t]);if(m.length){G.caps[t]=pickOne(m);pub();upd();layout();SFX.pop()}}}});
  addEventListener('keydown',e=>{if(e.key===' '||e.key==='ArrowRight'||e.key==='Enter'){e.preventDefault();next()}});
@@ -2928,7 +2928,11 @@ function hostMain(){
   if(G.phase==='pick'&&!autoT){const all=pids().length>0&&G.ans>=pids().length&&G.gans>=pids().length;if(all||Date.now()>deadline){const s=G.seq;autoT=setTimeout(()=>{if(G.seq===s&&G.phase==='pick')lockPick()},all?1500:300)}}
   rushTick();
   if(G.phase==='stop'&&!autoT){let all=true;for(const t of liveTeams())if(!G.out[t])all=false;if(all||Date.now()>deadline){const s=G.seq;autoT=setTimeout(()=>{if(G.seq===s&&G.phase==='stop')settle()},all?1300:300)}}
-  if(G.phase==='team'&&!autoT){let all=G.rneed>0;for(const p of pids()){const k=(L[p]||{})[G.ch];if(!k)continue;const g=P[p].rg&&P[p].rg[G.ch];if(!hasR(P[p].rs&&P[p].rs[G.ch])||!(g==='A'||g==='B'))all=false}if(all){const s=G.seq;autoT=setTimeout(()=>{if(G.seq===s&&G.phase==='team')resolve()},1500)}}
+  if(G.phase==='team'&&!autoT){let all=G.rneed>0;for(const p of pids()){const k=(L[p]||{})[G.ch];if(!k)continue;const g=P[p].rg&&P[p].rg[G.ch];if(!hasR(P[p].rs&&P[p].rs[G.ch])||!(g==='A'||g==='B'))all=false}if(all||(deadline&&Date.now()>deadline)){const s=G.seq;autoT=setTimeout(()=>{if(G.seq===s&&G.phase==='team')resolve()},all?1500:300)}}
+  if(G.am!==false&&!autoT){const s=G.seq,go=(ms,ok)=>{autoT=setTimeout(()=>{autoT=0;if(G.seq===s&&ok())next()},ms)};
+   if(G.phase==='reveal')go(7000,()=>G.phase==='reveal');
+   else if(G.phase==='rush'&&G.rush&&G.rush.done)go(8000,()=>G.phase==='rush'&&G.rush.done);
+   else if(G.phase==='warm'&&!G.wans[G.wq]){const N=pids().length;if(N>0&&G.wcnt.H+G.wcnt.M+G.wcnt.L>=N)go(G.ws===1?15000:6000,()=>G.phase==='warm'&&!G.wans[G.wq])}}
  },250);
  setInterval(pub,2000);
  render(true);layout();
@@ -2965,15 +2969,11 @@ function playerMain(){
   if(!S){emo=false;m=`<div class="bigem">📡</div><h2 style="text-align:center">연결 중…</h2><p class="hint">참가 코드 ${esc(code)}</p>`}
   else{const c=CH[S.ch]||CH[0],t=myTeam(),ph=S.phase;
    if((ph==='lobby'||ph==='intro')&&!me.made){emo=false;m=`<canvas id="pv" width="280" height="260" style="width:112px;height:104px"></canvas><h2 style="text-align:center;font-size:30px">${esc(me.n)}</h2><button class="ghost" data-a="reroll">🎲 별명 다시 뽑기 (실명은 쓰지 않아요)</button>
-    <div class="lbl">우리 조 번호 (테이블·구역)</div><div class="tbs">${Array.from({length:S.nT||4},(_,i)=>`<button data-tb="${i}" class="${me.tb===i?'on':''}" style="--tc:${TEAMS[i].c}">${i+1}</button>`).join('')}</div>
-    <div class="lbl">동물</div><div class="grid">${ANI.map((a,i)=>`<button data-av0="${i}" class="${me.av[0]===i?'on':''}">${a[1]}</button>`).join('')}</div>
-    <div class="lbl">옷 색</div><div class="sw">${BODY.map((b,i)=>`<button data-av1="${i}" class="${me.av[1]===i?'on':''}" style="background:${b}"></button>`).join('')}</div>
-    <div class="lbl">모자</div><div class="grid" style="grid-template-columns:repeat(8,1fr)">${HATS.map((h,i)=>`<button data-av2="${i}" class="${me.av[2]===i?'on':''}" style="font-size:22px">${h||'✖️'}</button>`).join('')}</div>
-    <button class="cta" data-a="made">${me.tb==null?'조 번호를 골라 주세요':'완성! 사무실로 들어가기'}</button>`}
-   else if(ph==='lobby'||ph==='intro'){m=`<p class="lead" style="text-align:center">${ph==='lobby'&&S.oriDone?'오리엔테이션 끝! 강의가 끝나면 이 화면에서 메인 게임이 시작돼요.<br>창을 닫았다면 QR을 다시 찍으면 됩니다.':ph==='lobby'?`앞 화면에 내 캐릭터가 보이나요?<br>아래 바닥을 누르면 그곳으로 걸어가요.<br>나는 <b>${me.tb+1}조</b>, 가까이 앉은 사람들이 한 조예요.`:'이야기가 시작됐어요. 앞 화면을 봐 주세요.'}</p>
+    <button class="cta" data-a="made">완성! 사무실로 들어가기</button>`}
+   else if(ph==='lobby'||ph==='intro'){m=`<p class="lead" style="text-align:center">${ph==='lobby'&&S.oriDone?'오리엔테이션 끝! 강의가 끝나면 이 화면에서 메인 게임이 시작돼요.<br>창을 닫았다면 QR을 다시 찍으면 됩니다.':ph==='lobby'?`앞 화면에 내 캐릭터가 보이나요?<br>아래 바닥을 누르면 그곳으로 걸어가요.<br>조는 시작할 때 자동으로 섞여서 정해져요. 자리는 그대로 앉아 계세요.`:'이야기가 시작됐어요. 앞 화면을 봐 주세요.'}</p>
     <div class="pad" id="pad"><em>사무실 바닥 (위쪽이 안쪽)</em><i id="dot" style="left:${me.pos[0]*100}%;top:${me.pos[1]*100}%">${ANI[me.av[0]][1]}</i></div>${ph==='lobby'?'<button class="ghost" data-a="edit">✏️ 캐릭터 다시 꾸미기</button>':''}`}
    else if(ph==='warm'){emo=false;const w=WQ[S.wq]||WQ[0],a=S.wans&&S.wans[S.wq],v=me.wm[S.wq];const wb=k=>`<button class="pbtn ${v===k?'sel':''} ${(a&&a!==k)||(v&&v!==k&&!a)?'dimmed':''}" style="--oc:${WC[k]};padding:12px 14px" data-w="${k}"><div class="em" style="font-size:34px">${WL[k][0]}</div><div><h3>${WL[k][1]}</h3><p>${w[k]}</p></div></button>`;
-    const ws=S.ws||0,mr=me.wr[S.wq];m=`<h2>강사 맞히기 ${S.wq+1}/${WQ.length} <small style="font-size:.6em;color:var(--dim)">${a?'':ws===0?'첫인상으로!':'💡 힌트 듣고 다시'}</small></h2><p class="lead">강사의 <b>${w.n}</b>${w.j}?<br><small style="color:var(--dim)">${w.q}</small></p>${wb('H')}${wb('M')}${wb('L')}${!a&&v&&ws===0?`<p class="lead" style="margin-top:6px">그렇게 본 이유는? <small style="color:var(--dim)">익명으로 앞 화면에 떠요</small></p><div class="chips">${WR.map(t=>`<button data-wr="${t}" class="${mr===t?'on':''}">${t}</button>`).join('')}</div><div class="wrrow"><input id="wrt" maxlength="20" placeholder="직접 쓰기 (20자까지)"><button data-a="wrsend">보내기</button></div>${mr&&!WR.includes(mr)?`<p class="hint">✔ 보냈어요: ${esc(mr)}</p>`:''}`:''}<p class="hint">${a?(v===a?'⭕ 맞혔어요!':v?'아쉽! 정답은 '+WL[a][1]:'이번엔 선택 안 함'):ws===1?'💡 앞 화면의 힌트 카드를 보고, 바꾸고 싶으면 다시 눌러요':v?'':'감으로 골라 보세요'}</p>`}
+    const ws=S.ws||0,mr=me.wr[S.wq];m=`<h2>강사 맞히기 ${S.wq+1}/${WQ.length} <small style="font-size:.6em;color:var(--dim)">${a?'':ws===0?'첫인상으로!':'💡 힌트 듣고 다시'}</small></h2><p class="lead">강사의 <b>${w.n}</b>${w.j}?<br><small style="color:var(--dim)">${w.q}</small></p>${wb('H')}${wb('M')}${wb('L')}${!a&&v&&ws===0?`<p class="lead" style="margin-top:6px">그렇게 본 이유는? <small style="color:var(--dim)">익명으로 앞 화면에 떠요</small></p><div class="chips">${WR.map(t=>`<button data-wr="${t}" class="${mr===t?'on':''}">${t}</button>`).join('')}</div><div class="wrrow"><input id="wrt" maxlength="20" placeholder="직접 쓰기 (20자까지)"><button data-a="wrsend">보내기</button></div>${mr&&!WR.includes(mr)?`<p class="hint">✔ 보냈어요: ${esc(mr)}</p>`:''}`:''}<p class="hint">${a?(v===a?'⭕ 맞혔어요!':v?'아쉽! 정답은 '+WL[a][1]:'이번엔 선택 안 함'):ws===1?((S.hintOn&&(HINTS[S.wq]||[]).length)?HINTS[S.wq].map((t,i)=>'💡 힌트 '+(i+1)+': '+t).join('<br>')+'<br>':'')+'바꾸고 싶으면 다시 눌러요':v?'':'감으로 골라 보세요'}</p>`}
    else if(ph==='omean'){m=`<div class="bigem">🤔</div><h2 style="text-align:center">그럼 기질은<br>무엇으로 알 수 있을까요?</h2><p class="lead" style="text-align:center">앞 화면을 봐 주세요.</p>`}
    else if(ph==='pick'){emo=false;const v=me.picks[S.ch],gv=me.gs[S.ch];m=`<h2>${S.ch+1}장. ${c.title}</h2><p class="lead">${c.text}</p><div class="ptimer"><s id="pt"></s></div>${pbtn('A',v==='A',v&&v!=='A','p')}${pbtn('B',v==='B',v&&v!=='B','p')}${v?`<p class="lead" style="text-align:center;margin-top:4px">🔮 텔레파시: 전체에서 어느 쪽이 더 많을까?</p><div class="tbs"><button data-g="A" class="${gv==='A'?'on':''}" style="--tc:${OC.A}">${c.A.e}</button><button data-g="B" class="${gv==='B'?'on':''}" style="--tc:${OC.B}">${c.B.e}</button></div>`:'<p class="hint">나라면 어떻게 할까요?</p>'}`}
    else if(ph==='reveal'){const v=me.picks[S.ch],n=v?S.counts[v==='A'?0:1]-1:0;m=`<div class="bigem">${v?c[v].e:'🤷'}</div><h2 style="text-align:center">${v?(n>0?`나와 같은 쪽 ${n}명`:'이쪽은 나 혼자!'):'이번엔 선택 안 함'}</h2><p class="lead" style="text-align:center">${c.A.e} ${S.counts[0]}명 &nbsp;vs&nbsp; ${c.B.e} ${S.counts[1]}명</p><p class="lead" style="text-align:center">${(()=>{const g=me.gs[S.ch],sp=S.counts;if(!g||!sp)return'';return (sp[0]===sp[1]||(g==='A')===(sp[0]>sp[1]))?'🔮 텔레파시 적중! 동료들을 잘 아네요':'🔮 텔레파시 빗나감! 내 예상과 달랐어요'})()}</p><p class="hint">내 선택은 내 폰에서만 보여요.</p>`}
@@ -3005,7 +3005,8 @@ function playerMain(){
      :`<button class="back" data-a="flip"><div style="font-size:60px">🎴</div><h2>내 색깔 카드 뒤집기</h2></button>`}
   }
   const _iv=$('#wrt')||$('#rtt'),_ivs=_iv?[_iv.id,_iv.value,document.activeElement===_iv]:null;setTimeout(()=>{if(_ivs){const n=$('#'+_ivs[0]);if(n&&!n.value){n.value=_ivs[1];if(_ivs[2])n.focus()}}},0);
-  app.innerHTML=`<div class="ph">${S?head():''}<div class="phmain">${m}</div>${emo&&S?emoBar():''}${online?'':'<p class="hint">연결 중… 잠시만 기다려 주세요</p>'}${inApp&&(!online||!me.made)?'<p class="hint">연결이 자주 끊기면 크롬이나 사파리로 열어 주세요</p>':''}</div>`;
+  let sig='';if(S&&me.made){const p=S.phase,inp=p==='pick'||p==='team'||p==='rank'||p==='colors'||(p==='warm'&&!(S.wans&&S.wans[S.wq]))||(p==='rush'&&S.rush&&S.rush.go&&!S.rush.done);if(p!=='lobby')sig=inp?'<div class="sig in">📱 지금은 폰만 보면 돼요</div>':'<div class="sig out">👀 고개 들고 앞 화면을 보세요</div>'}
+  app.innerHTML=`<div class="ph">${S?head():''}${sig}<div class="phmain">${m}</div>${emo&&S?emoBar():''}${online?'':'<p class="hint">연결 중… 잠시만 기다려 주세요</p>'}${inApp&&(!online||!me.made)?'<p class="hint">연결이 자주 끊기면 크롬이나 사파리로 열어 주세요</p>':''}</div>`;
   drawPv();
   if(S&&S.phase==='outcome'&&force){SFX.roll();setTimeout(()=>{const o=$('#ores'),b=$('#ob');if(o){o.hidden=false;if(b)b.hidden=true;const ok=S.out[myTeam()]&&S.out[myTeam()].ok;SFX.ok();if(ok)FX.confetti(50)}},1800)}
   else if(S&&S.phase==='outcome'){const o=$('#ores'),b=$('#ob');if(o){o.hidden=false;if(b)b.hidden=true}}
@@ -3031,7 +3032,7 @@ function playerMain(){
   {const rv=g('[data-r]'),qv=g('[data-q]');if(rv&&S&&S.phase==='team'){me.rs[S.ch]=+rv.dataset.r;SFX.sel();send();render()}else if(qv&&S&&S.phase==='team'){me.rg[S.ch]=qv.dataset.q;SFX.pop();send();render()}}
   if(a&&a.dataset.a==='decide'&&pre&&S&&S.phase==='team'&&!(S.tdec&&S.tdec[myTeam()])){me.dec[S.ch]=pre;SFX.sel();send();render()}
   if(a){const k=a.dataset.a;if(k==='reroll'){me.adj=pickOne(ADJ);me.n=me.adj+' '+ANI[me.av[0]][0];SFX.pop();send();render()}
-   if(k==='made'&&me.tb!=null){me.made=true;SFX.ok();send();render()}if(k==='edit'){me.made=false;render()}
+   if(k==='made'){me.made=true;SFX.ok();send();render()}if(k==='edit'){me.made=false;render()}
    if(k==='flip'){me.flip=true;LS.set('oa3_me_'+code,me);SFX.fanfare();FX.confetti(120);render()}}});
  render(true);
 }
