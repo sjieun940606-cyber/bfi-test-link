@@ -36,7 +36,8 @@ button{font:inherit;color:inherit;border:0;cursor:pointer;background:none}
 
 /* ---------- 강사 화면 ---------- */
 .host{position:absolute;inset:0;font-size:min(1.3vw,2.3vh);pointer-events:none}
-.host button,.host .tile{pointer-events:auto}
+.host button,.host .tile,.host [data-wa]{pointer-events:auto}.host [data-wa]{cursor:pointer}
+.signs.w3{grid-template-columns:1fr 1fr 1fr;gap:1em}.signs.w3 .sign{grid-template-columns:1fr auto;padding:.6em .9em}.signs.w3 .sign p{font-size:1.5em}
 .top{position:absolute;left:0;right:0;top:0;display:flex;align-items:center;gap:1em;padding:.7em 1.4em}
 .logo,.clock,.roomtag{white-space:nowrap}
 .logo{font-family:var(--disp);font-size:2em;color:var(--ink);background:var(--paper);border-radius:.5em;padding:.1em .6em;box-shadow:0 .12em 0 var(--line)}
@@ -174,6 +175,7 @@ button{font:inherit;color:inherit;border:0;cursor:pointer;background:none}
 .rush .rb{position:relative;height:2.6em;background:#3b32281f;border-radius:1.3em;overflow:hidden;margin:.5em 0 .2em}
 .rush .rb s{position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(90deg,#e0b45c,#c9763f);transition:width .25s linear}
 .rush .rb b{position:absolute;inset:0;display:grid;place-items:center;font-size:1.8em;font-weight:900}
+.cntbig{font-family:var(--disp);font-size:11em;line-height:1.05;color:var(--btn2)}
 .rush .big{font-family:var(--disp);font-size:3.4em;color:var(--btn2)}
 .ptimer{height:10px;background:#3b32281f;border-radius:8px;overflow:hidden;flex:none}
 .ptimer s{display:block;height:100%;background:var(--btn);border-radius:8px;transition:width .25s linear}
@@ -2575,8 +2577,13 @@ const EV=[
  {e:'📞',t:'내빈 한 분 추가',m:'"내일 저도 갑니다." 자리 배치를 다시 짠다.',d:[-1,1,0],all:1},
  {e:'💡',t:'옆 부서의 꿀팁',m:'작년 담당자가 체크리스트를 넘겨줬다.',d:[0,2,0],all:0}
 ];
-const EV_AFTER=[1,3];
-const RUSH=[{e:'🎈',t:'풍선 불기 대작전',m:'행사장 풍선이 전부 바람이 빠졌어요! 다 같이 폰을 연타해서 풍선을 불어 주세요.',v:'후!'},{e:'🚩',t:'현수막 버티기 대작전',m:'현수막이 떨어지려 해요! 모두 폰 버튼을 꾹 누른 채 버텨 주세요.',hold:1}];
+const EV_AFTER=[0,2,4];
+const WL={H:['⬆️','높음'],M:['↔️','중간'],L:['⬇️','낮음']},WC={H:'#c9763f',M:'#8c8177',L:'#5b83a8'};
+const WQ=[{n:'자극추구',q:'새롭고 낯선 것에 끌리는 정도',def:'H',H:'새로운 것에 바로 끌리고 빨리 움직인다',M:'상황에 따라 다르다',L:'익숙한 방식이 편하고 천천히 정한다'},
+ {n:'위험회피',q:'미리 걱정하고 조심하는 정도',def:'L',H:'미리 걱정하고 꼼꼼히 대비한다',M:'상황에 따라 다르다',L:'낙관적이고 일단 부딪쳐 본다'},
+ {n:'사회적 민감성',q:'사람들의 마음과 반응에 마음 쓰는 정도',def:'H',H:'정이 많고 사람들 반응에 마음을 쓴다',M:'상황에 따라 다르다',L:'담담하고 혼자서도 잘 해낸다'}];
+const RUSH=[{type:'count',e:'🔢',t:'다 함께 숫자 세기',m:'말 없이 눈치로! 한 번에 한 명만 "다음 숫자"를 누릅니다. 두 명이 동시에 누르면 1부터 다시.'},{type:'relay',e:'💌',t:'초대장 릴레이',m:'내 폰에 불이 켜지면 눌러서 다음 조원에게 넘기세요. 40초 동안 몇 장을 돌릴까요?'},{type:'hold',e:'🚩',t:'현수막 버티기',m:'마지막 관문! 모두 폰 버튼을 꾹 누른 채 버텨 주세요.',hold:1}];
+const COUNT_SEC=75,RELAY_SEC=40;
 const STOP_SEC=14,RUSH_SEC=15,RUSH_PER=60,HOLD_SEC=22,HOLD_FULL=12;
 const COLORS=[
  {e:'🔥',n:'노을 레드',r:'돌파형',bg:'linear-gradient(160deg,#d9795f,#b0503f)',c:'#cf6a52',m:'일단 움직이면서 길을 찾는 사람. 막힌 상황에서 첫 발을 떼는 역할을 합니다.'},
@@ -2588,7 +2595,7 @@ const COLORS=[
 const TAGS=[null,null,{A:'#말부터건네기',B:'#행동으로챙기기'},{A:'#일단공유',B:'#끝까지다듬기'},{A:'#내가책임',B:'#함께결정'}];
 function colorOf(p){const a=p&&p[0],b=p&&p[1];if(!a||!b)return 4;return a==='A'?(b==='A'?0:1):(b==='A'?2:3)}
 function tagsOf(p){const r=[];for(let i=2;i<5;i++)if(p&&p[i])r.push(TAGS[i][p[i]]);return r}
-const PICK_SEC=30, TEAM_SEC=70;
+const PICK_SEC=40, TEAM_SEC=70;
 const okPts=o=>o.p<=65?4:o.p<=75?3:2, evPts=e=>e.d.reduce((a,b)=>a+b,0)||-1;
 const ptHtml=n=>`<span class="${n>0?'plus':'minus'}">🎯 준비도 ${n>0?'+':''}${n}</span>`;
 
@@ -2695,7 +2702,7 @@ function hostMain(){
  const saved=LS.get('oa3_host');
  if(saved&&saved.G){G=saved.G;P=saved.P||{};L=saved.L||{};deadline=Date.now()+(G.left||0)}
  function newGame(){const code=Array.from({length:4},()=>'ABCDEFGHJKLMNPQRSTUVWXYZ'[rnd(24)]).join('');
-  G={room:code,b:0,phase:'lobby',ch:0,seq:0,nT:4,teams:{},caps:[],counts:[0,0],ans:0,tdec:[],out:[],score:0,goal:1,contrib:[],tsp:[],zone:[],auto:[],rush:null,ev:null,evUsed:[],hist:[],tdh:[],dur:0,left:0,end:null};P={};L={}}
+  G={room:code,b:0,phase:'lobby',ch:0,seq:0,nT:4,teams:{},caps:[],counts:[0,0],ans:0,tdec:[],out:[],score:0,goal:1,contrib:[],tsp:[],zone:[],auto:[],rush:null,wq:0,wans:[],wcnt:{H:0,M:0,L:0},tele:[],gans:0,ev:null,evUsed:[],hist:[],tdh:[],dur:0,left:0,end:null};P={};L={}}
  if(!G)newGame();
  World.start();
  const base=()=>NS+G.room+G.b+'/';
@@ -2718,25 +2725,28 @@ function hostMain(){
   const av=Array.isArray(d.av)?[clamp(d.av[0]|0,0,ANI.length-1),clamp(d.av[1]|0,0,BODY.length-1),clamp(d.av[2]|0,0,HATS.length-1)]:[0,0,0];
   const pos=Array.isArray(d.pos)?[clamp(+d.pos[0]||0,0,1),clamp(+d.pos[1]||0,0,1)]:[Math.random(),Math.random()];
   const em=Array.isArray(d.em)?d.em:null;
-  P[pid]={n:nm,av,pos,em,picks:d.picks||{},dec:d.dec||{},stop:d.stop||{},tap:Array.isArray(d.tap)?d.tap:(old&&old.tap)||null,hold:Array.isArray(d.hold)?d.hold:null,bot:!!d.bot,wasCap:old&&old.wasCap};
+  P[pid]={n:nm,av,pos,em,picks:d.picks||{},dec:d.dec||{},stop:d.stop||{},wm:d.wm||{},gs:d.gs||{},tap:Array.isArray(d.tap)?d.tap:(old&&old.tap)||null,hold:Array.isArray(d.hold)?d.hold:null,cn:Array.isArray(d.cn)?d.cn:null,rl:Array.isArray(d.rl)?d.rl:null,bot:!!d.bot,wasCap:old&&old.wasCap};
   if(G.phase==='lobby'&&Number.isInteger(d.tb)&&d.tb>=0&&d.tb<G.nT)G.teams[pid]=d.tb;
   assign(pid);if(isNew)SFX.pop();
   layout();
   if(em&&old&&(!old.em||old.em[1]!==em[1])&&EMO[em[0]])World.say(pid,EMO[em[0]][0]+' '+EMO[em[0]][1]);
-  if(G.phase==='pick')recount();
+  if(G.phase==='pick')recount();if(G.phase==='warm')wcount();
   if(G.phase==='team'){G.caps.forEach((cp,t)=>{if(cp===pid&&!G.tdec[t]){const v=P[pid].dec[G.ch];if(v==='A'||v==='B'){G.tdec[t]=v;SFX.sel()}}})}
+  if(G.phase==='rush'&&G.rush&&G.rush.go&&!G.rush.done&&old){const R=G.rush,nw=(a,b)=>a&&a[0]===R.k&&(!b||b[0]!==R.k||b[1]!==a[1]);if(R.type==='count'&&nw(P[pid].cn,old.cn))countPress(pid);if(R.type==='relay'&&nw(P[pid].rl,old.rl))relayPress(pid)}
   if(G.phase==='stop'){G.caps.forEach((cp,t)=>{if(cp===pid&&!G.out[t]){const v=P[pid].stop[G.ch];if(typeof v==='number')stopAt(t,clamp(v,0,100))}})}
   pub();if(isNew&&G.phase==='lobby')render(true);upd()}
- function recount(){let a=0,b=0;for(const p of pids()){const v=P[p].picks[G.ch];if(v==='A')a++;else if(v==='B')b++}G.counts=[a,b];G.ans=a+b}
+ function recount(){let a=0,b=0,g=0;for(const p of pids()){const v=P[p].picks[G.ch];if(v==='A')a++;else if(v==='B')b++;if(P[p].gs&&P[p].gs[G.ch])g++}G.counts=[a,b];G.ans=a+b;G.gans=g}
+ function wcount(){const c={H:0,M:0,L:0};for(const p of pids()){const v=P[p].wm&&P[p].wm[G.wq];if(c[v]!=null)c[v]++}G.wcnt=c}
+ function wAnswer(k){if(G.phase!=='warm'||!WL[k])return;wcount();G.wans[G.wq]=k;G.seq++;pub();render(true);layout();SFX.fanfare();for(const p of pids())if(P[p].wm&&P[p].wm[G.wq]===k)World.jump(p,2.5)}
  function pickCaps(){G.caps=[];for(let t=0;t<G.nT;t++){const m=teamOf(t);if(!m.length){G.caps.push(null);continue}const act=m.filter(p=>P[p].picks[G.ch]);const pool=(act.length?act:m);const fresh=pool.filter(p=>!P[p].wasCap);const c=pickOne(fresh.length?fresh:pool);P[c].wasCap=1;G.caps.push(c)}}
  function addPts(t,n){if(t>=0)G.contrib[t]=(G.contrib[t]||0)+n;G.score=Math.max(0,G.score+n)}
  function next(){SFX.unlock();const ph=G.phase;
-  if(ph==='lobby'){if(!pids().length){toast('참가자가 아직 없습니다');return}for(const p of pids())assign(p);G.score=0;G.contrib=Array(G.nT).fill(0);G.goal=Math.max(1,Math.round(liveTeams().length*5*3.2));setPhase('intro');SFX.alarm()}
+  if(ph==='lobby'){if(!pids().length){toast('참가자가 아직 없습니다');return}for(const p of pids())assign(p);G.score=0;G.contrib=Array(G.nT).fill(0);G.goal=Math.max(1,Math.round(liveTeams().length*5*3.2));G.wq=0;G.wans=[];G.wcnt={H:0,M:0,L:0};setPhase('warm');SFX.card()}
+  else if(ph==='warm'){if(!G.wans[G.wq]){wAnswer(WQ[G.wq].def);return}if(G.wq<WQ.length-1){G.wq++;G.wcnt={H:0,M:0,L:0};setPhase('warm');SFX.card()}else{setPhase('intro');SFX.alarm()}}
   else if(ph==='intro'){G.ch=0;startPick()}
   else if(ph==='pick'){lockPick()}
   else if(ph==='reveal'){G.tdec=Array(G.nT).fill(null);pickCaps();setPhase('team',TEAM_SEC);SFX.steps()}
   else if(ph==='team'){resolve()}
-  else if(ph==='stop'){settle()}
   else if(ph==='outcome'){if(EV_AFTER.includes(G.ch))startRush();else afterCh()}
   else if(ph==='rush'){if(!G.rush.go)return;if(!G.rush.done)endRush();else afterCh()}
   else if(ph==='event'){afterCh()}
@@ -2746,17 +2756,20 @@ function hostMain(){
   else if(ph==='orgmap'){setPhase('debrief')}
  }
  function startPick(){G.counts=[0,0];G.ans=0;setPhase('pick',PICK_SEC);SFX.alarm();shake()}
- function lockPick(){recount();for(const p of pids()){L[p]=L[p]||{};if(P[p].picks[G.ch])L[p][G.ch]=P[p].picks[G.ch]}G.hist[G.ch]=G.counts.slice();G.tsp=[];for(let t=0;t<G.nT;t++){const m=teamOf(t);G.tsp.push([m.filter(p=>P[p].picks[G.ch]==='A').length,m.filter(p=>P[p].picks[G.ch]==='B').length])}setPhase('reveal');SFX.steps();setTimeout(()=>SFX.ok(),1900)}
- function resolve(){const c=CH[G.ch];G.out=[];G.zone=[];G.auto=[];for(let t=0;t<G.nT;t++){G.out.push(null);if(!teamOf(t).length){G.zone.push(null);G.auto.push(false);continue}let auto=false;if(!G.tdec[t]){G.tdec[t]=Math.random()<.5?'A':'B';auto=true}G.auto.push(auto);const w=32;G.zone.push([5+rnd(90-w),w])}
-  G.tdh[G.ch]=G.tdec.slice();setPhase('stop',STOP_SEC);SFX.alarm()}
- function stopAt(t,v,byDice){if(G.out[t]||!G.zone[t])return;const z=G.zone[t],o=CH[G.ch][G.tdec[t]],ok=v>=z[0]&&v<=z[0]+z[1];G.out[t]={k:G.tdec[t],roll:Math.round(v),ok,auto:G.auto[t],dice:!!byDice,pt:ok?3:2};if(!byDice){SFX.sel();teamOf(t).forEach(p=>World.jump(p,1.2))}}
- function settle(){for(const t of liveTeams()){if(!G.out[t])stopAt(t,rnd(101),true);addPts(t,G.out[t].pt)}setPhase('outcome')}
- function startRush(){const k=EV_AFTER.indexOf(G.ch);G.rush={k,hold:!!RUSH[k].hold,goal:RUSH[k].hold?100:Math.max(40,pids().length*RUSH_PER),total:0,now:0,by:Array(G.nT).fill(0),go:false,done:false,pt:0};for(const p of pids()){P[p].tap=null;P[p].hold=null}setPhase('rush',4);SFX.alarm();shake()}
- function rushTick(){const R=G.rush;if(!R||R.done)return;if(!R.go){if(Date.now()>=deadline){R.go=true;G.dur=(R.hold?HOLD_SEC:RUSH_SEC)*1000;deadline=Date.now()+G.dur;pub();render(true);SFX.ok()}return}
-  if(R.hold){let h=0;const n=pids().length||1;for(const p of pids()){const b=P[p];if(b.bot){if(Math.random()<(b.hold&&b.hold[1]?.06:.4))b.hold=[R.k,b.hold&&b.hold[1]?0:1]}const on=b.hold&&b.hold[0]===R.k&&b.hold[1];if(on){h++;R.by[G.teams[p]]=(R.by[G.teams[p]]||0)+1;if(Math.random()<.12)World.jump(p,.7)}}
-   R.now=h;R.total=Math.min(100,R.total+(h/n)*(h===n?1.25:1)*100/(HOLD_FULL*4));if(h&&Math.random()<.3)SFX.tick();if(R.total>=100||Date.now()>deadline)endRush();return}
-  let tot=0;const by=Array(G.nT).fill(0);for(const p of pids()){const b=P[p];if(b.bot)b.tap=[R.k,(b.tap&&b.tap[0]===R.k?b.tap[1]:0)+rnd(3)];const n=b.tap&&b.tap[0]===R.k?Math.min(b.tap[1]|0,400):0;if(n>(b._tn||0)&&Math.random()<.5)World.jump(p,.9);b._tn=n;tot+=n;by[G.teams[p]]+=n}
-  if(tot>R.total&&Math.random()<.5)SFX.pop();R.total=tot;R.by=by;if(tot>=R.goal||Date.now()>deadline)endRush()}
+ function lockPick(){recount();for(const p of pids()){L[p]=L[p]||{};if(P[p].picks[G.ch])L[p][G.ch]=P[p].picks[G.ch]}G.hist[G.ch]=G.counts.slice();G.tsp=[];for(let t=0;t<G.nT;t++){const m=teamOf(t);G.tsp.push([m.filter(p=>P[p].picks[G.ch]==='A').length,m.filter(p=>P[p].picks[G.ch]==='B').length])}{let hit=0,n=0;for(const p of pids()){const g=P[p].gs&&P[p].gs[G.ch],sp=G.tsp[G.teams[p]];if(!g||!sp)continue;n++;if(sp[0]===sp[1]||(g==='A')===(sp[0]>sp[1]))hit++}const bonus=n>0&&hit*2>=n?1:0;G.tele[G.ch]=[hit,n,bonus];if(bonus)addPts(-1,1)}setPhase('reveal');SFX.steps();setTimeout(()=>SFX.ok(),1900)}
+ function resolve(){G.out=[];for(let t=0;t<G.nT;t++){if(!teamOf(t).length){G.out.push(null);continue}let auto=false;if(!G.tdec[t]){G.tdec[t]=Math.random()<.5?'A':'B';auto=true}G.out.push({k:G.tdec[t],ok:false,auto,pt:2});addPts(t,2)}
+  G.tdh[G.ch]=G.tdec.slice();setPhase('outcome')}
+ function stopAt(){} function settle(){setPhase('outcome')}
+ function startRush(){const k=EV_AFTER.indexOf(G.ch),ty=RUSH[k].type,N=clamp(pids().length,5,15),live=liveTeams();
+  G.rush={k,type:ty,hold:ty==='hold',N,goal:ty==='hold'?100:ty==='count'?N:Math.max(10,live.length*30),total:0,now:0,by:Array(G.nT).fill(0),go:false,done:false,pt:0,cnt:0,best:0,resets:0,lastT:0,lastBy:null,tok:Array(G.nT).fill(null)};
+  for(const t of live)G.rush.tok[t]=teamOf(t).sort()[0];for(const p of pids()){P[p].tap=null;P[p].hold=null;P[p].cn=null;P[p].rl=null}setPhase('rush',4);SFX.alarm();shake()}
+ function countPress(pid){const R=G.rush,now=Date.now();if(pid===R.lastBy)return;if(R.cnt>0&&now-R.lastT<700){R.cnt=0;R.resets++;R.lastT=now;R.lastBy=null;SFX.no();shake();World.say(pid,'앗!')}else{R.cnt++;R.lastT=now;R.lastBy=pid;R.best=Math.max(R.best,R.cnt);World.jump(pid,1.6);World.say(pid,String(R.cnt));SFX.sel()}R.total=R.best;pub();upd();if(R.cnt>=R.N)endRush()}
+ function relayPress(pid){const R=G.rush,t=G.teams[pid];if(R.tok[t]!==pid)return;R.by[t]=(R.by[t]||0)+1;R.total++;const m=teamOf(t).sort();R.tok[t]=m[(m.indexOf(pid)+1)%m.length];World.jump(pid,1);if(R.total%3===0)SFX.pop();pub();upd()}
+ function rushTick(){const R=G.rush;if(!R||R.done)return;if(!R.go){if(Date.now()>=deadline){R.go=true;G.dur=(R.type==='hold'?HOLD_SEC:R.type==='count'?COUNT_SEC:RELAY_SEC)*1000;deadline=Date.now()+G.dur;pub();render(true);SFX.ok()}return}
+  if(R.type==='count'){for(const p of pids())if(P[p].bot&&Math.random()<.02){countPress(p);if(R.done)return}if(Date.now()>deadline)endRush();return}
+  if(R.type==='relay'){for(const t of liveTeams()){const p=R.tok[t];if(p&&P[p]&&P[p].bot&&Math.random()<.4)relayPress(p)}if(Date.now()>deadline)endRush();return}
+  let h=0;const n=pids().length||1;for(const p of pids()){const b=P[p];if(b.bot){if(Math.random()<(b.hold&&b.hold[1]?.06:.4))b.hold=[R.k,b.hold&&b.hold[1]?0:1]}const on=b.hold&&b.hold[0]===R.k&&b.hold[1];if(on){h++;if(Math.random()<.12)World.jump(p,.7)}}
+  R.now=h;R.total=Math.min(100,R.total+(h/n)*(h===n?1.25:1)*100/(HOLD_FULL*4));if(h&&Math.random()<.3)SFX.tick();if(R.total>=100||Date.now()>deadline)endRush()}
  function endRush(){const R=G.rush;if(!R||R.done)return;R.go=true;R.done=true;const ratio=Math.min(1,R.total/R.goal);R.pt=Math.max(1,Math.round(liveTeams().length*2*ratio));R.full=ratio>=1;addPts(-1,R.pt);deadline=0;G.seq++;pub();render(true);if(R.full){SFX.fanfare();FX.confetti(200);pids().forEach(p=>World.jump(p,3))}else SFX.ok()}
  function afterCh(){if(G.ch<CH.length-1){G.ch++;startPick()}else finish()}
  function finish(){const end={teams:[],col:[0,0,0,0,0],same:{},diff:0,groups:0};
@@ -2769,7 +2782,8 @@ function hostMain(){
  function botTick(){for(const p of pids()){const b=P[p];if(!b.bot)continue;
    if((G.phase==='lobby'||G.phase==='intro')&&Math.random()<.04)b.pos=[Math.random(),Math.random()];
    if(Math.random()<.006){const i=rnd(EMO.length);World.say(p,EMO[i][0]+' '+EMO[i][1])}
-   if(G.phase==='pick'&&!b.picks[G.ch]&&Math.random()<.1){b.picks[G.ch]=Math.random()<.5?'A':'B';recount();pub();upd()}
+   if(G.phase==='pick'&&!b.picks[G.ch]&&Math.random()<.1){b.picks[G.ch]=Math.random()<.5?'A':'B';b.gs=b.gs||{};b.gs[G.ch]=Math.random()<.5?'A':'B';recount();pub();upd()}
+   if(G.phase==='warm'&&!G.wans[G.wq]&&!(b.wm&&b.wm[G.wq])&&Math.random()<.1){b.wm=b.wm||{};b.wm[G.wq]=pickOne(['H','M','L']);wcount();pub();upd()}
    if(G.phase==='stop'){const t=G.teams[p];if(G.caps[t]===p&&!G.out[t]&&Math.random()<.06){stopAt(t,rnd(101));pub();upd()}}
    if(G.phase==='team'){const t=G.teams[p];if(G.caps[t]===p&&!G.tdec[t]&&Math.random()<.05){G.tdec[t]=Math.random()<.5?'A':'B';SFX.sel();pub();upd()}}}}
  function toast(m){const d=document.createElement('div');d.className='toast';d.textContent=m;document.body.appendChild(d);setTimeout(()=>d.remove(),4000)}
@@ -2781,6 +2795,7 @@ function hostMain(){
   const tables=(y0,ry,rh,fx,span)=>live.forEach((t,k)=>{const m=teamOf(t).sort();m.forEach((p,i)=>put(p,[colX(k,live.length)+(m.length>1?(i%2?1:-1)*Math.min(.055,.2/live.length):0),y0+i*Math.min(.075,(span||.34)/Math.max(1,m.length-1))],fx?fx(p,t):null));rugs.push({x:colX(k,live.length),y:ry,w:.9/live.length,h:rh,c:TEAMS[t].c})});
   if(ph==='lobby'){const yMax=ph==='intro'?.5:.95,yMin=ph==='intro'?.06:.5;for(const p of ids)put(p,[(ph==='intro'?.08:.42)+P[p].pos[0]*(ph==='intro'?.84:.54),yMin+P[p].pos[1]*(yMax-yMin)])}
   else if(ph==='intro')tables(.36,.46,.4,null,.2);
+  else if(ph==='warm')tables(.4,.5,.4,p=>{const v=P[p].wm&&P[p].wm[G.wq],a=G.wans[G.wq];return{badge:a?(v===a?'⭕':''):(v?'✅':'')}},.18);
   else if(ph==='pick')tables(.36,.46,.4,p=>({badge:P[p].picks[G.ch]?'✅':''}),.2);
   else if(ph==='reveal')tables(.36,.46,.4,p=>{const v=(L[p]||{})[G.ch];return v?{badge:CH[G.ch][v].e,tc:OC[v]}:null},.2);
   else if(ph==='gather'||ph==='debrief'||ph==='orgmap'){const used=[0,1,2,3,4].filter(i=>i<4||G.end.col[i]);used.forEach((ci,k)=>{const m=ids.filter(p=>colorOf(L[p]||{})===ci);const y0=(ph!=='gather')?.84:.42;m.forEach((p,i)=>put(p,slot(colX(k,used.length),y0,m.length,i,(ph!=='gather')?5:2,(ph!=='gather')?.045:.1,.125),{tc:COLORS[ci].c}));rugs.push({x:colX(k,used.length),y:(ph!=='gather')?.88:.66,w:.9/used.length,h:(ph!=='gather')?.22:.62,c:COLORS[ci].c})})}
@@ -2798,16 +2813,21 @@ function hostMain(){
    st=`<div class="qrpanel">${cli&&cli.connected?qrSvg(joinUrl()):'<p style="padding:5em 1em">연결 중…</p>'}<p>참가 코드 <span>${G.room}${G.b}</span></p></div>
    <div class="lobbytxt"><h1>D-1 사무실 대작전</h1><p>QR을 찍고, 안내받은 조 번호를 고른 뒤 캐릭터를 만들어 주세요. <span style="color:var(--btn2)">${pids().length}명 입장</span></p>
    <p class="mini">조 개수 <button data-a="tm-">−</button> <b>${G.nT}</b> <button data-a="tm+">＋</button> &nbsp; 가까이 앉은 3~4명이 한 조 &nbsp; ${Array.from({length:G.nT},(_,t)=>TEAMS[t].e+teamOf(t).length).join(' ')}</p></div>`}
-  else if(G.phase==='intro'){nextLabel='1장 시작 ▶';st=dlg('','장면마다 ① 각자 폰으로 선택 → ② 우리 테이블은 어떻게 갈렸나 → ③ 이유를 듣고 조의 결정 → ④ 타이밍 멈추기. 모든 조의 결과가 위 게이지에 모입니다.')}
+  else if(G.phase==='warm'){const w=WQ[G.wq],a=G.wans[G.wq];nextLabel=!a?'정답 공개 ▶':G.wq<WQ.length-1?'다음 질문 ▶':'본 게임으로 ▶';
+   const sg=k=>`<div class="sign ${a===k?'win':''}" data-wa="${k}" style="--oc:${WC[k]};${a&&a!==k?'opacity:.5':''}"><div><h3>${WL[k][0]} ${WL[k][1]}</h3><p>${w[k]}</p></div>${a?`<div class="cnt"><span data-cnt="${G.wcnt[k]}">0</span><small>명</small></div>`:''}</div>`;
+   st=`<div class="signs w3">${sg('H')}${sg('M')}${sg('L')}</div>${a?'':'<div class="pips" style="top:15.5em"><span id="wansn"></span></div>'}${dlg(a?`강사의 ${w.n}은 "${WL[a][1]}"! ${G.wcnt[a]}명이 맞혔어요.`:`강사 맞히기 ${G.wq+1}/${WQ.length} · 강사의 ${w.n}은?`,a?'맞힌 캐릭터가 뛰고 있어요. 강사님, 한마디 해 주세요!':w.n+' = '+w.q+'. 폰에서 골라 주세요.')}`}
+  else if(G.phase==='intro'){nextLabel='1장 시작 ▶';st=dlg('','장면마다 ① 각자 폰으로 선택 → ② 우리 조는 어떻게 갈렸나 → ③ 이유를 듣고 조의 결정. 사이사이 협동 미션! 모든 결과가 위 게이지에 모입니다.')}
   else if(G.phase==='pick'){nextLabel='선택 마감 ▶';st=`<div class="signs">${signHtml('A')}<div class="timer" id="tm"></div>${signHtml('B')}</div><div class="pips"><span id="ansn"></span></div>${dlg('',`${G.ch+1}장. ${c.title} · 나라면 어떻게 할까요? 폰에서 골라 주세요.`)}`}
   else if(G.phase==='reveal'){nextLabel='조 회의 ▶';const [a,b]=G.counts,tot=a+b||1,gap=Math.abs(a-b)/tot;
    const cap=gap<=.2?'거의 반반이네요! 같은 상황인데 첫 수가 갈렸어요.':gap>=.7?`한쪽으로 쏠렸네요! 그래도 ${Math.min(a,b)}명은 다른 길을 봤어요.`:'갈렸네요. 내 옆자리는 어느 쪽이었을까요?';
-   st=`<div class="signs">${signHtml('A',1)}<div></div>${signHtml('B',1)}</div>${dlg(cap,'캐릭터 머리 위 표시를 보세요. 우리 조 안에서는 어떻게 갈렸나요? 정답은 없어요.')}`}
+   st=`<div class="signs">${signHtml('A',1)}<div></div>${signHtml('B',1)}</div>${dlg(cap,'머리 위 표시를 보세요. 우리 조는 어떻게 갈렸나요? 정답은 없어요.'+(G.tele[G.ch]&&G.tele[G.ch][1]?` &nbsp;🔮 텔레파시 적중 ${G.tele[G.ch][0]}/${G.tele[G.ch][1]}명${G.tele[G.ch][2]?' (준비도 +1)':''}`:''))}`}
   else if(G.phase==='team'){nextLabel='결과 보기 ▶';st=`<div class="banner"><div class="timer" id="tm"></div><div>조 회의! <small>다르게 고른 이유를 서로 듣고, 조의 선택을 정하세요</small></div></div><div class="cols" id="tiles"></div>${strip()}`}
   else if(G.phase==='stop'){nextLabel='결과 보기 ▶';st=`<div class="banner"><div class="timer" id="tm"></div><div>타이밍 멈추기! <small>초록 구간에 멈추면 보너스 +1! 조원들은 응원</small></div></div><div class="cols" id="tiles"></div>${strip()}`}
-  else if(G.phase==='rush'){const R=G.rush,r=RUSH[R.k];nextLabel=R.done?(G.ch<4?'다음 장 ▶':'엔딩 ▶'):R.go?'바로 끝내기 ▶':'';
-   st=`<div class="rush pop"><h2>🚨 돌발 미션: ${r.t}</h2><p>${r.m}</p><div style="height:${R.done?5:8.5}em;display:grid;place-items:center"><span class="rem" id="rem" style="font-size:${R.done?4:4.6}em">${r.e}</span></div>${R.done?`<div class="big">${R.full?'미션 성공! ':'여기까지! '}🎯 준비도 +${R.pt}</div><p>${R.hold?(R.full?'끝까지 함께 버텼어요!':'현수막 '+Math.round(R.total)+'%까지 올렸어요!'):'모두 합쳐 '+R.total+'번! '+liveTeams().map(t=>TEAMS[t].e+' '+(R.by[t]||0)).join(' &nbsp; ')}</p>`:R.go?`<div class="rb"><s id="rbs"></s><b id="rbb"></b></div><p>남은 시간 <b id="tm" style="color:var(--btn2)"></b>초 &nbsp; ${R.hold?'떼지 말고 꾹! 다 같이 누르면 더 빨라요':'지금 폰을 마구 눌러 주세요!'}</p>`:`<div class="big">준비… <span id="tm"></span></div><p>폰을 손에 들고 기다려 주세요</p>`}</div>`}
-  else if(G.phase==='outcome'){nextLabel=(EV_AFTER.includes(G.ch)?'돌발 미션 ▶':G.ch<4?'다음 장 ▶':'엔딩 ▶');st=`<div class="cols hi" id="tiles"></div><div id="stripbox"></div>`}
+  else if(G.phase==='rush'){const R=G.rush,r=RUSH[R.k],ty=R.type;nextLabel=R.done?(G.ch<4?'다음 장 ▶':'엔딩 ▶'):R.go?'바로 끝내기 ▶':'';
+   const doneTxt=ty==='hold'?(R.full?'끝까지 함께 버텼어요!':'현수막 '+Math.round(R.total)+'%까지 올렸어요!'):ty==='count'?(R.full?R.N+'까지 한 번도 안 겹치고 성공! (다시 시작 '+R.resets+'번)':'최고 기록 '+R.best+' / '+R.N+' (다시 시작 '+R.resets+'번)'):'모두 합쳐 '+R.total+'장! '+liveTeams().map(t=>TEAMS[t].e+' '+(R.by[t]||0)).join(' &nbsp; ');
+   const goTxt=ty==='count'?`<div class="cntbig" id="cnb">0</div><p>목표 <b>${R.N}</b> &nbsp;·&nbsp; 다시 시작 <b id="crs">0</b>번 &nbsp;·&nbsp; 남은 시간 <b id="tm" style="color:var(--btn2)"></b>초</p>`:`<div style="height:6em;display:grid;place-items:center"><span class="rem" id="rem" style="font-size:4.4em">${r.e}</span></div><div class="rb"><s id="rbs"></s><b id="rbb"></b></div><p>남은 시간 <b id="tm" style="color:var(--btn2)"></b>초 &nbsp; ${ty==='hold'?'떼지 말고 꾹! 다 같이 누르면 더 빨라요':'<span id="rlt"></span>'}</p>`;
+   st=`<div class="rush pop"><h2>🤝 협동 미션: ${r.t}</h2><p>${r.m}</p>${R.done?`<div style="font-size:4em;line-height:1.3">${r.e}</div><div class="big">${R.full?'미션 성공! ':'여기까지! '}🎯 준비도 +${R.pt}</div><p>${doneTxt}</p>`:R.go?goTxt:`<div style="font-size:4em;line-height:1.3">${r.e}</div><div class="big">준비… <span id="tm"></span></div><p>폰을 손에 들고 기다려 주세요</p>`}</div>`}
+  else if(G.phase==='outcome'){nextLabel=(EV_AFTER.includes(G.ch)?'협동 미션 ▶':G.ch<4?'다음 장 ▶':'엔딩 ▶');st=`<div class="cols hi" id="tiles"></div><div id="stripbox"></div>`}
   else if(G.phase==='event'){nextLabel=G.ch<4?'다음 장 ▶':'엔딩 ▶';const e=EV[G.ev.id];
    st=`<div class="evwrap"><div class="evcard"><h2>${e.e} ${e.t}</h2><p>${e.m}</p><div class="eff"><span id="evwho">${e.all?'전체 조':'행운의 조는…'}</span> &nbsp; 🎯 준비도 ${G.ev.pt>0?'+':''}${G.ev.pt}</div></div></div>${strip()}`}
   else if(G.phase==='ending'){nextLabel='내 색깔 카드 ▶';st=`<div class="panel pop" style="text-align:center"><p class="lead">${EVT} 당일, 모두 함께 도착했습니다 🎊</p><h2 style="font-size:5em;line-height:1.1">준비도 <span data-cnt="${G.end.pct}">0</span>%</h2><h2 style="color:var(--btn2)">${G.end.tier}</h2></div>${strip()}`}
@@ -2840,22 +2860,22 @@ function hostMain(){
  function tileBase(t,inner){const T=TEAMS[t];return `<div class="tile" data-t="${t}" style="--tc:${T.c}"><h3>${T.e} ${T.n}</h3>${inner}</div>`}
  function upd(){
   const tm=$('#tm');if(tm){const s=Math.ceil(Math.max(0,deadline-Date.now())/1000);if(tm.textContent!==String(s)){tm.textContent=s;tm.classList.toggle('hot',s<=5);if(s<=5&&s>0)SFX.tick()}}
+  if(G.phase==='warm'){const a=$('#wansn');if(a)a.textContent=`✅ ${G.wcnt.H+G.wcnt.M+G.wcnt.L} / ${pids().length}명 선택 완료`}
   if(G.phase==='pick'){const a=$('#ansn');if(a)a.textContent=`✅ ${G.ans} / ${pids().length}명 선택 완료`}
-  if(G.phase==='rush'&&G.rush){const R=G.rush,b=$('#rbs'),t=$('#rbb'),e=$('#rem'),q=clamp(R.total/R.goal,0,1);if(b)b.style.width=q*100+'%';if(t)t.textContent=R.hold?Math.round(R.total)+'%  ·  지금 누르는 중 '+R.now+' / '+pids().length+'명':R.total+' / '+R.goal;if(e)e.style.transform='scale('+(R.done?1:R.go?.6+q*1.1:1)+')'}
+  if(G.phase==='rush'&&G.rush){const R=G.rush,b=$('#rbs'),t=$('#rbb'),e=$('#rem'),q=clamp(R.total/R.goal,0,1);if(b)b.style.width=q*100+'%';if(t)t.textContent=R.type==='hold'?Math.round(R.total)+'%  ·  지금 누르는 중 '+R.now+' / '+pids().length+'명':R.total+'장';if(e)e.style.transform='scale('+(R.done?1:R.go?.7+q*.7:1)+')';const cb=$('#cnb');if(cb&&cb.textContent!==String(R.cnt)){cb.textContent=R.cnt;cb.classList.remove('pop');void cb.offsetWidth;cb.classList.add('pop')}const cr=$('#crs');if(cr)cr.textContent=R.resets;const rt=$('#rlt');if(rt)rt.innerHTML=liveTeams().map(t=>TEAMS[t].e+' '+(R.by[t]||0)).join(' &nbsp; ')}
   if(G.phase==='stop'){const el=$('#tiles');if(el){let h='';for(const t of liveTeams()){const cp=P[G.caps[t]],z=G.zone[t]||[0,0],op=CH[G.ch][G.tdec[t]],d=G.out[t];h+=tileBase(t,`<div class="pick" style="color:${OC[G.tdec[t]]}">${op.e} ${op.t}</div><div class="zbar"><i style="left:${z[0]}%;width:${z[1]}%"></i>${d?'':'<u class="mv"></u>'}</div><div class="cap">👑 ${cp?ANI[cp.av[0]][1]+' '+esc(cp.n):'-'}</div><div class="st ${d?'ok':''}">${d?'✋ 멈췄다! 두근두근':'🎯 재는 중…'}</div>`)}if(el._h!==h){el._h=h;el.innerHTML=h}}}
   if(G.phase==='team'){const el=$('#tiles');if(el){let h='';for(const t of liveTeams()){const cp=P[G.caps[t]];h+=tileBase(t,`<div class="split"><span style="color:${OC.A}">${CH[G.ch].A.e} ${G.tsp[t]?G.tsp[t][0]:0}</span> &nbsp;:&nbsp; <span style="color:${OC.B}">${CH[G.ch].B.e} ${G.tsp[t]?G.tsp[t][1]:0}</span></div><div class="cap">👑 이번 결정권자<b>${cp?ANI[cp.av[0]][1]+' '+esc(cp.n):'-'}</b></div><div class="st ${G.tdec[t]?'ok':''}">${G.tdec[t]?'✔ 결정 완료':'💬 회의 중…'}</div>`)}if(el._h!==h){el._h=h;el.innerHTML=h}}}}
- function outcomeAnim(){const el=$('#tiles'),c=CH[G.ch];let h='';const live=liveTeams().filter(t=>G.out[t]);for(const t of live){const o=G.out[t],op=c[o.k];h+=`<div class="tile" data-t="${t}" style="--tc:${TEAMS[t].c}"><div class="pick"><span style="color:var(--ink)">${TEAMS[t].e}</span> <span style="color:${OC[o.k]}">${op.e} ${op.t}</span>${o.auto?' <small style="color:var(--dim);font-size:.6em">(자동)</small>':''}</div><div class="zbar"><i style="left:${G.zone[t][0]}%;width:${G.zone[t][1]}%"></i><u id="rl${t}"></u></div><div id="rs${t}"></div></div>`}el.innerHTML=h;
-  const seq=G.seq;live.forEach((t,i)=>{setTimeout(()=>{if(G.seq!==seq)return;SFX.roll();const r=$('#rl'+t);let n=0;const iv=setInterval(()=>{n++;if(r)r.style.left=rnd(100)+'%';if(n>16){clearInterval(iv);if(G.seq!==seq)return;const o=G.out[t],res=c[o.k].ok;if(r)r.style.left=o.roll+'%';const rs=$('#rs'+t);if(rs)rs.innerHTML=`<div class="msg rise">${res[0]}</div><div class="gain rise">이 선택이 준 것: ${gainHtml(res[1])}</div><div class="delta rise">${ptHtml(o.pt)}${o.ok?' <span class="bonus">타이밍 보너스!</span>':''}</div>`;if(n>16&&live.indexOf(t)===live.length-1){const sb=$('#stripbox');if(sb)sb.innerHTML=strip();const gb=$('#goalbox');if(gb)gb.innerHTML=goalBar()}
-    if(o.ok){SFX.ok();teamOf(t).forEach(p=>World.jump(p,2));const tl=document.querySelector(`.tile[data-t="${t}"]`);if(tl){const b=tl.getBoundingClientRect();FX.burst(b.left+b.width/2,b.top+b.height/3)}}else{SFX.no();shake();teamOf(t).forEach(p=>World.say(p,'💦'))}}},70)},600+i*2100)})}
+ function outcomeAnim(){const el=$('#tiles'),c=CH[G.ch];let h='';const live=liveTeams().filter(t=>G.out[t]);for(const t of live){const o=G.out[t],op=c[o.k];h+=`<div class="tile" data-t="${t}" style="--tc:${TEAMS[t].c}"><h3>${TEAMS[t].e} ${TEAMS[t].n}</h3><div class="pick" style="color:${OC[o.k]}">${op.e} ${op.t}${o.auto?' <small style="color:var(--dim);font-size:.6em">(자동)</small>':''}</div><div id="rs${t}"></div></div>`}el.innerHTML=h;
+  const seq=G.seq;live.forEach((t,i)=>{setTimeout(()=>{if(G.seq!==seq)return;const o=G.out[t],res=c[o.k].ok,rs=$('#rs'+t);if(rs)rs.innerHTML=`<div class="msg rise">${res[0]}</div><div class="gain rise">이 선택이 준 것: ${gainHtml(res[1])}</div><div class="delta rise">${ptHtml(o.pt)}</div>`;SFX.ok();teamOf(t).forEach(p=>World.jump(p,1.6));if(i===live.length-1){const sb=$('#stripbox');if(sb)sb.innerHTML=strip();const gb=$('#goalbox');if(gb)gb.innerHTML=goalBar()}},500+i*1300)})}
  function roulette(){const live=liveTeams(),tg=G.ev.tg,seq=G.seq;let i=0,steps=live.length*3+live.indexOf(tg);const go=()=>{if(G.seq!==seq)return;document.querySelectorAll('.strip div').forEach(e=>e.classList.remove('hit'));const t=live[i%live.length];const e=$('#tg'+t);if(e)e.classList.add('hit');SFX.tick();if(i>=steps){const w=$('#evwho');if(w)w.textContent=TEAMS[tg].e+' '+TEAMS[tg].n+' 덕분에!';SFX.ok();FX.confetti(60);teamOf(tg).forEach(p=>World.jump(p,2.5));return}i++;setTimeout(go,90+i*14)};setTimeout(go,900)}
- app.addEventListener('click',e=>{const a=e.target.closest('[data-a]');const tl=e.target.closest('.tile');
+ app.addEventListener('click',e=>{const a=e.target.closest('[data-a]');const tl=e.target.closest('.tile');const wa=e.target.closest('[data-wa]');if(wa){wAnswer(wa.dataset.wa);return}
   if(a){const k=a.dataset.a;if(k==='next')next();if(k==='gear')a.parentNode.classList.toggle('open');if(k==='snd')a.textContent=SFX.toggle()?'🔊 소리':'🔇 소리';if(k==='full'){try{document.documentElement.requestFullscreen()}catch(_){}}
    if(k==='bot')addBots(5);if(k==='reset'){if(a.dataset.sure){LS.del('oa3_host');location.reload()}else{a.dataset.sure=1;a.textContent='한 번 더 누르면 초기화'}}
    if(k==='tm+'&&G.nT<6)setTables(G.nT+1);if(k==='tm-'&&G.nT>2)setTables(G.nT-1);return}
   if(tl&&G.phase==='team'){const t=+tl.dataset.t;if(!G.tdec[t]){const m=teamOf(t).filter(p=>p!==G.caps[t]);if(m.length){G.caps[t]=pickOne(m);pub();upd();layout();SFX.pop()}}}});
  addEventListener('keydown',e=>{if(e.key===' '||e.key==='ArrowRight'||e.key==='Enter'){e.preventDefault();next()}});
  setInterval(()=>{botTick();upd();layout();
-  if(G.phase==='pick'&&!autoT){const all=pids().length>0&&G.ans>=pids().length;if(all||Date.now()>deadline){const s=G.seq;autoT=setTimeout(()=>{if(G.seq===s&&G.phase==='pick')lockPick()},all?1500:300)}}
+  if(G.phase==='pick'&&!autoT){const all=pids().length>0&&G.ans>=pids().length&&G.gans>=pids().length;if(all||Date.now()>deadline){const s=G.seq;autoT=setTimeout(()=>{if(G.seq===s&&G.phase==='pick')lockPick()},all?1500:300)}}
   rushTick();
   if(G.phase==='stop'&&!autoT){let all=true;for(const t of liveTeams())if(!G.out[t])all=false;if(all||Date.now()>deadline){const s=G.seq;autoT=setTimeout(()=>{if(G.seq===s&&G.phase==='stop')settle()},all?1300:300)}}
   if(G.phase==='team'&&!autoT){let all=true;for(const t of liveTeams())if(!G.tdec[t])all=false;if(all){const s=G.seq;autoT=setTimeout(()=>{if(G.seq===s&&G.phase==='team')resolve()},1500)}}
@@ -2871,14 +2891,14 @@ function playerMain(){
  const code=Q.get('r').toUpperCase(),room=code.slice(0,4),b=clamp(parseInt(code.slice(4))||0,0,BROKERS.length-1),base=NS+room+b+'/';
  let me=LS.get('oa3_me_'+code);
  if(!me){const a=rnd(ANI.length),adj=pickOne(ADJ);me={id:uid(),n:adj+' '+ANI[a][0],adj,av:[a,rnd(BODY.length),0],pos:[Math.random(),Math.random()],tb:null,em:null,picks:{},dec:{},stop:{},tap:null,flip:false,made:false};LS.set('oa3_me_'+code,me)}
- SFX.toggle();const inApp=/KAKAOTALK|NAVER|Instagram|FB_IAB|FBAN|Line\//i.test(navigator.userAgent);me.stop=me.stop||{};let S=null,deadline=0,vkey='',online=false,tapT=0,nT0=performance.now();
+ SFX.toggle();const inApp=/KAKAOTALK|NAVER|Instagram|FB_IAB|FBAN|Line\//i.test(navigator.userAgent);me.stop=me.stop||{};me.wm=me.wm||{};me.gs=me.gs||{};let S=null,deadline=0,vkey='',online=false,tapT=0,nT0=performance.now();
  const needle=()=>{const x=((performance.now()-nT0)/900)%2;return (x<1?x:2-x)*100};
  const cli=connect(BROKERS[b],'p_'+me.id+uid().slice(0,3));
- const send=()=>{LS.set('oa3_me_'+code,me);if(cli.connected)cli.publish(base+'p/'+me.id,JSON.stringify({n:me.n,av:me.av,pos:me.pos,tb:me.tb,em:me.em,picks:me.picks,dec:me.dec,stop:me.stop,tap:me.tap,hold:me.hold||null}),{retain:true,qos:1})};
+ const send=()=>{LS.set('oa3_me_'+code,me);if(cli.connected)cli.publish(base+'p/'+me.id,JSON.stringify({n:me.n,av:me.av,pos:me.pos,tb:me.tb,em:me.em,picks:me.picks,dec:me.dec,stop:me.stop,wm:me.wm||{},gs:me.gs||{},tap:me.tap,hold:me.hold||null,cn:me.cn||null,rl:me.rl||null}),{retain:true,qos:1})};
  cli.on('connect',()=>{online=true;cli.subscribe(base+'state',{qos:1});send();render(true)});
  cli.on('close',()=>{online=false});
  cli.on('message',(t,m)=>{let d;try{d=JSON.parse(m.toString())}catch(e){return}if(!d||d.room!==room)return;const changed=!S||S.seq!==d.seq||S.phase!==d.phase;
-  if(S&&d.seq<S.seq&&d.phase==='lobby'){me.picks={};me.dec={};me.stop={};me.tap=null;me.flip=false;send()}
+  if(S&&d.seq<S.seq&&d.phase==='lobby'){me.picks={};me.dec={};me.stop={};me.wm={};me.gs={};me.tap=null;me.cn=null;me.rl=null;me.flip=false;send()}
   S=d;const nd=Date.now()+(d.left||0);if(changed||Math.abs(nd-deadline)>1500)deadline=nd;
   if(changed){try{navigator.vibrate&&navigator.vibrate(d.phase==='pick'?[80,60,80]:40)}catch(e){}if(d.phase==='pick')SFX.alarm();if(d.phase==='ending')FX.confetti(120)}
   render(changed);upd()});
@@ -2890,7 +2910,7 @@ function playerMain(){
  function myGauge(){if(!S||!S.goal)return'';return `<div class="gbar"><s style="width:${clamp(S.score/S.goal*100,0,100)}%"></s><b>🎯 모두의 준비도 ${Math.round(S.score/S.goal*100)}%</b></div>`}
  const emoBar=()=>`<div class="emo">${EMO.map((e,i)=>`<button data-e="${i}">${e[0]}<br>${e[1]}</button>`).join('')}</div>`;
  function drawPv(){const c=$('#pv');if(!c)return;const x=c.getContext('2d');x.clearRect(0,0,c.width,c.height);drawAv(x,c.width/2,c.height*.9,c.height*.4,{a:me.av[0],c:me.av[1],h:me.av[2],ph:0},0)}
- function render(force){let key=(S?S.phase+S.seq:'x')+online+JSON.stringify(me.picks)+JSON.stringify(me.dec)+me.flip+me.n+me.made+me.av+me.tb+(S?S.nT:0)+JSON.stringify(me.stop)+(S&&S.rush?''+S.rush.go+S.rush.done:'')+(S&&S.phase==='stop'?JSON.stringify(S.out):'')+(S&&S.phase==='team'?JSON.stringify(S.caps)+JSON.stringify(S.tdec):'');
+ function render(force){let key=(S?S.phase+S.seq:'x')+online+JSON.stringify(me.picks)+JSON.stringify(me.dec)+me.flip+me.n+me.made+me.av+me.tb+(S?S.nT:0)+JSON.stringify(me.stop)+JSON.stringify(me.wm)+JSON.stringify(me.gs)+(S?''+S.wq+JSON.stringify(S.wans||0):'')+(S&&S.rush?''+S.rush.go+S.rush.done+(S.phase==='rush'?JSON.stringify([S.rush.cnt,S.rush.lastBy,S.rush.tok,S.rush.resets]):''):'')+(S&&S.phase==='stop'?JSON.stringify(S.out):'')+(S&&S.phase==='team'?JSON.stringify(S.caps)+JSON.stringify(S.tdec):'');
   if(!force&&key===vkey)return;vkey=key;let m='',emo=true;
   if(!S){emo=false;m=`<div class="bigem">📡</div><h2 style="text-align:center">연결 중…</h2><p class="hint">참가 코드 ${esc(code)}</p>`}
   else{const c=CH[S.ch]||CH[0],t=myTeam(),ph=S.phase;
@@ -2902,17 +2922,22 @@ function playerMain(){
     <button class="cta" data-a="made">${me.tb==null?'조 번호를 골라 주세요':'완성! 사무실로 들어가기'}</button>`}
    else if(ph==='lobby'||ph==='intro'){m=`<p class="lead" style="text-align:center">${ph==='lobby'?`앞 화면에 내 캐릭터가 보이나요?<br>아래 바닥을 누르면 그곳으로 걸어가요.<br>나는 <b>${me.tb+1}조</b>, 가까이 앉은 사람들이 한 조예요.`:'이야기가 시작됐어요. 앞 화면을 봐 주세요.'}</p>
     <div class="pad" id="pad"><em>사무실 바닥 (위쪽이 안쪽)</em><i id="dot" style="left:${me.pos[0]*100}%;top:${me.pos[1]*100}%">${ANI[me.av[0]][1]}</i></div>${ph==='lobby'?'<button class="ghost" data-a="edit">✏️ 캐릭터 다시 꾸미기</button>':''}`}
-   else if(ph==='pick'){emo=false;const v=me.picks[S.ch];m=`<h2>${S.ch+1}장. ${c.title}</h2><p class="lead">${c.text}</p><div class="ptimer"><s id="pt"></s></div>${pbtn('A',v==='A',v&&v!=='A','p')}${pbtn('B',v==='B',v&&v!=='B','p')}<p class="hint">${v?'선택 완료! 마감 전까지 바꿀 수 있어요.':'나라면 어떻게 할까요?'}</p>`}
-   else if(ph==='reveal'){const v=me.picks[S.ch],n=v?S.counts[v==='A'?0:1]-1:0;m=`<div class="bigem">${v?c[v].e:'🤷'}</div><h2 style="text-align:center">${v?(n>0?`나와 같은 쪽 ${n}명`:'이쪽은 나 혼자!'):'이번엔 선택 안 함'}</h2><p class="lead" style="text-align:center">${c.A.e} ${S.counts[0]}명 &nbsp;vs&nbsp; ${c.B.e} ${S.counts[1]}명</p><p class="hint">앞 화면에서 우리 테이블 캐릭터들을 보세요.</p>`}
+   else if(ph==='warm'){emo=false;const w=WQ[S.wq]||WQ[0],a=S.wans&&S.wans[S.wq],v=me.wm[S.wq];const wb=k=>`<button class="pbtn ${v===k?'sel':''} ${(a&&a!==k)||(v&&v!==k&&!a)?'dimmed':''}" style="--oc:${WC[k]};padding:12px 14px" data-w="${k}"><div class="em" style="font-size:34px">${WL[k][0]}</div><div><h3>${WL[k][1]}</h3><p>${w[k]}</p></div></button>`;
+    m=`<h2>강사 맞히기 ${S.wq+1}/${WQ.length}</h2><p class="lead">강사의 <b>${w.n}</b>은?<br><small style="color:var(--dim)">${w.q}</small></p>${wb('H')}${wb('M')}${wb('L')}<p class="hint">${a?(v===a?'⭕ 맞혔어요!':v?'아쉽! 정답은 '+WL[a][1]:'이번엔 선택 안 함'):v?'선택 완료! 정답 공개를 기다려요.':'감으로 골라 보세요'}</p>`}
+   else if(ph==='pick'){emo=false;const v=me.picks[S.ch],gv=me.gs[S.ch];m=`<h2>${S.ch+1}장. ${c.title}</h2><p class="lead">${c.text}</p><div class="ptimer"><s id="pt"></s></div>${pbtn('A',v==='A',v&&v!=='A','p')}${pbtn('B',v==='B',v&&v!=='B','p')}${v?`<p class="lead" style="text-align:center;margin-top:4px">🔮 텔레파시: 우리 조는 어느 쪽이 더 많을까?</p><div class="tbs"><button data-g="A" class="${gv==='A'?'on':''}" style="--tc:${OC.A}">${c.A.e}</button><button data-g="B" class="${gv==='B'?'on':''}" style="--tc:${OC.B}">${c.B.e}</button></div>`:'<p class="hint">나라면 어떻게 할까요?</p>'}`}
+   else if(ph==='reveal'){const v=me.picks[S.ch],n=v?S.counts[v==='A'?0:1]-1:0;m=`<div class="bigem">${v?c[v].e:'🤷'}</div><h2 style="text-align:center">${v?(n>0?`나와 같은 쪽 ${n}명`:'이쪽은 나 혼자!'):'이번엔 선택 안 함'}</h2><p class="lead" style="text-align:center">${c.A.e} ${S.counts[0]}명 &nbsp;vs&nbsp; ${c.B.e} ${S.counts[1]}명</p><p class="lead" style="text-align:center">${(()=>{const g=me.gs[S.ch],sp=S.tsp&&S.tsp[t];if(!g||!sp)return'';return (sp[0]===sp[1]||(g==='A')===(sp[0]>sp[1]))?'🔮 텔레파시 적중! 우리 조를 잘 아네요':'🔮 텔레파시 빗나감! 우리 조는 '+c.A.e+sp[0]+' : '+c.B.e+sp[1]})()}</p><p class="hint">앞 화면에서 우리 조 캐릭터들을 보세요.</p>`}
    else if(ph==='team'){const cap=S.caps&&S.caps[t],isCap=cap===me.id,done=S.tdec&&S.tdec[t],cn=cap&&S.roster&&S.roster[cap];
     if(isCap){emo=false;m=`<h2>👑 이번 결정권자는 나!</h2><p class="lead">우리 조는 ${c.A.e} ${(S.tsp&&S.tsp[t]||[0,0])[0]} : ${c.B.e} ${(S.tsp&&S.tsp[t]||[0,0])[1]}. 이유를 다 들은 뒤 <b>조의 선택</b>을 눌러 주세요.</p><div class="ptimer"><s id="pt"></s></div>${pbtn('A',done==='A'||me.dec[S.ch]==='A',done&&done!=='A','d')}${pbtn('B',done==='B'||me.dec[S.ch]==='B',done&&done!=='B','d')}<p class="hint">${me.dec[S.ch]?'조의 결정이 전달됐어요.':'한 번 누르면 확정돼요.'}</p>`}
     else{const sp=S.tsp&&S.tsp[t]||[0,0],uni=!sp[0]||!sp[1];m=`<h2 style="text-align:center">💬 조 회의 시간</h2><p class="lead" style="text-align:center">우리 조의 선택<br><b class="disp" style="font-size:34px"><span style="color:${OC.A}">${c.A.e} ${sp[0]}</span> : <span style="color:${OC.B}">${c.B.e} ${sp[1]}</span></b></p><p class="lead" style="text-align:center">${uni?'만장일치네요! 그래도 반대쪽을 고른다면 어떤 이유일지 이야기해 보세요.':'갈렸네요! 다르게 고른 사람의 이유를 한 명씩 들어 보세요.'}</p><div class="ptimer"><s id="pt"></s></div><p class="lead" style="text-align:center">결정권자: <b>${cn?esc(cn[1])+' '+esc(cn[0]):'-'}</b> ${done?'<br>✔ 조의 결정 완료':''}</p>`}}
    else if(ph==='stop'){const cap=S.caps&&S.caps[t],isCap=cap===me.id,z=(S.zone&&S.zone[t])||[0,0],d=S.out&&S.out[t],cn=cap&&S.roster&&S.roster[cap],op=c[S.tdec[t]]||c.A,mine=me.stop[S.ch];
     if(isCap){emo=false;m=`<h2 style="text-align:center">🎯 타이밍 멈추기</h2><p class="lead" style="text-align:center">${op.e} ${op.t}<br>바늘이 <b style="color:#5d9147">초록 구간</b>에 올 때 멈추세요!<br><small style="color:var(--dim)">어느 선택이든 준비도는 오르고, 맞추면 보너스 +1</small></p><div class="zbar big"><i style="left:${z[0]}%;width:${z[1]}%"></i><u id="nd" style="left:${mine!=null?mine:d?d.roll:0}%"></u></div>${mine!=null||d?'<p class="lead" style="text-align:center">멈췄어요! 앞 화면에서 결과를 확인하세요.</p>':'<button class="tapb" id="stopb">멈춰!</button>'}`}
     else m=`<div class="bigem">📣</div><h2 style="text-align:center">응원 타임!</h2><p class="lead" style="text-align:center">결정권자 <b>${cn?esc(cn[1])+' '+esc(cn[0]):'-'}</b>님이 타이밍을 재고 있어요.<br>${d?'✋ 멈췄어요! 앞 화면을 보세요.':'아래 말풍선으로 응원을 보내 주세요!'}</p><div class="zbar big"><i style="left:${z[0]}%;width:${z[1]}%"></i>${d?'':'<u class="mv" style="transition:none"></u>'}</div>`}
-   else if(ph==='rush'){const R=S.rush,r=RUSH[R.k],n=me.tap&&me.tap[0]===R.k?me.tap[1]:0;emo=false;
-    m=R.done?`<div class="bigem">${r.e}</div><h2 style="text-align:center">${R.full?'미션 성공!':'여기까지!'}</h2><p class="lead" style="text-align:center">${ptHtml(R.pt)}<br>${R.hold?'다 같이 버틴 결과예요!':`내가 보탠 연타 <b>${n}번</b>, 모두 합쳐 ${R.total}번`}</p>${myGauge()}`
-     :`<h2 style="text-align:center">🚨 ${r.t}</h2><p class="lead" style="text-align:center">${R.go?(R.hold?'꾹 누른 채 버티세요! 떼면 느려져요':'지금! 마구 눌러 주세요!'):'준비… 곧 시작해요'}</p><button class="tapb ${R.hold&&me.hold&&me.hold[0]===R.k&&me.hold[1]?'on':''}" id="tapb" ${R.go?'':'disabled'}>${r.e}<br><span id="tapn">${R.go?(R.hold?'꾹!':n):'준비'}</span></button><div class="ptimer"><s id="pt"></s></div>`}
+   else if(ph==='rush'){const R=S.rush,r=RUSH[R.k],ty=R.type;emo=false;
+    if(R.done)m=`<div class="bigem">${r.e}</div><h2 style="text-align:center">${R.full?'미션 성공!':'여기까지!'}</h2><p class="lead" style="text-align:center">${ptHtml(R.pt)}<br>${ty==='hold'?'다 같이 버틴 결과예요!':ty==='count'?'최고 기록 '+R.best+' / '+R.N:'우리 조가 돌린 초대장 '+((R.by&&R.by[t])||0)+'장'}</p>${myGauge()}`;
+    else if(!R.go)m=`<h2 style="text-align:center">🤝 ${r.t}</h2><p class="lead" style="text-align:center">${r.m}</p><button class="tapb" disabled>${r.e}<br>준비</button>`;
+    else if(ty==='count'){const mine=R.lastBy===me.id;m=`<h2 style="text-align:center">🔢 지금 ${R.cnt} / ${R.N}</h2><p class="lead" style="text-align:center">${mine?'방금 내가 눌렀어요. 다른 사람 차례!':'눈치껏! 겹치면 1부터 다시'}</p><button class="tapb" id="cnb" ${mine?'disabled':''}>${R.cnt+1}<br><span style="font-size:.5em">외치기!</span></button><div class="ptimer"><s id="pt"></s></div>`}
+    else if(ty==='relay'){const mine=R.tok&&R.tok[t]===me.id,hn=R.tok&&S.roster&&S.roster[R.tok[t]];m=`<h2 style="text-align:center">💌 우리 조 ${(R.by&&R.by[t])||0}장</h2><p class="lead" style="text-align:center">${mine?'내 차례! 눌러서 넘기세요':'지금 초대장: '+(hn?esc(hn[1])+' '+esc(hn[0]):'-')}</p><button class="tapb ${mine?'on':''}" id="rlb" ${mine?'':'disabled'}>💌<br><span style="font-size:.6em">${mine?'넘기기!':'기다려요'}</span></button><div class="ptimer"><s id="pt"></s></div>`}
+    else m=`<h2 style="text-align:center">🚩 ${r.t}</h2><p class="lead" style="text-align:center">꾹 누른 채 버티세요! 떼면 느려져요</p><button class="tapb ${me.hold&&me.hold[0]===R.k&&me.hold[1]?'on':''}" id="tapb">${r.e}<br><span id="tapn">꾹!</span></button><div class="ptimer"><s id="pt"></s></div>`}
    else if(ph==='outcome'){const o=S.out&&S.out[t];if(o){const op=c[o.k],r=op.ok;m=`<p class="hint">우리 조의 선택</p><div class="bigem" id="ob">🎯</div><div id="ores" hidden><h2 style="text-align:center;color:${OC[o.k]}">${op.e} ${op.t}</h2><p class="lead" style="text-align:center">${r[0]}</p><p class="lead" style="text-align:center">이 선택이 준 것: ${gainHtml(r[1])}<br>${ptHtml(o.pt)}${o.ok?' 타이밍 보너스!':''}</p></div>${myGauge()}`}else m=`<div class="bigem">👀</div><p class="lead" style="text-align:center">앞 화면을 봐 주세요.</p>`}
    else if(ph==='event'){const e=EV[S.ev.id],hit=S.ev.tg<0||S.ev.tg===t;m=`<div class="bigem">${e.e}</div><h2 style="text-align:center">${e.t}</h2><p class="lead" style="text-align:center">${e.m}</p><p class="lead" style="text-align:center">${e.all?'':hit?'🎉 우리 조 덕분에! ':TEAMS[S.ev.tg].n+' 덕분에! '}${ptHtml(S.ev.pt)}</p>${myGauge()}`}
    else if(ph==='ending'){const e=S.end||{};m=`<div class="bigem">🎊</div><h2 style="text-align:center">${e.tier||''}</h2><p class="lead" style="text-align:center"><b class="disp" style="font-size:48px;color:var(--btn2)">준비도 ${e.pct}%</b><br>우리 ${TEAMS[t].n}가 보탠 준비도 +${(S.contrib&&S.contrib[t])||0}</p>`}
@@ -2930,6 +2955,7 @@ function playerMain(){
  const rel=()=>{if(me.hold&&me.hold[1]){me.hold=[me.hold[0],0];const b=$('#tapb');if(b)b.classList.remove('on');send()}};['pointerup','pointercancel'].forEach(ev=>addEventListener(ev,rel));addEventListener('blur',rel);addEventListener('contextmenu',e=>{if(e.target.closest&&e.target.closest('.tapb'))e.preventDefault()});
  let lastEm=0;
  app.addEventListener('pointerdown',e=>{SFX.unlock();if(e.target.closest('#stopb')&&S&&S.phase==='stop'&&me.stop[S.ch]==null){me.stop[S.ch]=Math.round(needle());SFX.sel();try{navigator.vibrate&&navigator.vibrate(60)}catch(_){}send();render();return}
+  if(S&&S.phase==='rush'&&S.rush.go&&!S.rush.done){const k=S.rush.k,cb=e.target.closest('#cnb'),rb=e.target.closest('#rlb');if(cb&&!cb.disabled){me.cn=[k,(me.cn&&me.cn[0]===k?me.cn[1]:0)+1];cb.disabled=true;setTimeout(()=>{cb.disabled=false},900);SFX.sel();try{navigator.vibrate&&navigator.vibrate(40)}catch(_){}send();return}if(rb&&!rb.disabled){me.rl=[k,(me.rl&&me.rl[0]===k?me.rl[1]:0)+1];rb.disabled=true;rb.classList.remove('on');SFX.pop();try{navigator.vibrate&&navigator.vibrate(30)}catch(_){}send();return}}
   if(e.target.closest('#tapb')&&S&&S.phase==='rush'&&S.rush.go&&!S.rush.done&&S.rush.hold){e.preventDefault();me.hold=[S.rush.k,1];e.target.closest('#tapb').classList.add('on');try{navigator.vibrate&&navigator.vibrate(30)}catch(_){}send();return}
   if(e.target.closest('#tapb')&&S&&S.phase==='rush'&&S.rush.go&&!S.rush.done){const k=S.rush.k;me.tap=[k,(me.tap&&me.tap[0]===k?me.tap[1]:0)+1];const tn=$('#tapn');if(tn)tn.textContent=me.tap[1];if(me.tap[1]%4===0)SFX.pop();if(!tapT)tapT=setTimeout(()=>{tapT=0;send()},300);return}
   const pad=e.target.closest('#pad');if(pad){const r=pad.getBoundingClientRect();me.pos=[clamp((e.clientX-r.left)/r.width,0,1),clamp((e.clientY-r.top)/r.height,0,1)];const d=$('#dot');if(d){d.style.left=me.pos[0]*100+'%';d.style.top=me.pos[1]*100+'%'}SFX.pop();send()}});
@@ -2937,6 +2963,8 @@ function playerMain(){
   for(let i=0;i<3;i++){const b=g('[data-av'+i+']');if(b){me.av[i]=+b.dataset['av'+i];if(i===0)me.n=me.adj+' '+ANI[me.av[0]][0];SFX.pop();send();render()}}
   const tbb=g('[data-tb]');if(tbb){me.tb=+tbb.dataset.tb;SFX.pop();send();render()}
   if(em){const now=Date.now();if(now-lastEm>1200){lastEm=now;me.em=[+em.dataset.e,now];SFX.pop();send()}}
+  const wv=g('[data-w]'),gv=g('[data-g]');if(wv&&S&&S.phase==='warm'&&!(S.wans&&S.wans[S.wq])){me.wm[S.wq]=wv.dataset.w;SFX.sel();send();render()}
+  if(gv&&S&&S.phase==='pick'){me.gs[S.ch]=gv.dataset.g;SFX.pop();send();render()}
   if(p&&S&&S.phase==='pick'){me.picks[S.ch]=p.dataset.p;SFX.sel();try{navigator.vibrate&&navigator.vibrate(30)}catch(_){}send();render()}
   if(d&&S&&S.phase==='team'&&!me.dec[S.ch]&&!(S.tdec&&S.tdec[myTeam()])){me.dec[S.ch]=d.dataset.d;SFX.sel();send();render()}
   if(a){const k=a.dataset.a;if(k==='reroll'){me.adj=pickOne(ADJ);me.n=me.adj+' '+ANI[me.av[0]][0];SFX.pop();send();render()}
