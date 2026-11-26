@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<title>D-1 사무실 대작전</title>
+<title>완벽한 송년의 밤 대작전</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@500;700;900&display=swap">
 <style>
 /* 해 질 녘의 아늑한 사무실: 크림 종이 + 세이지 벽 + 나무 바닥. 채도는 낮게, 글씨는 크게 */
@@ -2698,20 +2698,26 @@ function drawAv(x,X,Y,u,a,t){
 
 /* 맵 */
 const World=(()=>{const cv=$('#world'),x=cv.getContext('2d');let W=0,H=0,dpr=1,on=false,T0=performance.now(),last=T0;
- const A={};let rugs=[],board='';
+ const A={};let rugs=[],board='',deco={lv:0,items:[]},dlv=0;
+ const mix=(a,b,t)=>{const p=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)),A2=p(a),B2=p(b);return 'rgb('+A2.map((v,i)=>Math.round(v+(B2[i]-v)*t)).join(',')+')'};
  const HZ=.3;
  function size(){dpr=Math.min(2,devicePixelRatio||1);W=innerWidth;H=innerHeight;cv.width=W*dpr;cv.height=H*dpr}
  function proj(px,py){return{X:W/2+(px-.5)*W*(.74+.24*py),Y:H*HZ+H*(1-HZ-.03)*py,s:.62+.5*py}}
  function quad(cx,cy,w,h){const a=proj(cx-w/2,cy-h/2),b=proj(cx+w/2,cy-h/2),c=proj(cx+w/2,cy+h/2),d=proj(cx-w/2,cy+h/2);x.beginPath();x.moveTo(a.X,a.Y);x.lineTo(b.X,b.Y);x.lineTo(c.X,c.Y);x.lineTo(d.X,d.Y);x.closePath()}
  function room(){
-  x.fillStyle='#bccdbf';x.fillRect(0,0,W,H*HZ);
-  const ww=W*.13,wh=H*.15,wy=H*.07;for(const cx of [.12,.88]){const X=W*cx-ww/2;const g=x.createLinearGradient(0,wy,0,wy+wh);g.addColorStop(0,'#8a93b8');g.addColorStop(.6,'#e2b49a');g.addColorStop(1,'#f0cfa0');x.fillStyle=g;rr(x,X,wy,ww,wh,12);x.fill();x.lineWidth=6;x.strokeStyle='#f6efe0';x.stroke();x.beginPath();x.moveTo(X+ww/2,wy);x.lineTo(X+ww/2,wy+wh);x.stroke()}
+  dlv+=(deco.lv-dlv)*.03;const k=clamp(dlv/5,0,1),tt=performance.now()/1000;
+  x.fillStyle=mix('#bccdbf','#3a4170',k);x.fillRect(0,0,W,H*HZ);
+  const ww=W*.13,wh=H*.15,wy=H*.07;for(const cx of [.12,.88]){const X=W*cx-ww/2;const g=x.createLinearGradient(0,wy,0,wy+wh);g.addColorStop(0,mix('#8a93b8','#141a3c',k));g.addColorStop(.6,mix('#e2b49a','#2b3266',k));g.addColorStop(1,mix('#f0cfa0','#4a4f8a',k));x.fillStyle=g;rr(x,X,wy,ww,wh,12);x.fill();if(k>.5){x.fillStyle='rgba(255,244,200,'+(k-.5)*1.6+')';for(let i=0;i<7;i++){const sx=X+ww*((i*37%100)/100*.8+.1),sy=wy+wh*((i*53%100)/100*.7+.1),sr=1.5+((Math.sin(tt*2+i)+1)*1.2);x.beginPath();x.arc(sx,sy,sr,0,7);x.fill()}}x.lineWidth=6;x.strokeStyle='#f6efe0';x.stroke();x.beginPath();x.moveTo(X+ww/2,wy);x.lineTo(X+ww/2,wy+wh);x.stroke()}
   if(board){const bw=W*.3,bh=H*.13,bx=W/2-bw/2,by=H*.115;x.fillStyle='#fffdf6';rr(x,bx,by,bw,bh,10);x.fill();x.lineWidth=5;x.strokeStyle='#8c8177';x.stroke();x.fillStyle='#3b3228';x.textAlign='center';x.textBaseline='middle';x.font=`${bh*.42}px Jua,"Noto Sans KR",${EFONT}`;x.fillText(board,W/2,by+bh/2)}
-  x.fillStyle='#a9bdad';x.fillRect(0,H*HZ-H*.02,W,H*.02);
-  const g=x.createLinearGradient(0,H*HZ,0,H);g.addColorStop(0,'#e3cfab');g.addColorStop(1,'#ecdcc0');x.fillStyle=g;x.fillRect(0,H*HZ,W,H);
+  x.fillStyle=mix('#a9bdad','#2a2f58',k);x.fillRect(0,H*HZ-H*.02,W,H*.02);
+  const g=x.createLinearGradient(0,H*HZ,0,H);g.addColorStop(0,mix('#e3cfab','#b88f9c',k));g.addColorStop(1,mix('#ecdcc0','#e2c08f',k));x.fillStyle=g;x.fillRect(0,H*HZ,W,H);
+  if(dlv>1.2){const n=22,a=clamp(dlv-1.2,0,1),cols=['#ff6b6b','#ffd93d','#6bcb77','#4d96ff','#ff9ff3'];for(const yy of [H*.012,H*HZ-H*.012]){x.strokeStyle='rgba(60,50,40,'+.5*a+')';x.lineWidth=2;x.beginPath();for(let i=0;i<=n;i++){const px=W*i/n,py=yy+Math.sin(i/n*Math.PI*6)*H*.008+H*.012;i?x.lineTo(px,py):x.moveTo(px,py)}x.stroke();for(let i=0;i<=n;i++){const px=W*i/n,py=yy+Math.sin(i/n*Math.PI*6)*H*.008+H*.02,on=(Math.sin(tt*3+i*1.7)+1)/2;x.globalAlpha=a*(.55+.45*on);x.fillStyle=cols[i%5];x.beginPath();x.arc(px,py,H*.008*(1+.25*on),0,7);x.fill()}x.globalAlpha=1}}
   x.strokeStyle='rgba(120,95,60,.13)';x.lineWidth=2;for(let i=0;i<=12;i++){const a=proj(i/12*1.3-.15,0),b=proj(i/12*1.3-.15,1.05);x.beginPath();x.moveTo(a.X,a.Y);x.lineTo(b.X,b.Y);x.stroke()}
   for(let j=1;j<6;j++){const p=proj(0,j/6);x.beginPath();x.moveTo(0,p.Y);x.lineTo(W,p.Y);x.stroke()}
   x.textAlign='center';x.textBaseline='alphabetic';x.fillStyle='#000';x.font=`${H*.09}px ${EFONT}`;x.fillText('🪴',W*.035,H*HZ+H*.035);x.fillText('🪴',W*.965,H*HZ+H*.035);
+  {const slots=[[-.035,.22],[1.035,.22],[-.04,.52],[1.04,.52],[.5,-.02]];deco.items.forEach((em,i)=>{if(!em||!slots[i])return;const s=slots[i],p=proj(s[0],s[1]),u=H*.085*p.s,bob=Math.sin(tt*1.6+i)*u*.04;x.fillStyle='rgba(60,40,20,.18)';x.beginPath();x.ellipse(p.X,p.Y+u*.05,u*.6,u*.16,0,0,7);x.fill();x.fillStyle='#fffdf6';rr(x,p.X-u*.62,p.Y-u*.32,u*1.24,u*.36,u*.1);x.fill();x.strokeStyle='#8c6b4a';x.lineWidth=3;x.stroke();x.font=`${u}px ${EFONT}`;x.fillStyle='#000';x.fillText(em,p.X,p.Y-u*.28+bob)});
+   if(dlv>2.5){const a=clamp(dlv-2.5,0,1);x.globalAlpha=a;x.font=`${H*.075}px ${EFONT}`;[[.085,.0],[.915,.0],[.02,.8],[.98,.8]].forEach((b,i)=>{const p=proj(b[0],b[1]);x.fillText('🎈',p.X,p.Y-H*.05+Math.sin(tt*1.3+i*2)*H*.012)});x.globalAlpha=1}
+   if(dlv>4.5){const a=clamp((dlv-4.5)*2,0,1),cols=['#ff6b6b','#ffd93d','#6bcb77','#4d96ff','#ff9ff3'];for(let i=0;i<26;i++){const px=W*((i*61%100)/100),py=H*HZ+H*(1-HZ)*(((i*37%100)/100+tt*.03*(1+i%3))%1);x.globalAlpha=a*.55;x.fillStyle=cols[i%5];x.fillRect(px,py,H*.008,H*.014)}x.globalAlpha=1}}
   for(const r of rugs){x.fillStyle=r.c;x.globalAlpha=.3;quad(r.x,r.y,r.w,r.h);x.fill();x.globalAlpha=.75;x.lineWidth=4;x.strokeStyle=r.c;x.stroke();x.globalAlpha=1}
  }
  function frame(now){if(!on)return;const t=(now-T0)/1000,dt=Math.min(.05,(now-last)/1000);last=now;x.setTransform(dpr,0,0,dpr,0,0);room();
@@ -2726,7 +2732,7 @@ const World=(()=>{const cv=$('#world'),x=cv.getContext('2d');let W=0,H=0,dpr=1,o
   sync(list){const seen={};for(const p of list){seen[p.id]=1;let a=A[p.id];if(!a){a=A[p.id]={x:.45+Math.random()*.1,y:.02,ph:Math.random()*6,jump:0}}a.tx=p.tx;a.ty=p.ty;a.name=p.name;a.a=p.av[0];a.c=p.av[1];a.h=p.av[2];a.tc=p.tc;a.crown=p.crown;a.badge=p.badge}for(const k in A)if(!seen[k])delete A[k]},
   say(id,text){const a=A[id];if(a){a.bub=text;a.bubT=performance.now()+3000}},
   jump(id,sec){const a=A[id];if(a)a.jump=sec},
-  set(o){if(o.rugs)rugs=o.rugs;if(o.board!=null)board=o.board}}})();
+  set(o){if(o.rugs)rugs=o.rugs;if(o.board!=null)board=o.board;if(o.deco)deco=o.deco}}})();
 
 function connect(url,cid){return mqtt.connect(url,{clientId:cid,clean:true,reconnectPeriod:2000,connectTimeout:7000,keepalive:25})}
 
@@ -2734,7 +2740,7 @@ const ROLE=Q.get('host')?'host':(Q.get('r')?'player':'land');
 if(ROLE==='land')landing(); else if(ROLE==='host')hostMain(); else playerMain();
 
 function landing(){
- app.innerHTML=`<div class="land"><div class="bigem">🏢</div><h1 class="disp" style="font-size:44px">D-1 사무실 대작전</h1>
+ app.innerHTML=`<div class="land"><div class="bigem">🎉</div><h1 class="disp" style="font-size:44px">완벽한 송년의 밤 대작전</h1>
  <p class="hint">참가 코드를 입력하세요</p><input id="code" maxlength="5" autocomplete="off" placeholder="ABCD1">
  <button class="cta" style="max-width:260px" id="go">참가하기</button>
  <button class="ghost" style="max-width:260px;margin-top:20px" id="hostgo">강사 화면 열기</button></div>`;
@@ -2748,7 +2754,7 @@ function hostMain(){
  const saved=LS.get('oa3_host');
  if(saved&&saved.G){G=saved.G;P=saved.P||{};L=saved.L||{};deadline=Date.now()+(G.left||0)}
  function newGame(){const code=Array.from({length:4},()=>'ABCDEFGHJKLMNPQRSTUVWXYZ'[rnd(24)]).join('');
-  G={room:code,b:0,phase:'lobby',ch:0,seq:0,nT:4,teams:{},caps:[],counts:[0,0],ans:0,tdec:[],out:[],score:0,goal:1,contrib:[],tsp:[],zone:[],auto:[],rush:null,wq:0,wans:[],wcnt:{H:0,M:0,L:0},tele:[],gans:0,rsn:{A:[0,0,0],B:[0,0,0]},rans:0,rneed:0,h2:[],ws:0,wfirst:[],wres:[],oriDone:false,am:true,run:0,satv:[],satDone:false,mode:'fun',shuf:false,nTm:false,rk:null,hintOn:false,hid:[],pord:[],ev:null,evUsed:[],hist:[],tdh:[],dur:0,left:0,end:null};P={};L={}}
+  G={room:code,b:0,phase:'lobby',ch:0,seq:0,nT:4,teams:{},caps:[],counts:[0,0],ans:0,tdec:[],out:[],score:0,goal:1,contrib:[],tsp:[],zone:[],auto:[],rush:null,wq:0,wans:[],wcnt:{H:0,M:0,L:0},tele:[],gans:0,rsn:{A:[0,0,0],B:[0,0,0]},rans:0,rneed:0,h2:[],ws:0,wfirst:[],wres:[],oriDone:false,am:true,dec:[],run:0,satv:[],satDone:false,mode:'fun',shuf:false,nTm:false,rk:null,hintOn:false,hid:[],pord:[],ev:null,evUsed:[],hist:[],tdh:[],dur:0,left:0,end:null};P={};L={}}
  if(!G)newGame();setMode(G.mode,G.rk&&G.rk.i);const fun=()=>G.mode!=='work';
  World.start();
  const base=()=>NS+G.room+G.b+'/';
@@ -2758,7 +2764,8 @@ function hostMain(){
  const liveTeams=()=>{const r=[];for(let t=0;t<G.nT;t++)if(teamOf(t).length)r.push(t);return r};
  const save=()=>LS.set('oa3_host',{G,P,L});
  function pub(){G.left=Math.max(0,deadline-Date.now());if(cli&&cli.connected){const roster={};for(const p of pids())roster[p]=[P[p].n,ANI[P[p].av[0]][1]];cli.publish(base()+'state',JSON.stringify({...G,roster}),{retain:true,qos:1})}save()}
- function setPhase(ph,sec){G.phase=ph;G.seq++;G.dur=(sec||0)*1000;deadline=sec?Date.now()+sec*1000:0;clearTimeout(autoT);autoT=0;pub();render(true);layout()}
+ let phT=0;function nextM(){if(Date.now()-phT<1000)return;next()}
+ function setPhase(ph,sec){phT=Date.now();G.phase=ph;G.seq++;G.dur=(sec||0)*1000;deadline=sec?Date.now()+sec*1000:0;clearTimeout(autoT);autoT=0;pub();render(true);layout()}
  function assign(pid){if(G.teams[pid]!=null&&G.teams[pid]<G.nT)return;let best=0,bn=1e9;for(let t=0;t<G.nT;t++){const n=teamOf(t).length;if(n<bn){bn=n;best=t}}G.teams[pid]=best}
  function setTables(n){G.nT=n;G.nTm=true;for(const p of pids()){if(G.teams[p]>=n){delete G.teams[p];assign(p)}}pub();render(true);SFX.pop()}
  function tryConnect(i){if(i>=BROKERS.length){toast('연결 실패. 인터넷을 확인한 뒤 새로고침해 주세요.');return}
@@ -2801,7 +2808,7 @@ function hostMain(){
  function rankResolve(){rkcount();const c=G.rk.c,mx=Math.max(...c),tv=rkT(c,RK.tg);let hit=0;for(const p of pids()){const r=P[p].rk;if(r&&r[2]===G.rk.i&&rk4(r[1])&&mx>0&&c[r[1]]===tv)hit++}G.rk.hit=hit;G.rk.bonus=G.rk.gn>0&&hit*(RK.tg?3:2)>=G.rk.gn?2:0;G.rk.done=true;if(G.rk.bonus)addPts(-1,G.rk.bonus);setPhase('rankres');SFX.steps();setTimeout(()=>SFX.fanfare(),2600)}
  function initRun(){if(!pids().length){toast('참가자가 아직 없습니다');return false}if(!G.shuf){G.shuf=true;const ids=pids();if(!G.nTm)G.nT=clamp(Math.round(ids.length/4),2,5);for(let i=ids.length-1;i>0;i--){const j=rnd(i+1);[ids[i],ids[j]]=[ids[j],ids[i]]}ids.forEach((p,i)=>{G.teams[p]=i%G.nT})}for(const p of pids())assign(p);G.score=0;G.contrib=Array(G.nT).fill(0);G.goal=Math.max(1,Math.round(liveTeams().length*5*3.2));return true}
  function startOri(){if(!initRun())return;G.wq=0;G.ws=0;G.wans=[];G.wfirst=[];G.wres=[];G.pord=[];G.hid=[];G.wcnt={H:0,M:0,L:0};setPhase('warm');SFX.card()}
- function startMain(){if(!initRun())return;G.run=(G.run||0)+1;G.satv=[];G.satDone=false;G.ch=0;G.rk=null;G.pord=[];setPhase('intro');SFX.alarm()}
+ function startMain(){if(!initRun())return;G.run=(G.run||0)+1;G.dec=[];G.satv=[];G.satDone=false;G.ch=0;G.rk=null;G.pord=[];setPhase('intro');SFX.alarm()}
  function next(){SFX.unlock();const ph=G.phase;
   if(ph==='lobby'){if(G.oriDone)startMain();else startOri()}
   else if(ph==='warm'){if(!G.wans[G.wq]){if(G.ws===0&&G.hintOn){const f={};for(const p of pids()){const v=P[p].wm&&P[p].wm[G.wq];if(v)f[p]=v}G.wfirst[G.wq]=f;G.ws=1;setPhase('warm');SFX.card();return}wAnswer(WQ[G.wq].def);return}if(G.wq<WQ.length-1){G.wq++;G.ws=0;G.pord=[];G.wcnt={H:0,M:0,L:0};setPhase('warm');SFX.card()}else{G.oriDone=true;setPhase('omean');SFX.card()}}
@@ -2824,7 +2831,7 @@ function hostMain(){
  }
  function startPick(){G.counts=[0,0];G.ans=0;setPhase('pick');SFX.alarm();shake()}
  function lockPick(){recount();for(const p of pids()){L[p]=L[p]||{};if(P[p].picks[G.ch])L[p][G.ch]=P[p].picks[G.ch]}G.hist[G.ch]=G.counts.slice();G.tsp=[];for(let t=0;t<G.nT;t++){const m=teamOf(t);G.tsp.push([m.filter(p=>P[p].picks[G.ch]==='A').length,m.filter(p=>P[p].picks[G.ch]==='B').length])}{let hit=0,n=0;for(const p of pids()){const g=P[p].gs&&P[p].gs[G.ch],sp=G.counts;if(!g||!sp)continue;n++;if(sp[0]===sp[1]||(g==='A')===(sp[0]>sp[1]))hit++}const bonus=n>0&&hit*2>=n?1:0;G.tele[G.ch]=[hit,n,bonus];if(bonus)addPts(-1,1)}setPhase('reveal');SFX.steps();setTimeout(()=>SFX.ok(),1900)}
- function resolve(){rcount();rguess();G.out=[];for(let t=0;t<G.nT;t++){if(!teamOf(t).length){G.out.push(null);continue}const sp=G.tsp[t]||[0,0];G.out.push({k:sp[1]>sp[0]?'B':'A',ok:false,auto:false,pt:2});addPts(t,2)}
+ function resolve(){rcount();rguess();{const h=G.hist[G.ch]||[0,0];G.dec[G.ch]=h[1]>h[0]?'B':'A'}G.out=[];for(let t=0;t<G.nT;t++){if(!teamOf(t).length){G.out.push(null);continue}const sp=G.tsp[t]||[0,0];G.out.push({k:sp[1]>sp[0]?'B':'A',ok:false,auto:false,pt:2});addPts(t,2)}
   G.tdh[G.ch]=null;setPhase('outcome')}
  function stopAt(){} function settle(){setPhase('outcome')}
  function startRush(){const k=EV_AFTER.indexOf(G.ch),ty=RUSH[k].type,N=clamp(pids().length,5,15),live=liveTeams();
@@ -2869,6 +2876,7 @@ function hostMain(){
   else if(ph==='reveal')tables(.36,.46,.4,null,.2);
   else if(ph==='gather'||ph==='debrief'||ph==='orgmap'||ph==='omean'||ph==='rank'||ph==='rankres'||ph==='sat')tables(.83,.9,.2,null,.07);
   else tables(.58,.68,.5,(p,t)=>({crown:(ph==='team'||ph==='stop')&&G.caps[t]===p}));
+  {const ori=['lobby','warm','omean'].includes(ph)&&!(G.dec||[]).length,items=ori?[]:CH.map((c,i)=>G.dec&&G.dec[i]?c[G.dec[i]].e:null),endP=['ending','sat','colors','gather','orgmap','debrief'].includes(ph);World.set({deco:{lv:ori?0:endP?5:items.filter(Boolean).length,items}})}
   World.sync(list);World.set({rugs,board:ph==='lobby'?'':['ending','sat','colors','gather','orgmap','debrief'].includes(ph)?'':(ph==='pick'||ph==='reveal'||ph==='intro')?'':''})}
 
  const strip=()=>`<div class="strip">${liveTeams().map(t=>`<div id="tg${t}" style="--tc:${TEAMS[t].c}">${TEAMS[t].e} ${TEAMS[t].n} &nbsp;🎯 +${G.contrib[t]||0}</div>`).join('')}</div>`;
@@ -2880,7 +2888,7 @@ function hostMain(){
   const c=CH[G.ch]||CH[0],live=liveTeams();let st='',nextLabel='다음 ▶';const endPh=['ending','sat','colors','gather','orgmap','debrief'].includes(G.phase);
   if(G.phase==='lobby'){nextLabel=G.oriDone?'메인 게임 시작 ▶':'오리엔테이션 시작 ▶';
    st=`<div class="qrpanel">${cli&&cli.connected?qrSvg(joinUrl()):'<p style="padding:5em 1em">연결 중…</p>'}<p>참가 코드 <span>${G.room}${G.b}</span></p></div>
-   <div class="lobbytxt"><h1>D-1 사무실 대작전</h1><p>${G.oriDone?'<span style="color:var(--btn2)">✔ 오리엔테이션 완료.</span> 강의 뒤에 메인 게임으로 이어집니다. ':'QR을 찍고 캐릭터를 만들어 주세요. '}<span style="color:var(--btn2)">${pids().length}명 입장</span></p></div>`}
+   <div class="lobbytxt"><h1>완벽한 송년의 밤 대작전</h1><p>${G.oriDone?'<span style="color:var(--btn2)">✔ 오리엔테이션 완료.</span> 강의 뒤에 메인 게임으로 이어집니다. ':'QR을 찍고 캐릭터를 만들어 주세요. '}<span style="color:var(--btn2)">${pids().length}명 입장</span></p></div>`}
   else if(G.phase==='warm'){const w=WQ[G.wq],a=G.wans[G.wq];nextLabel=!a?(G.ws===0&&G.hintOn?'힌트 타임 ▶':'정답 공개 ▶'):G.wq<WQ.length-1?'다음 질문 ▶':'오늘의 질문 ▶';const wr=G.wres[G.wq]||[0,0,0];
    const sg=k=>`<div class="sign ${a===k?'win':''}" data-wa="${k}" style="--oc:${WC[k]};${a&&a!==k?'opacity:.5':''}"><div><h3>${WL[k][0]} ${WL[k][1]}</h3><p>${w[k]}</p></div>${a?`<div class="cnt"><span data-cnt="${G.wcnt[k]}">0</span><small>명</small></div>`:''}</div>`;
    st=`<div class="signs w3">${sg('H')}${sg('M')}${sg('L')}</div>${a?'':'<div class="pips" style="top:15.5em"><span id="wansn"></span></div>'}${!a&&G.ws===1&&(HINTS[G.wq]||[]).length?`<div class="hcards">${HINTS[G.wq].map((t,i)=>`<div class="hcard" style="animation-delay:${.3+i*3}s"><small>💡 강사 힌트 ${i+1}</small>${t}</div>`).join('')}</div>`:'<div class="popc" id="popc" style="top:17.5em"></div>'}${dlg(a?`강사의 ${w.n}${w.j} "${WL[a][1]}"! ${G.wfirst[G.wq]?`첫인상 ${wr[0]}명 → 힌트 뒤 ${wr[1]}명이 맞혔어요.`:`${wr[2]}명 중 ${wr[1]}명이 맞혔어요.`}`:G.ws===0?`강사 맞히기 ${G.wq+1}/${WQ.length} · 첫인상으로! 강사의 ${w.n}${w.j}?`:'💡 힌트 타임! 강사가 직접 쓴 힌트 카드예요',a?(G.wfirst[G.wq]?'겉으로 본 것과 힌트를 본 뒤, 무엇이 달라졌나요?':'어떤 이유로 그렇게 봤는지 화면에 떠 있어요. 강사님, 한마디 해 주세요!'):G.ws===0?w.n+' = '+w.q+'. 폰에서 고르고, 그렇게 본 이유도 익명으로 남겨 주세요.':'듣고 나서 생각이 바뀌면 폰에서 바꿔도 좋아요.')}`}
@@ -2923,7 +2931,7 @@ function hostMain(){
    <div class="fact"><b>${G.h2.reduce((a,x)=>a+(x?x[2]:0),0)}번</b><span>조건 카드를 보고<br>판단을 바꾼 횟수 (전체 합)</span></div>
    <div class="fact"><b>${G.end.groups}묶음</b><span>다섯 장면 모두<br>같은 길을 간 사람들</span></div></div>
    <div class="says"><p>같은 상황, 같은 정보였는데 첫 수가 달랐습니다. 틀린 선택은 없었습니다.</p><p>반대쪽이 든 이유 중 '아, 그럴 수 있겠다' 싶었던 것이 있었나요? (마음속으로만)</p><p>나는 어떤 정보가 들어오면 판단을 바꾸는 사람인가요? 동료는요?</p><p>그래도 목표는 하나였고, 서로 다른 선택이 모여 준비도를 채웠습니다.</p></div></div>`}
-  app.innerHTML=`<div class="host"><div class="top"><div class="logo">D-1 사무실 대작전</div>${!['lobby','warm','omean'].includes(G.phase)?`<div class="clock">${endPh?'D-DAY':c.time}</div>`:''}
+  app.innerHTML=`<div class="host"><div class="top"><div class="logo">완벽한 송년의 밤 대작전</div>${!['lobby','warm','omean'].includes(G.phase)?`<div class="clock">${endPh?'D-DAY':c.time}</div>`:''}
    <div class="dots">${CH.map((_,i)=>`<b class="${G.phase==='lobby'||G.phase==='intro'?'':i<G.ch||endPh?'done':i===G.ch?'now':''}"></b>`).join('')}</div>
    <div class="roomtag">참가 코드 <span>${G.room}${G.b}</span> · ${pids().length}명</div>${nextLabel?`<button class="next" data-a="next">${nextLabel}</button>`:''}</div>${['lobby','warm','omean'].includes(G.phase)?'':`<div id="goalbox">${goalBar()}</div>`}${st}</div>
    <div class="rot">강사 화면은 가로 화면용입니다. 노트북으로 열거나 폰을 가로로 돌려 주세요.</div><div class="ctrl"><button data-a="gear">⚙</button><button data-a="snd">🔊 소리</button><button data-a="full">⛶ 전체화면</button><button data-a="am">자동 진행: ${G.am!==false?'켜짐':'꺼짐'}</button><button data-a="bot">🤖 연습용 봇 +5</button>${G.phase==='lobby'?`<button data-a="tm-">조 −</button><button data-a="tm+">조 ＋ (${G.nTm?G.nT+'개':'자동'})</button><button data-a="mode">게임: ${fun()?'가볍게(취향)':'진지하게(업무)'}</button><button data-a="hint">강사 힌트 카드: ${G.hintOn?'켜짐':'꺼짐'}</button><button data-a="${G.oriDone?'ori':'main'}">${G.oriDone?'오리엔테이션 다시':'오리엔테이션 건너뛰기'}</button>`:''}<button data-a="reset">↺ 새 게임</button></div>`;
@@ -2953,11 +2961,11 @@ function hostMain(){
   ['A','B'].forEach((k,i)=>{setTimeout(()=>{if(G.seq!==seq)return;const res=c[k].ok,rs=$('#rs'+k),n=h[i];if(rs)rs.innerHTML=n?`${bars(k)}<div class="gain rise" style="font-size:1.4em;margin-top:.5em">이 선택이 준 것: ${gainHtml(res[1])}</div>`:`<div class="msg rise" style="font-size:2.1em;color:var(--dim)">이번엔 아무도 고르지 않았어요.</div>`;SFX.ok();for(const p of pids())if((L[p]||{})[G.ch]===k)World.jump(p,1.8);if(i===1){const sb=$('#stripbox');if(sb)sb.innerHTML=`<div class="strip"><div style="--tc:var(--btn)">🃏 조건 카드를 보고 판단을 바꾼 사람 ${(G.h2[G.ch]||[0,0,0])[2]}명 &nbsp;·&nbsp; 서로 다른 선택이 모여 준비도 +${liveTeams().length*2}</div></div>`;const gb=$('#goalbox');if(gb)gb.innerHTML=goalBar()}},600+i*1800)})}
  function roulette(){const live=liveTeams(),tg=G.ev.tg,seq=G.seq;let i=0,steps=live.length*3+live.indexOf(tg);const go=()=>{if(G.seq!==seq)return;document.querySelectorAll('.strip div').forEach(e=>e.classList.remove('hit'));const t=live[i%live.length];const e=$('#tg'+t);if(e)e.classList.add('hit');SFX.tick();if(i>=steps){const w=$('#evwho');if(w)w.textContent=TEAMS[tg].e+' '+TEAMS[tg].n+' 덕분에!';SFX.ok();FX.confetti(60);teamOf(tg).forEach(p=>World.jump(p,2.5));return}i++;setTimeout(go,90+i*14)};setTimeout(go,900)}
  app.addEventListener('click',e=>{const a=e.target.closest('[data-a]');const tl=e.target.closest('.tile');const wa=e.target.closest('[data-wa]');if(wa){wAnswer(wa.dataset.wa);return}const pp=e.target.closest('[data-pop]');if(pp){G.hid.push(pp.dataset.pop);pub();upd();return}
-  if(a){const k=a.dataset.a;if(k==='next')next();if(k==='gear')a.parentNode.classList.toggle('open');if(k==='snd')a.textContent=SFX.toggle()?'🔊 소리':'🔇 소리';if(k==='full'){try{document.documentElement.requestFullscreen()}catch(_){}}
+  if(a){const k=a.dataset.a;if(k==='next')nextM();if(k==='gear')a.parentNode.classList.toggle('open');if(k==='snd')a.textContent=SFX.toggle()?'🔊 소리':'🔇 소리';if(k==='full'){try{document.documentElement.requestFullscreen()}catch(_){}}
    if(k==='bot')addBots(5);if(k==='am'){G.am=G.am===false;clearTimeout(autoT);autoT=0;pub();render(true)}if(k==='mode'&&G.phase==='lobby'){G.mode=fun()?'work':'fun';G.rk=null;setMode(G.mode);pub();render(true)}if(k==='hint'){G.hintOn=!G.hintOn;pub();render(true)}if(k==='ori'&&G.phase==='lobby')startOri();if(k==='main'&&G.phase==='lobby')startMain();if(k==='reset'){if(a.dataset.sure){LS.del('oa3_host');location.reload()}else{a.dataset.sure=1;a.textContent='한 번 더 누르면 초기화'}}
    if(k==='tm+'&&G.nT<6)setTables(G.nT+1);if(k==='tm-'&&G.nT>2)setTables(G.nT-1);return}
   if(false&&tl&&G.phase==='team'){const t=+tl.dataset.t;if(!G.tdec[t]){const m=teamOf(t).filter(p=>p!==G.caps[t]);if(m.length){G.caps[t]=pickOne(m);pub();upd();layout();SFX.pop()}}}});
- addEventListener('keydown',e=>{if(e.key===' '||e.key==='ArrowRight'||e.key==='Enter'){e.preventDefault();next()}});
+ addEventListener('keydown',e=>{if(e.key===' '||e.key==='ArrowRight'||e.key==='Enter'){e.preventDefault();nextM()}});
  setInterval(()=>{botTick();upd();layout();
   if(G.phase==='sat'&&!G.satDone&&!autoT){const N=pids().length;if(N>0&&G.satv.length>=N){const s=G.seq;autoT=setTimeout(()=>{autoT=0;if(G.seq===s&&G.phase==='sat'&&!G.satDone)next()},2500)}}
   if(G.phase==='rank'&&!autoT){const N=pids().length,all=N>0&&G.rk&&G.rk.n>=N&&G.rk.gn>=N;if(all){const s=G.seq;autoT=setTimeout(()=>{if(G.seq===s&&G.phase==='rank')rankResolve()},all?1500:300)}}
