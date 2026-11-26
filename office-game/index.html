@@ -117,6 +117,13 @@ button{font:inherit;color:inherit;border:0;cursor:pointer;background:none}
 .fact{background:#3b32280d;border-radius:.8em;padding:.6em;text-align:center}
 .fact b{display:block;font-family:var(--disp);font-weight:400;font-size:3.2em;color:var(--btn2);line-height:1.1}
 .fact span{font-size:1.3em;font-weight:700;color:var(--dim)}
+.omap{display:grid;gap:.45em;margin-top:.5em}
+.orow{display:grid;grid-template-columns:12.5em 1fr 1.4em 11em 1.4em 1fr;align-items:center;gap:.5em;font-size:1.3em;font-weight:800}
+.orow .ot em{font-style:normal;font-size:.62em;background:var(--btn);color:#fff;border-radius:.6em;padding:.1em .5em;margin-left:.5em;vertical-align:middle}.orow .ot em.m{background:#6f8f7a}
+.orow .ol{text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.orow .or{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.orow b{font-family:var(--disp);font-size:1.25em}
+.ob{display:flex;height:1.25em;border-radius:.7em;overflow:hidden;background:#3b32281f}.ob s{display:block;height:100%}
+.ocol{display:flex;gap:.6em;justify-content:center;margin-top:.8em;flex-wrap:wrap}.ocol span{font-size:1.35em;font-weight:800;padding:.2em .8em;border-radius:1em;color:#fff}
 .says{margin-top:.7em;display:grid;gap:.45em}
 .says p{background:#fff3d6;border-left:.4em solid var(--btn);border-radius:.4em;padding:.3em .8em;font-size:1.55em;font-weight:700;line-height:1.4}
 .zlabels{position:absolute;left:2%;right:2%;top:13em;display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:1em;text-align:center}
@@ -2731,7 +2738,8 @@ function hostMain(){
   else if(ph==='event'){afterCh()}
   else if(ph==='ending'){setPhase('colors');SFX.card()}
   else if(ph==='colors'){setPhase('gather');SFX.steps()}
-  else if(ph==='gather'){setPhase('debrief')}
+  else if(ph==='gather'){setPhase('orgmap');SFX.card()}
+  else if(ph==='orgmap'){setPhase('debrief')}
  }
  function startPick(){G.counts=[0,0];G.ans=0;setPhase('pick',PICK_SEC);SFX.alarm();shake()}
  function lockPick(){recount();for(const p of pids()){L[p]=L[p]||{};if(P[p].picks[G.ch])L[p][G.ch]=P[p].picks[G.ch]}G.hist[G.ch]=G.counts.slice();G.tsp=[];for(let t=0;t<G.nT;t++){const m=teamOf(t);G.tsp.push([m.filter(p=>P[p].picks[G.ch]==='A').length,m.filter(p=>P[p].picks[G.ch]==='B').length])}setPhase('reveal');SFX.steps();setTimeout(()=>SFX.ok(),1900)}
@@ -2771,9 +2779,9 @@ function hostMain(){
   else if(ph==='intro')tables(.3,.42,.46);
   else if(ph==='pick')tables(.3,.42,.46,p=>({badge:P[p].picks[G.ch]?'✅':''}));
   else if(ph==='reveal')tables(.3,.42,.46,p=>{const v=(L[p]||{})[G.ch];return v?{badge:CH[G.ch][v].e,tc:OC[v]}:null});
-  else if(ph==='gather'||ph==='debrief'){const used=[0,1,2,3,4].filter(i=>i<4||G.end.col[i]);used.forEach((ci,k)=>{const m=ids.filter(p=>colorOf(L[p]||{})===ci);const y0=ph==='debrief'?.84:.42;m.forEach((p,i)=>put(p,slot(colX(k,used.length),y0,m.length,i,ph==='debrief'?5:2,ph==='debrief'?.045:.1,.125),{tc:COLORS[ci].c}));rugs.push({x:colX(k,used.length),y:ph==='debrief'?.88:.66,w:.9/used.length,h:ph==='debrief'?.22:.62,c:COLORS[ci].c})})}
+  else if(ph==='gather'||ph==='debrief'||ph==='orgmap'){const used=[0,1,2,3,4].filter(i=>i<4||G.end.col[i]);used.forEach((ci,k)=>{const m=ids.filter(p=>colorOf(L[p]||{})===ci);const y0=(ph!=='gather')?.84:.42;m.forEach((p,i)=>put(p,slot(colX(k,used.length),y0,m.length,i,(ph!=='gather')?5:2,(ph!=='gather')?.045:.1,.125),{tc:COLORS[ci].c}));rugs.push({x:colX(k,used.length),y:(ph!=='gather')?.88:.66,w:.9/used.length,h:(ph!=='gather')?.22:.62,c:COLORS[ci].c})})}
   else tables(.58,.68,.5,(p,t)=>({crown:(ph==='team'||ph==='stop')&&G.caps[t]===p}));
-  World.sync(list);World.set({rugs,board:ph==='lobby'?'':['ending','colors','gather','debrief'].includes(ph)?'':(ph==='pick'||ph==='reveal'||ph==='intro')?'':''})}
+  World.sync(list);World.set({rugs,board:ph==='lobby'?'':['ending','colors','gather','orgmap','debrief'].includes(ph)?'':(ph==='pick'||ph==='reveal'||ph==='intro')?'':''})}
 
  const strip=()=>`<div class="strip">${liveTeams().map(t=>`<div id="tg${t}" style="--tc:${TEAMS[t].c}">${TEAMS[t].e} ${TEAMS[t].n} &nbsp;🎯 +${G.contrib[t]||0}</div>`).join('')}</div>`;
  const goalBar=()=>`<div class="goal"><s style="width:${clamp(G.score/G.goal*100,0,100)}%"></s><b>🎯 우리 모두의 목표: ${EVT} 준비도 ${Math.round(G.score/G.goal*100)}% &nbsp;(${G.score} / ${G.goal})</b></div>`;
@@ -2781,7 +2789,7 @@ function hostMain(){
   return `<div class="sign ${win?'win':''}" style="--oc:${OC[k]}"><div class="em">${o.e}</div><div><h3>${o.t}</h3><p>${o.d}</p></div>${show?`<div class="cnt"><span data-cnt="${n}">0</span><small>명</small></div>`:''}</div>`}
  const dlg=(txt,sub)=>`<div class="dlg"><div class="who"><i>🐻</i>곰 팀장</div><div class="txt"><span id="tw">${txt||''}</span>${sub?`<small>${sub}</small>`:''}</div></div>`;
  function render(force){const key=G.phase+G.seq+(cli&&cli.connected?1:0);if(!force&&key===vkey)return;vkey=key;
-  const c=CH[G.ch]||CH[0],live=liveTeams();let st='',nextLabel='다음 ▶';const endPh=['ending','colors','gather','debrief'].includes(G.phase);
+  const c=CH[G.ch]||CH[0],live=liveTeams();let st='',nextLabel='다음 ▶';const endPh=['ending','colors','gather','orgmap','debrief'].includes(G.phase);
   if(G.phase==='lobby'){nextLabel='게임 시작 ▶';
    st=`<div class="qrpanel">${cli&&cli.connected?qrSvg(joinUrl()):'<p style="padding:5em 1em">연결 중…</p>'}<p>참가 코드 <span>${G.room}${G.b}</span></p></div>
    <div class="lobbytxt"><h1>D-1 사무실 대작전</h1><p>QR을 찍고, 안내받은 조 번호를 고른 뒤 캐릭터를 만들어 주세요. <span style="color:var(--btn2)">${pids().length}명 입장</span></p>
@@ -2801,6 +2809,10 @@ function hostMain(){
   else if(G.phase==='ending'){nextLabel='내 색깔 카드 ▶';st=`<div class="panel pop" style="text-align:center"><p class="lead">${EVT} 당일, 모두 함께 도착했습니다 🎊</p><h2 style="font-size:5em;line-height:1.1">준비도 <span data-cnt="${G.end.pct}">0</span>%</h2><h2 style="color:var(--btn2)">${G.end.tier}</h2></div>${strip()}`}
   else if(G.phase==='colors'){nextLabel='색깔별로 모이기 ▶';const tot=pids().length||1;st=`<div class="panel"><h2>오늘 우리 조직의 업무 색깔</h2><p class="lead">폰에서 내 카드를 뒤집어 보세요.</p>${COLORS.map((c,i)=>G.end.col[i]||i<4?`<div class="cb"><span>${c.e} ${c.n} <small>${c.r}</small></span><u><s data-w="${G.end.col[i]/tot*100}" style="background:${c.c}"></s></u><b>${G.end.col[i]}명</b></div>`:'').join('')}</div>`}
   else if(G.phase==='gather'){nextLabel='돌아보기 ▶';const used=[0,1,2,3,4].filter(i=>i<4||G.end.col[i]);st=`<div class="banner">조는 달라도 오늘 같은 길을 고른 사람들이에요</div><div class="zlabels">${used.map(i=>`<div style="--zc:${COLORS[i].c}">${COLORS[i].e} ${COLORS[i].n}<small>${COLORS[i].r} · ${G.end.col[i]}명</small></div>`).join('')}</div>`}
+  else if(G.phase==='orgmap'){nextLabel='돌아보기 ▶';let mo=-1,le=-1,mg=-1,lg=2;G.hist.forEach((h,i)=>{if(!h||!(h[0]+h[1]))return;const g=Math.abs(h[0]-h[1])/(h[0]+h[1]);if(g>mg){mg=g;mo=i}if(g<lg){lg=g;le=i}});
+   st=`<div class="panel pop" style="left:4%;right:4%;top:5.6em"><h2>오늘의 우리 조직 지도 <small style="font-size:.5em;color:var(--dim)">같은 상황, ${pids().length}명의 첫 선택</small></h2><div class="omap">${CH.map((c,i)=>{const h=G.hist[i]||[0,0],n=(h[0]+h[1])||1;return `<div class="orow"><div class="ot">${i+1}장 ${c.title}${i===le?'<em>가장 팽팽</em>':i===mo?'<em class="m">가장 쏠림</em>':''}</div><div class="ol" style="color:${OC.A}">${c.A.e} ${c.A.t}</div><b style="color:${OC.A}">${h[0]}</b><div class="ob"><s style="width:${h[0]/n*100}%;background:${OC.A}"></s><s style="width:${h[1]/n*100}%;background:${OC.B}"></s></div><b style="color:${OC.B}">${h[1]}</b><div class="or" style="color:${OC.B}">${c.B.e} ${c.B.t}</div></div>`}).join('')}</div>
+   <div class="ocol">${[0,1,2,3,4].filter(i=>G.end.col[i]).map(i=>`<span style="background:${COLORS[i].c}">${COLORS[i].e} ${COLORS[i].n} ${G.end.col[i]}명</span>`).join('')}</div>
+   <div class="says"><p>우리 조직은 어떤 순간에 한쪽으로 쏠리고, 어떤 순간에 갈렸나요? 실제 업무에서도 그런가요?</p></div></div>`}
   else if(G.phase==='debrief'){nextLabel='';let most=0,least=0,mg=-1,lg=2;G.hist.forEach((h,i)=>{if(!h)return;const g=Math.abs(h[0]-h[1])/((h[0]+h[1])||1);if(g>mg){mg=g;most=i}if(g<lg){lg=g;least=i}});
    st=`<div class="panel" style="left:4%;right:4%;top:5.6em"><h2>돌아보기</h2><div class="facts">
    <div class="fact"><b>${least+1}장</b><span>가장 팽팽했던 장면<br>${CH[least].title} ${G.hist[least]?G.hist[least].join(' : '):''}</span></div>
