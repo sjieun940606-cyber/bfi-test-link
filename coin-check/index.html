@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>코인 5개 셀프체크</title>
+<style>
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+:root{--bg:#f3e8d6;--paper:#fffdf6;--ink:#3b3228;--dim:#8a7b68;--line:#e2d3ba;--btn:#c9743d;--gold:#e8b23a}
+html,body{background:var(--bg);color:var(--ink);font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif}
+body{min-height:100dvh;display:flex;justify-content:center}
+main{width:100%;max-width:460px;padding:20px 16px 32px}
+h1{font-size:26px;line-height:1.3;font-weight:900}
+.sub{font-size:17px;color:var(--dim);font-weight:700;margin-top:6px;line-height:1.5}
+.lock{display:inline-block;background:#fff3d6;border-radius:999px;padding:5px 12px;font-size:14px;font-weight:900;color:var(--btn);margin-bottom:10px}
+.purse{position:sticky;top:0;z-index:2;background:var(--bg);padding:12px 0 8px;display:flex;align-items:center;gap:10px;font-weight:900;font-size:18px}
+.coins{display:flex;gap:6px}
+.coin{width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffe9a6,var(--gold));border:3px solid #b98816;transition:transform .25s,opacity .25s}
+.coin.used{opacity:.18;transform:scale(.8)}
+.row{background:var(--paper);border:3px solid var(--line);border-radius:20px;padding:14px;margin-top:10px;display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;transition:border-color .2s}
+.row.has{border-color:var(--btn)}
+.row h3{font-size:20px;font-weight:900}
+.row p{font-size:15px;color:var(--dim);font-weight:700;margin-top:2px}
+.ctl{display:flex;align-items:center;gap:8px}
+.ctl button{width:46px;height:46px;border-radius:50%;border:3px solid var(--line);background:#fff;font-size:26px;font-weight:900;color:var(--ink);line-height:1}
+.ctl button:active{transform:scale(.9)}
+.ctl button:disabled{opacity:.3}
+.ctl b{min-width:26px;text-align:center;font-size:26px;font-weight:900}
+.mini{grid-column:1/-1;display:flex;gap:4px;min-height:14px}
+.mini i{width:14px;height:14px;border-radius:50%;background:var(--gold);border:2px solid #b98816;animation:pop .3s}
+.cta{width:100%;margin-top:16px;padding:16px;border:0;border-radius:18px;background:var(--btn);color:#fff;font-size:20px;font-weight:900;box-shadow:0 5px 0 #8f4f26}
+.cta:disabled{background:#d8c9b1;box-shadow:none;color:#fff}
+.ghost{width:100%;margin-top:10px;padding:13px;border:3px solid var(--line);border-radius:16px;background:var(--paper);font-size:17px;font-weight:900;color:var(--ink)}
+.card{background:var(--paper);border:4px solid var(--ink);border-radius:24px;padding:22px 18px;margin-top:14px;text-align:center;box-shadow:0 6px 0 #3b322822;animation:pop .5s}
+.card .em{font-size:64px;line-height:1.1}
+.card h2{font-size:26px;font-weight:900;margin-top:6px}
+.card p{font-size:17px;font-weight:700;color:var(--dim);margin-top:8px;line-height:1.5}
+.bar{display:grid;grid-template-columns:5.5em 1fr 2em;gap:8px;align-items:center;margin-top:9px;font-weight:900;font-size:16px;text-align:left}
+.bar u{display:block;height:16px;border-radius:8px;background:#3b32280d;overflow:hidden;text-decoration:none}
+.bar s{display:block;height:100%;background:var(--btn);border-radius:8px;transition:width .6s}
+.q{background:#fff3d6;border-left:6px solid var(--btn);border-radius:8px;padding:10px 14px;margin-top:12px;font-size:17px;font-weight:800;line-height:1.5;text-align:left}
+@keyframes pop{0%{transform:scale(.4);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<main>
+<section id="s1">
+  <span class="lock">🔒 내 폰에서만 보여요. 어디에도 전송되지 않습니다</span>
+  <h1>급한 일이 떨어졌을 때,<br>내가 끝까지 포기 못 하는 것은?</h1>
+  <p class="sub">코인 5개를 나눠 주세요. 한곳에 몰아도, 골고루 나눠도 됩니다. 정답은 없어요.</p>
+  <div class="purse"><span>남은 코인</span><div class="coins" id="coins"></div></div>
+  <div id="rows"></div>
+  <button class="cta" id="go" disabled>코인 5개를 모두 써 주세요</button>
+</section>
+<section id="s2" hidden>
+  <span class="lock">🔒 이 결과는 나만 봅니다</span>
+  <div class="card"><div class="em" id="rem"></div><h2 id="rt"></h2><p id="rd"></p><div id="bars"></div></div>
+  <div class="q" id="q1"></div>
+  <div class="q">옆 사람은 같은 코인 5개를 어떻게 나눴을까요? 묻지 않아도 됩니다. 다를 수 있다는 것만 기억해 주세요.</div>
+  <div class="q">이 차이가 어디서 오는지, 오늘 함께 알아봅니다.</div>
+  <button class="ghost" id="again">↺ 다시 나눠 보기</button>
+</section>
+</main>
+<script>
+const IT=[
+ ['⏱','속도','빨리 끝내는 것'],
+ ['✅','확실함','틀리지 않는 것'],
+ ['🤝','사람','함께하는 사람들의 마음'],
+ ['✨','완성도','보기 좋게 다듬는 것'],
+ ['🕊','내 페이스','쫓기지 않고 내 방식대로 하는 것']];
+const N=5,v=IT.map(()=>0),$=s=>document.querySelector(s);
+const left=()=>N-v.reduce((a,b)=>a+b,0);
+function draw(){
+  $('#coins').innerHTML=Array.from({length:N},(_,i)=>`<div class="coin ${i>=left()?'used':''}"></div>`).join('');
+  IT.forEach((_,i)=>{const r=$('#r'+i);r.classList.toggle('has',v[i]>0);r.querySelector('b').textContent=v[i];
+    r.querySelector('.mini').innerHTML='<i></i>'.repeat(v[i]);
+    r.querySelector('[data-d="-1"]').disabled=v[i]<=0;r.querySelector('[data-d="1"]').disabled=left()<=0});
+  const g=$('#go');g.disabled=left()>0;g.textContent=left()>0?`코인 ${left()}개가 남았어요`:'내 결과 보기 ▶';
+}
+$('#rows').innerHTML=IT.map((x,i)=>`<div class="row" id="r${i}"><div><h3>${x[0]} ${x[1]}</h3><p>${x[2]}</p></div><div class="ctl"><button data-i="${i}" data-d="-1" aria-label="빼기">−</button><b>0</b><button data-i="${i}" data-d="1" aria-label="더하기">＋</button></div><div class="mini"></div></div>`).join('');
+$('#rows').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const i=+b.dataset.i,d=+b.dataset.d;
+  if(d>0&&left()<=0)return;if(d<0&&v[i]<=0)return;v[i]+=d;try{navigator.vibrate&&navigator.vibrate(15)}catch(_){}draw()});
+$('#go').addEventListener('click',()=>{
+  const mx=Math.max(...v),top=IT.filter((_,i)=>v[i]===mx),zero=IT.filter((_,i)=>v[i]===0),spread=v.filter(x=>x>0).length;
+  $('#rem').textContent=top.map(x=>x[0]).join(' ');
+  $('#rt').textContent=top.length===1?`지금 나는 "${top[0][1]}"`:`지금 나는 "${top.map(x=>x[1]).join('" 와 "')}"`;
+  $('#rd').textContent=mx>=4?'한곳에 크게 걸었네요. 급할 때 이것만큼은 놓치고 싶지 않은 사람.':spread>=4?'골고루 나눴네요. 급해도 여러 가지를 함께 챙기고 싶은 사람.':'몇 가지에 나눠 걸었네요. 급할 때 내가 먼저 붙잡는 것들입니다.';
+  $('#bars').innerHTML=IT.map((x,i)=>`<div class="bar"><span>${x[0]} ${x[1]}</span><u><s style="width:0" data-w="${v[i]/N*100}"></s></u><span>${v[i]}</span></div>`).join('');
+  $('#q1').textContent=zero.length?`코인을 하나도 주지 않은 것: ${zero.map(x=>x[1]).join(', ')}. 누군가에게는 이것이 가장 중요할 수도 있습니다.`:'하나도 버리지 않았네요. 그래도 코인이 더 적게 간 곳이 있었습니다.';
+  $('#s1').hidden=true;$('#s2').hidden=false;scrollTo(0,0);
+  requestAnimationFrame(()=>requestAnimationFrame(()=>document.querySelectorAll('.bar s').forEach(s=>s.style.width=s.dataset.w+'%')));
+});
+$('#again').addEventListener('click',()=>{v.fill(0);$('#s2').hidden=true;$('#s1').hidden=false;draw();scrollTo(0,0)});
+draw();
+</script>
+</body>
+</html>
