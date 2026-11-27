@@ -177,7 +177,9 @@ body{word-break:keep-all;overflow-wrap:break-word}h1,h2,h3,p{text-wrap:balance}
 .phtop{display:flex;align-items:center;gap:8px;font-weight:900;font-size:19px}
 .me{background:var(--paper);border-radius:30px;padding:6px 14px;box-shadow:0 2px 0 var(--line)}
 .tbadge{margin-left:auto;background:var(--tc,#ccc);color:#fff;border-radius:30px;padding:6px 14px}
-.phmain{flex:1;display:flex;flex-direction:column;gap:12px;min-height:0;overflow:auto;padding:6px 0}.phmain>:first-child{margin-top:auto}.phmain>:last-child{margin-bottom:auto}
+.phmain{flex:1;display:flex;flex-direction:column;gap:12px;min-height:0;overflow:auto;padding:6px 0}
+.mkc{margin:auto 0;display:flex;flex-direction:column;gap:12px;padding-bottom:8vh}
+.mkc canvas{align-self:center}.phmain>:first-child{margin-top:auto}.phmain>:last-child{margin-bottom:auto}
 .ph h2{font-family:var(--disp);font-weight:400;font-size:38px;line-height:1.2}
 .ph .lead{font-size:23px;line-height:1.6;font-weight:700}
 .ph .hint{font-size:19px;color:var(--dim);text-align:center;font-weight:700}
@@ -3085,8 +3087,8 @@ function playerMain(){
   if(!force&&key===vkey)return;vkey=key;let m='',emo=true;
   if(!S){emo=false;m=`<div class="bigem">📡</div><h2 style="text-align:center">연결 중…</h2><p class="hint">참가 코드 ${esc(code)}</p>`}
   else{const c=CH[S.ch]||CH[0],t=myTeam(),ph=S.phase;
-   if((ph==='lobby'||ph==='intro')&&!me.made){emo=false;m=`<canvas id="pv" width="280" height="260" style="width:112px;height:104px"></canvas><h2 style="text-align:center;font-size:30px">${esc(me.n)}</h2><button class="ghost" data-a="reroll">🎲 별명 다시 뽑기</button>
-    <button class="cta" data-a="made">완성! 사무실로 들어가기</button>`}
+   if((ph==='lobby'||ph==='intro')&&!me.made){emo=false;m=`<div class="mkc"><canvas id="pv" width="280" height="260" style="width:112px;height:104px"></canvas><h2 style="text-align:center;font-size:30px">${esc(me.n)}</h2><button class="ghost" data-a="reroll">🎲 별명 다시 뽑기</button>
+    <button class="cta" data-a="made">완성! 사무실로 들어가기</button></div>`}
    else if(ph==='lobby'||ph==='intro'){m=`<p class="lead" style="text-align:center">${ph==='lobby'&&S.oriDone?'오리엔테이션 끝! 강의가 끝나면 이 화면에서 메인 게임이 시작돼요.<br>창을 닫았다면 QR을 다시 찍으면 됩니다.':ph==='lobby'?`앞 화면에 내 캐릭터가 보이나요?<br>아래 바닥을 누르면 그곳으로 걸어가요.<br>자리는 그대로 앉아 계세요. 시간 제한은 없어요, 천천히 골라도 됩니다.`:'이야기가 시작됐어요. 앞 화면을 봐 주세요.'}</p>
     <div class="pad" id="pad"><em>사무실 바닥 (위쪽이 안쪽)</em><i id="dot" style="left:${me.pos[0]*100}%;top:${me.pos[1]*100}%">${ANI[me.av[0]][1]}</i></div>${ph==='lobby'?'<button class="ghost" data-a="edit">✏️ 캐릭터 다시 꾸미기</button>':''}`}
    else if(ph==='warm'){emo=false;const w=WQ[S.wq]||WQ[0],a=S.wans&&S.wans[S.wq],v=me.wm[S.wq];const wb=k=>`<button class="pbtn ${v===k?'sel':''} ${(a&&a!==k)||(v&&v!==k&&!a)?'dimmed':''}" style="--oc:${WC[k]};padding:12px 14px" data-w="${k}"><div class="em" style="font-size:34px">${WL[k][0]}</div><div><h3>${WL[k][1]}</h3><p>${w[k]}</p></div></button>`;
