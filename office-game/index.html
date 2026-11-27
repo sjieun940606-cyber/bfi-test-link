@@ -8,7 +8,7 @@
 <style>
 /* 해 질 녘의 아늑한 사무실: 크림 종이 + 세이지 벽 + 나무 바닥. 채도는 낮게, 글씨는 크게 */
 :root{
-  --bg:#f3ead9; --paper:#fffaf0; --ink:#3b3228; --dim:#857868; --line:#dccdb4;
+  --bg:#f3ead9; --paper:#fffaf0; --ink:#3b3228; --dim:#6f6356; --line:#dccdb4;
   --btn:#c9783f; --btn2:#9c5a2b; --ok:#3f8f6e; --bad:#bd5a55; --gold:#b9852a;
   --disp:"Jua","Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
   --body:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
@@ -2592,7 +2592,7 @@ const ADJ=['씩씩한','느긋한','반짝이는','든든한','재빠른','포�
 const ANI=[['수달','🦦'],['고슴도치','🦔'],['판다','🐼'],['코알라','🐨'],['곰','🐻'],['햄스터','🐹'],['토끼','🐰'],['고양이','🐱'],['강아지','🐶'],['너구리','🦝'],['여우','🦊'],['개구리','🐸'],['문어','🐙'],['펭귄','🐧'],['나무늘보','🦥'],['사자','🦁'],['호랑이','🐯'],['병아리','🐥']];
 const BODY=['#d98f6a','#e0b45c','#8fb47a','#6fb0a6','#6f9bc9','#9a8ac9','#cf87a8','#8c8177'];
 const HATS=['','🎩','👑','🎀','🧢','🎓','🌼','⛑️'];
-const EMO=[['👍','좋아요!'],['😂','ㅋㅋㅋ'],['😱','헉!'],['💪','화이팅!'],['🤔','음…'],['👋','안녕!'],['🙏','감사해요'],['☕','커피 한 잔?']];
+const EMO=[['👍','좋아요!'],['😂','ㅋㅋㅋ'],['😱','헉!'],['💪','화이팅!'],['🤔','음…'],['👋','안녕!'],['🙏','감사해요'],['☕','커피?']];
 const GN=['⏱ 시간','⭐ 완성도','💚 에너지'], GS=['⏱','⭐','💚'];
 const OC={A:'#c9714f',B:'#55809f'};
 const EVT='송년의 밤';
@@ -3085,7 +3085,7 @@ function playerMain(){
   if(!force&&key===vkey)return;vkey=key;let m='',emo=true;
   if(!S){emo=false;m=`<div class="bigem">📡</div><h2 style="text-align:center">연결 중…</h2><p class="hint">참가 코드 ${esc(code)}</p>`}
   else{const c=CH[S.ch]||CH[0],t=myTeam(),ph=S.phase;
-   if((ph==='lobby'||ph==='intro')&&!me.made){emo=false;m=`<canvas id="pv" width="280" height="260" style="width:112px;height:104px"></canvas><h2 style="text-align:center;font-size:30px">${esc(me.n)}</h2><button class="ghost" data-a="reroll">🎲 별명 다시 뽑기 (실명은 쓰지 않아요)</button>
+   if((ph==='lobby'||ph==='intro')&&!me.made){emo=false;m=`<canvas id="pv" width="280" height="260" style="width:112px;height:104px"></canvas><h2 style="text-align:center;font-size:30px">${esc(me.n)}</h2><button class="ghost" data-a="reroll">🎲 별명 다시 뽑기</button>
     <button class="cta" data-a="made">완성! 사무실로 들어가기</button>`}
    else if(ph==='lobby'||ph==='intro'){m=`<p class="lead" style="text-align:center">${ph==='lobby'&&S.oriDone?'오리엔테이션 끝! 강의가 끝나면 이 화면에서 메인 게임이 시작돼요.<br>창을 닫았다면 QR을 다시 찍으면 됩니다.':ph==='lobby'?`앞 화면에 내 캐릭터가 보이나요?<br>아래 바닥을 누르면 그곳으로 걸어가요.<br>자리는 그대로 앉아 계세요. 시간 제한은 없어요, 천천히 골라도 됩니다.`:'이야기가 시작됐어요. 앞 화면을 봐 주세요.'}</p>
     <div class="pad" id="pad"><em>사무실 바닥 (위쪽이 안쪽)</em><i id="dot" style="left:${me.pos[0]*100}%;top:${me.pos[1]*100}%">${ANI[me.av[0]][1]}</i></div>${ph==='lobby'?'<button class="ghost" data-a="edit">✏️ 캐릭터 다시 꾸미기</button>':''}`}
