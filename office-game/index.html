@@ -21,6 +21,7 @@ button{font:inherit;color:inherit;border:0;cursor:pointer;background:none}
 [hidden]{display:none!important}
 .disp{font-family:var(--disp);font-weight:400}
 body{word-break:keep-all;overflow-wrap:break-word}h1,h2,h3,p{text-wrap:balance}
+.netbad{position:fixed;left:50%;bottom:1.2em;transform:translateX(-50%);z-index:998;background:#b3261e;color:#fff;font-weight:900;font-size:1.7em;padding:.5em 1.2em;border-radius:1em;box-shadow:0 .3em 0 #0003;text-align:center;max-width:92%}.netbad small{display:block;font-size:.7em;font-weight:700;opacity:.9}
 .deadtab{position:fixed;inset:0;z-index:999;background:#3b3228ee;color:#fff;display:grid;place-items:center;text-align:center;font-size:2.4em;font-weight:900;line-height:1.6}
 .stk{position:relative;height:58px;background:#3b32281f;border-radius:18px;margin:12px 4px;overflow:hidden;flex:none}.stk i{position:absolute;top:0;bottom:0;background:#7fb069;border-radius:12px}.stk u{position:absolute;top:0;bottom:0;width:12px;margin-left:-6px;background:#3b3228;border-radius:6px}.stk.miss{background:#e2726e66;animation:shake .35s}
 .says p.urank{white-space:nowrap;overflow:hidden;font-size:1.6em}.urank span{display:inline-block;background:#fffdf6;border:3px solid var(--ink);border-radius:1em;padding:0 .6em;margin:0 .2em}.urank b{color:var(--btn2)}
@@ -2560,7 +2561,7 @@ var qrcode = function() {
 <script>
 'use strict';
 const Q=new URLSearchParams(location.search);
-let BROKERS=['wss://broker.emqx.io:8084/mqtt','wss://broker.hivemq.com:8884/mqtt','wss://test.mosquitto.org:8081/mqtt'];
+let BROKERS=['wss://broker.emqx.io:8084/mqtt','wss://broker.hivemq.com:8884/mqtt','wss://test.mosquitto.org:8081/mqtt','wss://mqtt.eclipseprojects.io:443/mqtt'];
 if(Q.get('bk'))BROKERS=[Q.get('bk')];
 const NS='oa26v3/';
 const TEAMS=[{n:'여우팀',e:'🦊',c:'#cf8255'},{n:'펭귄팀',e:'🐧',c:'#5f8fbf'},{n:'부엉이팀',e:'🦉',c:'#8f7cba'},{n:'개구리팀',e:'🐸',c:'#6aa56a'},{n:'돌고래팀',e:'🐬',c:'#4fa39b'},{n:'곰팀',e:'🐻',c:'#b08a5a'}];
@@ -2797,9 +2798,9 @@ function hostMain(){
  function setPhase(ph,sec){phT=Date.now();G.phase=ph;G.seq++;G.dur=(sec||0)*1000;deadline=sec?Date.now()+sec*1000:0;clearTimeout(autoT);autoT=0;pub();render(true);layout()}
  function assign(pid){if(G.teams[pid]!=null&&G.teams[pid]<G.nT)return;let best=0,bn=1e9;for(let t=0;t<G.nT;t++){const n=teamOf(t).length;if(n<bn){bn=n;best=t}}G.teams[pid]=best}
  function setTables(n){G.nT=n;G.nTm=true;for(const p of pids()){if(G.teams[p]>=n){delete G.teams[p];assign(p)}}pub();render(true);SFX.pop()}
- function tryConnect(i){if(i>=BROKERS.length){toast('연결 실패. 인터넷을 확인한 뒤 새로고침해 주세요.');return}
-  const c=connect(BROKERS[i],'h_'+uid());let done=false;
-  const fail=setTimeout(()=>{if(!done){done=true;try{c.end(true)}catch(e){}tryConnect(i+1)}},8000);
+ function tryConnect(i,n){n=n||0;if(dead)return;if(n>=BROKERS.length){toast('연결 실패. 와이파이를 바꾸거나 폰 핫스팟으로 연결해 주세요. 계속 다시 시도합니다.');setTimeout(()=>tryConnect(G.b||0,0),4000);return}
+  i=i%BROKERS.length;const c=connect(BROKERS[i],'h_'+uid());let done=false;
+  const fail=setTimeout(()=>{if(!done){done=true;try{c.end(true)}catch(e){}tryConnect(i+1,n+1)}},n===0?10000:7000);
   c.on('connect',()=>{if(done&&cli!==c)return;done=true;clearTimeout(fail);cli=c;G.b=i;c.subscribe(NS+G.room+i+'/p/+',{qos:1});pub();render(true)});
   c.on('message',(t,m)=>{try{onPlayer(t.split('/').pop(),JSON.parse(m.toString()))}catch(e){}})}
  function onPlayer(pid,d){if(!d||typeof d!=='object')return;const old=P[pid],isNew=!old;
@@ -3003,7 +3004,8 @@ function hostMain(){
    if(k==='tm+'&&G.nT<6)setTables(G.nT+1);if(k==='tm-'&&G.nT>2)setTables(G.nT-1);return}
   if(false&&tl&&G.phase==='team'){const t=+tl.dataset.t;if(!G.tdec[t]){const m=teamOf(t).filter(p=>p!==G.caps[t]);if(m.length){G.caps[t]=pickOne(m);pub();upd();layout();SFX.pop()}}}});
  addEventListener('keydown',e=>{if(e.key===' '||e.key==='ArrowRight'||e.key==='Enter'){e.preventDefault();nextM()}});
- setInterval(()=>{if(dead)return;botTick();upd();layout();
+ let offT=0;
+ setInterval(()=>{if(dead)return;{const ok=cli&&cli.connected;if(ok)offT=0;else if(!offT)offT=Date.now();let nb=$('#netbad');const bad=!ok&&Date.now()-offT>5000;if(bad&&!nb){nb=document.createElement('div');nb.id='netbad';nb.className='netbad';nb.innerHTML='⚠ 강사 화면이 인터넷에 연결되지 않았어요. 와이파이를 바꾸거나 폰 핫스팟으로 연결해 주세요. <small>자동으로 다시 시도하는 중</small>';document.body.appendChild(nb)}else if(!bad&&nb)nb.remove()}botTick();upd();layout();
   if(G.phase==='sat'&&!G.satDone&&!autoT){const N=pids().length;if(N>0&&G.satv.length>=N){const s=G.seq;autoT=setTimeout(()=>{autoT=0;if(G.seq===s&&G.phase==='sat'&&!G.satDone)next()},2500)}}
   if(G.phase==='rank'&&!autoT){const N=pids().length,all=N>0&&G.rk&&G.rk.n>=N&&G.rk.gn>=N;if(all){const s=G.seq;autoT=setTimeout(()=>{if(G.seq===s&&G.phase==='rank')rankResolve()},all?1500:300)}}
   if(G.phase==='pick'&&!autoT){const all=pids().length>0&&G.ans>=pids().length&&G.gans>=pids().length;if(all){const s=G.seq;autoT=setTimeout(()=>{if(G.seq===s&&G.phase==='pick')lockPick()},all?1500:300)}}
@@ -3017,8 +3019,7 @@ function hostMain(){
  },250);
  setInterval(pub,2000);
  render(true);layout();
- if(saved&&saved.G){const c=connect(BROKERS[G.b]||BROKERS[0],'h_'+uid());cli=c;c.on('connect',()=>{c.subscribe(base()+'p/+',{qos:1});pub();render(true)});c.on('message',(t,m)=>{try{onPlayer(t.split('/').pop(),JSON.parse(m.toString()))}catch(e){}})}
- else tryConnect(0);
+ tryConnect(saved&&saved.G?(G.b||0):0,0);
 }
 
 /* ================= 참가자 ================= */
